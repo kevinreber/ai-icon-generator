@@ -3,6 +3,14 @@
 - [Remix Docs](https://remix.run/docs)
 - [Netlify Functions](https://www.netlify.com/products/functions/)
 
+## To Run app locally
+Must have `node` installed
+
+```sh
+yarn install
+yarn dev
+```
+
 ## Netlify Setup
 
 1. Install the [Netlify CLI](https://www.netlify.com/products/dev/):
