@@ -40,7 +40,7 @@ export default function App() {
               ]}
             />
           </Layout.Header>
-          <Layout style={{ minHeight: "96vh", width: "90%", margin: "auto" }}>
+          <Layout style={{ minHeight: "96vh", width: "80%", margin: "auto" }}>
             {/* <Layout.Sider width={200} style={{ background: colorBgContainer }}> */}
             {/* <Menu
                 mode='inline'
@@ -50,7 +50,7 @@ export default function App() {
                 items={[{ key: "generate", label: "Generate" }]}
               /> */}
             {/* </Layout.Sider> */}
-            <Layout style={{ padding: "0 24px 24px", marginTop: 24 }}>
+            <Layout>
               {/* <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
             <Breadcrumb.Item>List</Breadcrumb.Item>
