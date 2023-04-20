@@ -9,6 +9,7 @@
     "check-env-file": "node ./scripts/check-env-file.mjs"
   },
   "dependencies": {
+    "@ant-design/colors": "^7.0.0",
     "@netlify/functions": "^1.4.0",
     "@remix-run/netlify": "^1.15.0",
     "@remix-run/node": "^1.15.0",

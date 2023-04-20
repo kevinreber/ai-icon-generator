@@ -40,7 +40,7 @@ export default function App() {
               ]}
             />
           </Layout.Header>
-          <Layout style={{ minHeight: "96vh" }}>
+          <Layout style={{ minHeight: "96vh", width: "90%", margin: "auto" }}>
             {/* <Layout.Sider width={200} style={{ background: colorBgContainer }}> */}
             {/* <Menu
                 mode='inline'
