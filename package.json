@@ -9,14 +9,20 @@
     "check-env-file": "node ./scripts/check-env-file.mjs"
   },
   "dependencies": {
+    "@ant-design/colors": "^7.0.0",
+    "@ant-design/icons": "^5.0.1",
     "@netlify/functions": "^1.4.0",
     "@remix-run/netlify": "^1.15.0",
     "@remix-run/node": "^1.15.0",
     "@remix-run/react": "^1.15.0",
+    "antd": "^5.4.2",
     "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
     "isbot": "^3.6.8",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "remix-auth": "^3.4.0",
+    "remix-auth-socials": "^2.0.5"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.15.0",
