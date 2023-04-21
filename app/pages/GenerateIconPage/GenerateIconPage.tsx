@@ -1,17 +1,7 @@
-import { useLoaderData } from "@remix-run/react";
 import { Button, Col, Form, Input, Radio, Row } from "antd";
 import { COLORS_MAP } from "app/utils";
-import { Form as RemixForm } from "@remix-run/react";
 
 const GenerateIconPage = () => {
-  // getting user from loader data
-  const user = useLoaderData();
-
-  console.log("User data ------------");
-  console.log(user);
-
-  console.log("User data ------------");
-
   const [formInstance] = Form.useForm();
 
   const handleSubmit = (values: any) => {
@@ -20,10 +10,6 @@ const GenerateIconPage = () => {
 
   return (
     <div>
-      <RemixForm action='/logout' method='post'>
-        <button type='submit'>Logout</button>
-      </RemixForm>
-
       <Form
         form={formInstance}
         onFinish={handleSubmit}
