@@ -27,15 +27,15 @@ export const geDallEGeneratedImage = async (formData = DEFAULT_PAYLOAD) => {
   const promptMessage = prompt;
 
   try {
-    const response = await openai.createImage({
-      prompt: promptMessage,
-      n: NUMBER_OF_IMAGES_CREATED,
-      size: IMAGE_SIZE,
-    });
+    // const response = await openai.createImage({
+    //   prompt: promptMessage,
+    //   n: NUMBER_OF_IMAGES_CREATED,
+    //   size: IMAGE_SIZE,
+    // });
 
-    const imageUrl = response.data.data[0].url;
+    // const imageUrl = response.data.data[0].url;
 
-    return { imageUrl };
+    return { imageUrl: MOCK_IMAGE1 };
   } catch (error) {
     console.error(error);
 
