@@ -1,3 +1,4 @@
+import { GoogleOutlined } from "@ant-design/icons";
 import { Form } from "@remix-run/react";
 import { SocialsProvider } from "remix-auth-socials";
 
@@ -27,7 +28,12 @@ export default function Index() {
         action={`/auth/${SocialsProvider.GOOGLE}`}
         style={CONTAINER_STYLES}
       >
-        <button style={BUTTON_STYLES}>Login with Google</button>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          Please log in
+          <button style={BUTTON_STYLES}>
+            <GoogleOutlined /> Login with Google
+          </button>
+        </div>
       </Form>
     </div>
   );

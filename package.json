@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
+    "@ant-design/icons": "^5.0.1",
     "@netlify/functions": "^1.4.0",
     "@remix-run/netlify": "^1.15.0",
     "@remix-run/node": "^1.15.0",
