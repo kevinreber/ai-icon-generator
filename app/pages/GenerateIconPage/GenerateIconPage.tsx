@@ -1,18 +1,26 @@
+import { useSubmit } from "@remix-run/react";
 import { Button, Col, Form, Input, Radio, Row } from "antd";
 import { COLORS_MAP } from "app/utils";
 
 const GenerateIconPage = () => {
   const [formInstance] = Form.useForm();
+  const submit = useSubmit();
 
-  const handleSubmit = (values: any) => {
-    console.log("Submitted: ", values);
+  const handleFormSubmit = (formValues: any) => {
+    submit(
+      {
+        intent: "_generate_icon",
+        body: JSON.stringify(formValues),
+      },
+      { method: "POST" }
+    );
   };
 
   return (
     <div>
       <Form
         form={formInstance}
-        onFinish={handleSubmit}
+        onFinish={handleFormSubmit}
         colon={false}
         layout='vertical'
       >
