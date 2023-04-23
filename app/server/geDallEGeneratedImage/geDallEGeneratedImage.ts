@@ -1,4 +1,5 @@
 import { Configuration, OpenAIApi } from "openai";
+import { setTimeout } from "timers/promises";
 
 const MOCK_IMAGE1 =
   "https://oaidalleapiprodscus.blob.core.windows.net/private/org-HjwERfwsYgVn3BRgUZdIzPO3/user-sVfWNEsc3m51HwuXg57YNwMv/img-ysh7IpEOm2TKhJoXrXHQ92rz.png?st=2023-04-21T04%3A25%3A18Z&se=2023-04-21T06%3A25%3A18Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-04-21T05%3A15%3A26Z&ske=2023-04-22T05%3A15%3A26Z&sks=b&skv=2021-08-06&sig=LCvfK6B4wd0z2ixSKqOIFWqkSCnegx36i2fzRhu/RLs%3D";
@@ -9,6 +10,9 @@ const MOCK_IMAGE2 =
 const MOCK_IMAGE3 =
   "https://oaidalleapiprodscus.blob.core.windows.net/private/org-HjwERfwsYgVn3BRgUZdIzPO3/user-sVfWNEsc3m51HwuXg57YNwMv/img-vLPbrcQB4AwV4DdSjOQLm457.png?st=2023-04-21T04%3A33%3A23Z&se=2023-04-21T06%3A33%3A23Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-04-21T00%3A28%3A09Z&ske=2023-04-22T00%3A28%3A09Z&sks=b&skv=2021-08-06&sig=C5TWBaaTNyAdiLPe4Vi3vi6p5LOpM1aS%2BvI48zq3bTw%3D";
 
+const MOCK_IMAGE4 =
+  "https://oaidalleapiprodscus.blob.core.windows.net/private/org-HjwERfwsYgVn3BRgUZdIzPO3/user-sVfWNEsc3m51HwuXg57YNwMv/img-UKsQiVc9nCC1h6cMhWYxkP8e.png?st=2023-04-23T17%3A42%3A08Z&se=2023-04-23T19%3A42%3A08Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-04-23T18%3A40%3A52Z&ske=2023-04-24T18%3A40%3A52Z&sks=b&skv=2021-08-06&sig=TR/hBpwgw6T0G4QqTWYLjJPJKlxVAUlPb0deLE7QpdY%3D";
+
 const configuration = new Configuration({
   apiKey: process.env.DALLE_API_KEY,
 });
@@ -16,6 +20,7 @@ const openai = new OpenAIApi(configuration);
 
 const NUMBER_OF_IMAGES_CREATED = 1;
 const IMAGE_SIZE = "1024x1024";
+const THREE_SECONDS_IN_MS = 1000 * 3;
 
 const DEFAULT_PAYLOAD = {
   prompt: "",
@@ -23,7 +28,9 @@ const DEFAULT_PAYLOAD = {
 
 const generateIcon = async (prompt: string) => {
   if (process.env.USE_MOCK_DALLE === "true") {
-    return MOCK_IMAGE1;
+    // `setTimeout` simulates making a "normal" API Request
+    await setTimeout(THREE_SECONDS_IN_MS);
+    return MOCK_IMAGE4;
   }
 
   const promptMessage = prompt;
