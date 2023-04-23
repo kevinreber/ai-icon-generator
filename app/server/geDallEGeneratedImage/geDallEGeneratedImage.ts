@@ -21,21 +21,30 @@ const DEFAULT_PAYLOAD = {
   prompt: "",
 };
 
-export const geDallEGeneratedImage = async (formData = DEFAULT_PAYLOAD) => {
-  const prompt = formData.prompt;
+const generateIcon = async (prompt: string) => {
+  if (process.env.USE_MOCK_DALLE === "true") {
+    return MOCK_IMAGE1;
+  }
 
   const promptMessage = prompt;
 
+  const response = await openai.createImage({
+    prompt: promptMessage,
+    n: NUMBER_OF_IMAGES_CREATED,
+    size: IMAGE_SIZE,
+  });
+
+  const imageUrl = response.data.data[0].url;
+  return imageUrl;
+};
+
+export const geDallEGeneratedImage = async (formData = DEFAULT_PAYLOAD) => {
+  const prompt = formData.prompt;
+
   try {
-    // const response = await openai.createImage({
-    //   prompt: promptMessage,
-    //   n: NUMBER_OF_IMAGES_CREATED,
-    //   size: IMAGE_SIZE,
-    // });
+    const iconImage = await generateIcon(prompt);
 
-    // const imageUrl = response.data.data[0].url;
-
-    return { imageUrl: MOCK_IMAGE1 };
+    return { imageUrl: iconImage };
   } catch (error) {
     console.error(error);
 
