@@ -25,7 +25,11 @@ const GenerateIconPage = () => {
                   console.log(`current index: ${current}, prev index: ${prev}`),
               }}
             >
-              <Image width={200} src={actionData.imageUrl} />
+              <Image
+                width={200}
+                src={actionData.imageUrl}
+                alt='Your generated icon'
+              />
             </Image.PreviewGroup>
           ) : (
             <Typography.Text italic disabled>
