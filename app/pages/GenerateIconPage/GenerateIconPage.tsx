@@ -18,7 +18,7 @@ const GenerateIconPage = () => {
       <section>
         <Typography.Title level={3}>Icons Generated</Typography.Title>
         <Card loading={isLoadingData}>
-          {actionData && actionData.imageUrl ? (
+          {actionData && actionData.image ? (
             <Image.PreviewGroup
               preview={{
                 onChange: (current, prev) =>
@@ -27,7 +27,7 @@ const GenerateIconPage = () => {
             >
               <Image
                 width={200}
-                src={actionData.imageUrl}
+                src={`data:image/png;base64,${actionData.image}`}
                 alt='Your generated icon'
               />
             </Image.PreviewGroup>
