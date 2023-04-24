@@ -12,6 +12,10 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export async function action({ request }: ActionArgs) {
+  const user = (await authenticator.isAuthenticated(request, {
+    failureRedirect: "/",
+  })) as { id: string };
+
   const formData = await request.formData();
   const intent = formData.get("intent");
 
@@ -20,7 +24,7 @@ export async function action({ request }: ActionArgs) {
       const payload = formData.get("body");
       const formattedPayload = await JSON.parse(payload as any);
 
-      const data = await geDallEGeneratedImage(formattedPayload);
+      const data = await geDallEGeneratedImage(formattedPayload, user.id);
 
       console.log("Data -----------------------");
       console.log(data);

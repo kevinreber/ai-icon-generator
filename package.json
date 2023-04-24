@@ -6,16 +6,19 @@
     "dev": "yarn run check-env-file && remix dev",
     "start": "cross-env NODE_ENV=production netlify dev",
     "typecheck": "tsc",
-    "check-env-file": "node ./scripts/check-env-file.mjs"
+    "check-env-file": "node ./scripts/check-env-file.mjs",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
     "@ant-design/icons": "^5.0.1",
     "@netlify/functions": "^1.4.0",
+    "@prisma/client": "^4.13.0",
     "@remix-run/netlify": "^1.15.0",
     "@remix-run/node": "^1.15.0",
     "@remix-run/react": "^1.15.0",
     "antd": "^5.4.2",
+    "aws-sdk": "^2.1363.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "isbot": "^3.6.8",
@@ -32,6 +35,7 @@
     "@types/react": "^18.0.35",
     "@types/react-dom": "^18.0.11",
     "eslint": "^8.38.0",
+    "prisma": "^4.13.0",
     "typescript": "^4.9.5",
     "zx": "7.0.8"
   },

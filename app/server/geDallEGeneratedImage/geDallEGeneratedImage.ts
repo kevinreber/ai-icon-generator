@@ -1,13 +1,7 @@
 import { Configuration, OpenAIApi } from "openai";
-
-const MOCK_IMAGE1 =
-  "https://oaidalleapiprodscus.blob.core.windows.net/private/org-HjwERfwsYgVn3BRgUZdIzPO3/user-sVfWNEsc3m51HwuXg57YNwMv/img-ysh7IpEOm2TKhJoXrXHQ92rz.png?st=2023-04-21T04%3A25%3A18Z&se=2023-04-21T06%3A25%3A18Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-04-21T05%3A15%3A26Z&ske=2023-04-22T05%3A15%3A26Z&sks=b&skv=2021-08-06&sig=LCvfK6B4wd0z2ixSKqOIFWqkSCnegx36i2fzRhu/RLs%3D";
-
-const MOCK_IMAGE2 =
-  "https://oaidalleapiprodscus.blob.core.windows.net/private/org-HjwERfwsYgVn3BRgUZdIzPO3/user-sVfWNEsc3m51HwuXg57YNwMv/img-cKvwR4Y03jPJIHVRB0h1vBeM.png?st=2023-04-21T04%3A28%3A12Z&se=2023-04-21T06%3A28%3A12Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-04-20T23%3A18%3A06Z&ske=2023-04-21T23%3A18%3A06Z&sks=b&skv=2021-08-06&sig=gFbrfID7F/1B5SXWSz8NK6zX1%2Bv8b2Y7KR6JHihJ4Xk%3D";
-
-const MOCK_IMAGE3 =
-  "https://oaidalleapiprodscus.blob.core.windows.net/private/org-HjwERfwsYgVn3BRgUZdIzPO3/user-sVfWNEsc3m51HwuXg57YNwMv/img-vLPbrcQB4AwV4DdSjOQLm457.png?st=2023-04-21T04%3A33%3A23Z&se=2023-04-21T06%3A33%3A23Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-04-21T00%3A28%3A09Z&ske=2023-04-22T00%3A28%3A09Z&sks=b&skv=2021-08-06&sig=C5TWBaaTNyAdiLPe4Vi3vi6p5LOpM1aS%2BvI48zq3bTw%3D";
+import { setTimeout } from "timers/promises";
+import { MOCK_BASE64_IMAGE } from "~/__mocks__/base64Image";
+import { saveBase64EncodedImageToAWS, createNewIcon } from "~/server";
 
 const configuration = new Configuration({
   apiKey: process.env.DALLE_API_KEY,
@@ -16,29 +10,65 @@ const openai = new OpenAIApi(configuration);
 
 const NUMBER_OF_IMAGES_CREATED = 1;
 const IMAGE_SIZE = "1024x1024";
-
+const THREE_SECONDS_IN_MS = 1000 * 3;
+const BASE_64_FORMAT = "b64_json";
 const DEFAULT_PAYLOAD = {
   prompt: "",
 };
 
-export const geDallEGeneratedImage = async (formData = DEFAULT_PAYLOAD) => {
-  const prompt = formData.prompt;
+const generateIcon = async (prompt: string) => {
+  if (process.env.USE_MOCK_DALLE === "true") {
+    console.log(
+      "\x1b[33m ⚠️ Warning – Using Mock Data ************************* \x1b[0m"
+    );
+
+    // `setTimeout` simulates making a "normal" API Request
+    await setTimeout(THREE_SECONDS_IN_MS);
+    return MOCK_BASE64_IMAGE;
+  }
 
   const promptMessage = prompt;
 
+  const response = await openai.createImage({
+    prompt: promptMessage,
+    n: NUMBER_OF_IMAGES_CREATED,
+    size: IMAGE_SIZE,
+    response_format: BASE_64_FORMAT,
+  });
+
+  const base64EncodedImage = response.data.data[0].b64_json;
+
+  return base64EncodedImage;
+};
+
+export const geDallEGeneratedImage = async (
+  formData = DEFAULT_PAYLOAD,
+  userId: string
+) => {
+  const prompt = formData.prompt;
+
   try {
-    // const response = await openai.createImage({
-    //   prompt: promptMessage,
-    //   n: NUMBER_OF_IMAGES_CREATED,
-    //   size: IMAGE_SIZE,
-    // });
+    // Generate Icon
+    const iconImage = await generateIcon(prompt);
+    // Store Icon into DB
+    const iconData = await createNewIcon(prompt, userId);
+    // Store Image in S3
+    const s3Data = await saveBase64EncodedImageToAWS(
+      iconImage as string,
+      iconData.id
+    );
 
-    // const imageUrl = response.data.data[0].url;
+    console.log("s3 Response -------------------");
+    console.log(s3Data);
 
-    return { imageUrl: MOCK_IMAGE1 };
+    console.log("s3 Response -------------------");
+
+    // 'https://ai-icon-generator.s3.us-east-2.amazonaws.com/clgueu0pg0001r2fbyg3do2ra'
+    const imageURL = `${process.env.AWS_S3_BUCKET_URL}/${iconData.id}`;
+    return { image: imageURL };
   } catch (error) {
     console.error(error);
 
-    return { imageUrl: "" };
+    return { image: "" };
   }
 };

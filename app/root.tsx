@@ -14,6 +14,7 @@ import { type LoaderArgs, json } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 import { GoogleOutlined } from "@ant-design/icons";
 import { SocialsProvider } from "remix-auth-socials";
+import { getUserData } from "~/server/";
 
 const CONTAINER_STYLES = {
   width: 140,
@@ -34,8 +35,13 @@ const BUTTON_STYLES = {
 
 export let loader = async ({ request }: LoaderArgs) => {
   const user = await authenticator.isAuthenticated(request);
+  if (!user) {
+    return json({ data: undefined });
+  }
 
-  return json({ data: user });
+  const userData = await getUserData(user as any);
+
+  return json({ data: userData });
 };
 
 export default function App() {
