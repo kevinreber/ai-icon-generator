@@ -1,6 +1,7 @@
 import { Configuration, OpenAIApi } from "openai";
 import { setTimeout } from "timers/promises";
 import { MOCK_BASE64_IMAGE } from "~/__mocks__/base64Image";
+import { saveBase64EncodedImageToAWS, createNewIcon } from "~/server";
 
 const configuration = new Configuration({
   apiKey: process.env.DALLE_API_KEY,
@@ -40,13 +41,31 @@ const generateIcon = async (prompt: string) => {
   return base64EncodedImage;
 };
 
-export const geDallEGeneratedImage = async (formData = DEFAULT_PAYLOAD) => {
+export const geDallEGeneratedImage = async (
+  formData = DEFAULT_PAYLOAD,
+  userId: string
+) => {
   const prompt = formData.prompt;
 
   try {
+    // Generate Icon
     const iconImage = await generateIcon(prompt);
+    // Store Icon into DB
+    const iconData = await createNewIcon(prompt, userId);
+    // Store Image in S3
+    const s3Data = await saveBase64EncodedImageToAWS(
+      iconImage as string,
+      iconData.id
+    );
 
-    return { image: iconImage };
+    console.log("s3 Response -------------------");
+    console.log(s3Data);
+
+    console.log("s3 Response -------------------");
+
+    // 'https://ai-icon-generator.s3.us-east-2.amazonaws.com/clgueu0pg0001r2fbyg3do2ra'
+    const imageURL = `${process.env.AWS_S3_BUCKET_URL}/${iconData.id}`;
+    return { image: imageURL };
   } catch (error) {
     console.error(error);
 

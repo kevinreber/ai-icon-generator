@@ -14,7 +14,7 @@ import { type LoaderArgs, json } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 import { GoogleOutlined } from "@ant-design/icons";
 import { SocialsProvider } from "remix-auth-socials";
-import { getUserData } from "./server/getUserData";
+import { getUserData } from "~/server/";
 
 const CONTAINER_STYLES = {
   width: 140,

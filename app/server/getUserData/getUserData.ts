@@ -32,11 +32,7 @@ export const getUserData = async (userGoogleData: UserGoogleData) => {
       image: picture,
     };
 
-    await prisma.user.create({ data: newUser });
-
-    userData = await prisma.user.findUnique({
-      where: { id: userGoogleData.id },
-    });
+    userData = await prisma.user.create({ data: newUser });
   }
 
   return userData;
