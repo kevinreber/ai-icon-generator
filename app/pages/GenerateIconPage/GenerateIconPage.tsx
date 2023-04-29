@@ -27,7 +27,7 @@ const GenerateIconPage = () => {
             >
               <Image
                 width={200}
-                src={`data:image/png;base64,${actionData.image}`}
+                src={actionData.image}
                 alt='Your generated icon'
               />
             </Image.PreviewGroup>

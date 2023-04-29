@@ -1,7 +1,7 @@
 import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
 import { GenerateIconPage } from "~/pages";
 import { authenticator } from "~/services/auth.server";
-import { geDallEGeneratedImage } from "~/server";
+import { getDallEGeneratedImage } from "~/server";
 
 export const loader = async ({ request }: LoaderArgs) => {
   await authenticator.isAuthenticated(request, {
@@ -24,7 +24,7 @@ export async function action({ request }: ActionArgs) {
       const payload = formData.get("body");
       const formattedPayload = await JSON.parse(payload as any);
 
-      const data = await geDallEGeneratedImage(formattedPayload, user.id);
+      const data = await getDallEGeneratedImage(formattedPayload, user.id);
 
       console.log("Data -----------------------");
       console.log(data);
