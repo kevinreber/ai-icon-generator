@@ -9,10 +9,10 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import { Layout, Menu, Typography, theme } from "antd";
+import { Button, Layout, Menu, Space, Typography, theme } from "antd";
 import { type LoaderArgs, json } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
-import { GoogleOutlined } from "@ant-design/icons";
+import { DollarOutlined, GoogleOutlined } from "@ant-design/icons";
 import { SocialsProvider } from "remix-auth-socials";
 import { getUserData } from "~/server/";
 
@@ -88,9 +88,19 @@ export default function App() {
                 </button>
               </Form>
             ) : (
-              <Form method='post' action={`/logout`} style={CONTAINER_STYLES}>
-                <button style={BUTTON_STYLES}>Logout</button>
-              </Form>
+              <Space>
+                <Button
+                  icon={<DollarOutlined />}
+                  href='/checkout'
+                  type='primary'
+                  ghost
+                >
+                  Buy Credits
+                </Button>
+                <Form method='post' action={`/logout`} style={CONTAINER_STYLES}>
+                  <button style={BUTTON_STYLES}>Logout</button>
+                </Form>
+              </Space>
             )}
           </Layout.Header>
           <Layout style={{ minHeight: "96vh", width: "80%", margin: "auto" }}>
