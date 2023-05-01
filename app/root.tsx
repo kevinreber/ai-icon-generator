@@ -89,6 +89,20 @@ export default function App() {
               </Form>
             ) : (
               <Space>
+                <div
+                  style={{
+                    color: "#fff",
+                    display: "flex",
+                    alignItems: "center",
+                    width: 110,
+                  }}
+                >
+                  <DollarOutlined style={{ marginRight: 4 }} />
+                  <p style={{ display: "flex", alignItems: "center" }}>
+                    {loaderData.data?.credits} Credits
+                  </p>
+                </div>
+
                 <Button
                   icon={<DollarOutlined />}
                   href='/checkout'
