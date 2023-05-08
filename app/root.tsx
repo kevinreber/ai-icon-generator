@@ -14,7 +14,7 @@ import { type LoaderArgs, json } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 import { DollarOutlined } from "@ant-design/icons";
 import { SocialsProvider } from "remix-auth-socials";
-import { getUserData } from "~/server/";
+import { getUserData } from "~/server";
 
 export let loader = async ({ request }: LoaderArgs) => {
   const user = await authenticator.isAuthenticated(request);
@@ -65,17 +65,26 @@ export default function App() {
               colorBgBase: "#0a1930",
               colorPrimary: "#64ffda",
               colorText: "#e6f1ff",
+              colorTextSecondary: "#ccd7f5",
+              colorTextPlaceholder: "#495670",
+              colorTextDisabled: "#495670",
             },
           }}
         >
           <Layout>
             <Layout.Header className='header' style={{ display: "flex" }}>
-              <Typography.Title
-                level={4}
-                style={{ color: "#fff", width: 240, margin: "auto" }}
+              <Typography.Link
+                href='/'
+                style={{
+                  color: "#e6f1ff",
+                  width: 240,
+                  margin: "auto",
+                  fontSize: 18,
+                  fontWeight: 600,
+                }}
               >
                 AI Icon Generator
-              </Typography.Title>
+              </Typography.Link>
               <Menu
                 style={{ width: "100%" }}
                 theme='dark'
@@ -87,11 +96,11 @@ export default function App() {
                   },
                 ]}
               />
-              <div style={{ margin: "auto" }}>
+              <div>
                 {!isLoggedIn ? (
                   <Button onClick={handleLogIn}>Sign In</Button>
                 ) : (
-                  <Space>
+                  <Space style={{ lineHeight: "normal" }}>
                     <div
                       style={{
                         color: "#fff",
