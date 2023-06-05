@@ -10,6 +10,10 @@ const GenerateIconForm = () => {
   const isLoadingData = navigation.state !== "idle";
 
   const handleFormSubmit = (formValues: any) => {
+    console.log("Form Values --------------");
+    console.log(formValues);
+    console.log("Form Values --------------");
+
     submit(
       {
         intent: "_generate_icon",
@@ -346,21 +350,26 @@ const GenerateIconForm = () => {
       </Form.Item>
 
       <Form.Item label='Select a style for your Icon' name='style'>
-        {ICON_STYLE_OPTIONS.map((option) => (
+        <Radio.Group
+          options={ICON_STYLE_OPTIONS}
+          // optionType="button"
+        />
+        {/* {ICON_STYLE_OPTIONS.map((option) => (
           <div key={option.value}>
             <Radio.Button value={option.value} />
             {option.value}
           </div>
-        ))}
+        ))} */}
       </Form.Item>
 
       <Form.Item label='Select shape of Icon' name='shape'>
-        {ICON_SHAPE_OPTIONS.map((option) => (
+        <Radio.Group options={ICON_SHAPE_OPTIONS} />
+        {/* {ICON_SHAPE_OPTIONS.map((option) => (
           <div key={option.value}>
             <Radio.Button value={option.value} />
             {option.value}
           </div>
-        ))}
+        ))} */}
       </Form.Item>
 
       <Form.Item

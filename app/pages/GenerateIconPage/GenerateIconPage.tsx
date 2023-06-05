@@ -9,6 +9,8 @@ const GenerateIconPage = () => {
 
   console.log(actionData);
 
+  const imagesGenerated = actionData && actionData.image ? true : false;
+
   return (
     <Row gutter={[16, 16]}>
       <Col span={12}>
@@ -17,8 +19,12 @@ const GenerateIconPage = () => {
       </Col>
       <Col span={12}>
         <Typography.Title level={3}>Icons Generated</Typography.Title>
-        <Card loading={isLoadingData} style={{ minHeight: 400 }}>
-          {actionData && actionData.image ? (
+        <Card
+          loading={isLoadingData}
+          style={{ minHeight: 400 }}
+          bodyStyle={{ textAlign: imagesGenerated ? "initial" : "center" }}
+        >
+          {imagesGenerated ? (
             <Image.PreviewGroup
               preview={{
                 onChange: (current, prev) =>

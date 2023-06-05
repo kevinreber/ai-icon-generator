@@ -24,8 +24,9 @@ const LandingPage = () => {
         </Col>
         <Col span={12}>
           <Typography.Title level={3}>
-            Use AI to generate icons in seconds instead of paying a designer and
-            waiting for them to create them for you.
+            [PLACEHOLDER] Use AI to generate icons in seconds instead of paying
+            a designer and waiting for them to create them for you.
+            [PLACEHOLDER]
           </Typography.Title>
         </Col>
       </Row>
