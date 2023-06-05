@@ -1,4 +1,4 @@
-import { Typography, Image, Card } from "antd";
+import { Typography, Image, Card, Row, Col } from "antd";
 import { GenerateIconForm } from "./components";
 import { useActionData, useNavigation } from "@remix-run/react";
 
@@ -9,16 +9,22 @@ const GenerateIconPage = () => {
 
   console.log(actionData);
 
+  const imagesGenerated = actionData && actionData.image ? true : false;
+
   return (
-    <div>
-      <section>
+    <Row gutter={[16, 16]}>
+      <Col span={12}>
         <Typography.Title level={3}>Generate Icon</Typography.Title>
         <GenerateIconForm />
-      </section>
-      <section>
+      </Col>
+      <Col span={12}>
         <Typography.Title level={3}>Icons Generated</Typography.Title>
-        <Card loading={isLoadingData}>
-          {actionData && actionData.image ? (
+        <Card
+          loading={isLoadingData}
+          style={{ minHeight: 400 }}
+          bodyStyle={{ textAlign: imagesGenerated ? "initial" : "center" }}
+        >
+          {imagesGenerated ? (
             <Image.PreviewGroup
               preview={{
                 onChange: (current, prev) =>
@@ -37,8 +43,8 @@ const GenerateIconPage = () => {
             </Typography.Text>
           )}
         </Card>
-      </section>
-    </div>
+      </Col>
+    </Row>
   );
 };
 

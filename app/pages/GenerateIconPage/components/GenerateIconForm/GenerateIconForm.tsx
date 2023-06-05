@@ -1,6 +1,7 @@
 import { useNavigation, useSubmit } from "@remix-run/react";
 import { Button, Col, Form, Input, Radio, Row } from "antd";
 import { COLORS_MAP } from "app/utils";
+import { ICON_SHAPE_OPTIONS, ICON_STYLE_OPTIONS } from "./constants";
 
 const GenerateIconForm = () => {
   const [formInstance] = Form.useForm();
@@ -9,6 +10,10 @@ const GenerateIconForm = () => {
   const isLoadingData = navigation.state !== "idle";
 
   const handleFormSubmit = (formValues: any) => {
+    console.log("Form Values --------------");
+    console.log(formValues);
+    console.log("Form Values --------------");
+
     submit(
       {
         intent: "_generate_icon",
@@ -40,24 +45,24 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.red.light.value}
               style={{
                 backgroundColor: COLORS_MAP.red.light.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.red.midTone.value}
               style={{
                 backgroundColor: COLORS_MAP.red.midTone.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.red.dark.value}
               style={{
                 backgroundColor: COLORS_MAP.red.dark.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
@@ -66,24 +71,24 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.volcano.light.value}
               style={{
                 backgroundColor: COLORS_MAP.volcano.light.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.volcano.midTone.value}
               style={{
                 backgroundColor: COLORS_MAP.volcano.midTone.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.volcano.dark.value}
               style={{
                 backgroundColor: COLORS_MAP.volcano.dark.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
@@ -92,24 +97,24 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.orange.light.value}
               style={{
                 backgroundColor: COLORS_MAP.orange.light.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.orange.midTone.value}
               style={{
                 backgroundColor: COLORS_MAP.orange.midTone.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.orange.dark.value}
               style={{
                 backgroundColor: COLORS_MAP.orange.dark.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
@@ -118,24 +123,24 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.gold.light.value}
               style={{
                 backgroundColor: COLORS_MAP.gold.light.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.gold.midTone.value}
               style={{
                 backgroundColor: COLORS_MAP.gold.midTone.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.gold.dark.value}
               style={{
                 backgroundColor: COLORS_MAP.gold.dark.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
@@ -145,24 +150,24 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.yellow.light.value}
               style={{
                 backgroundColor: COLORS_MAP.yellow.light.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.yellow.midTone.value}
               style={{
                 backgroundColor: COLORS_MAP.yellow.midTone.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.yellow.dark.value}
               style={{
                 backgroundColor: COLORS_MAP.yellow.dark.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
@@ -171,24 +176,24 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.lime.light.value}
               style={{
                 backgroundColor: COLORS_MAP.lime.light.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.lime.midTone.value}
               style={{
                 backgroundColor: COLORS_MAP.lime.midTone.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.lime.dark.value}
               style={{
                 backgroundColor: COLORS_MAP.lime.dark.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
@@ -197,24 +202,24 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.cyan.light.value}
               style={{
                 backgroundColor: COLORS_MAP.cyan.light.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.cyan.midTone.value}
               style={{
                 backgroundColor: COLORS_MAP.cyan.midTone.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.cyan.dark.value}
               style={{
                 backgroundColor: COLORS_MAP.cyan.dark.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
@@ -223,24 +228,24 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.blue.light.value}
               style={{
                 backgroundColor: COLORS_MAP.blue.light.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.blue.midTone.value}
               style={{
                 backgroundColor: COLORS_MAP.blue.midTone.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.blue.dark.value}
               style={{
                 backgroundColor: COLORS_MAP.blue.dark.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
@@ -250,24 +255,24 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.purple.light.value}
               style={{
                 backgroundColor: COLORS_MAP.purple.light.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.purple.midTone.value}
               style={{
                 backgroundColor: COLORS_MAP.purple.midTone.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.purple.dark.value}
               style={{
                 backgroundColor: COLORS_MAP.purple.dark.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
@@ -276,24 +281,24 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.magenta.light.value}
               style={{
                 backgroundColor: COLORS_MAP.magenta.light.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.magenta.midTone.value}
               style={{
                 backgroundColor: COLORS_MAP.magenta.midTone.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.magenta.dark.value}
               style={{
                 backgroundColor: COLORS_MAP.magenta.dark.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
@@ -302,24 +307,24 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.grey.light.value}
               style={{
                 backgroundColor: COLORS_MAP.grey.light.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.grey.midTone.value}
               style={{
                 backgroundColor: COLORS_MAP.grey.midTone.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.grey.dark.value}
               style={{
                 backgroundColor: COLORS_MAP.grey.dark.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
@@ -328,20 +333,50 @@ const GenerateIconForm = () => {
               value={COLORS_MAP.white.value}
               style={{
                 backgroundColor: COLORS_MAP.white.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
             <Radio.Button
               value={COLORS_MAP.black.value}
               style={{
                 backgroundColor: COLORS_MAP.black.color,
-                width: 100,
-                height: 100,
+                width: 56,
+                height: 56,
               }}
             />
           </Col>
         </Row>
+      </Form.Item>
+
+      <Form.Item label='Select a style for your Icon' name='style'>
+        <Radio.Group
+          options={ICON_STYLE_OPTIONS}
+          // optionType="button"
+        />
+        {/* {ICON_STYLE_OPTIONS.map((option) => (
+          <div key={option.value}>
+            <Radio.Button value={option.value} />
+            {option.value}
+          </div>
+        ))} */}
+      </Form.Item>
+
+      <Form.Item label='Select shape of Icon' name='shape'>
+        <Radio.Group options={ICON_SHAPE_OPTIONS} />
+        {/* {ICON_SHAPE_OPTIONS.map((option) => (
+          <div key={option.value}>
+            <Radio.Button value={option.value} />
+            {option.value}
+          </div>
+        ))} */}
+      </Form.Item>
+
+      <Form.Item
+        label='How many icons do you want to generate?'
+        name='number-of-icons'
+      >
+        <Input type='number' min={1} />
       </Form.Item>
       <Row
         style={{
@@ -364,10 +399,11 @@ const GenerateIconForm = () => {
             aria-label='submit'
             style={{ width: 160 }}
             type='primary'
+            ghost
             onClick={() => formInstance.submit()}
             loading={isLoadingData}
           >
-            Submit
+            Generate
           </Button>
         </Form.Item>
       </Row>

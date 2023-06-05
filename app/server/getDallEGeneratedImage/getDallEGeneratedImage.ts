@@ -9,7 +9,8 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-const MOCK_IMAGE_ID = "clgueu0pg0001r2fbyg3do2ra";
+// const MOCK_IMAGE_ID = "clgueu0pg0001r2fbyg3do2ra";
+const MOCK_IMAGE_ID = "cliid9qad0001r2q9pscacuj0";
 
 const NUMBER_OF_IMAGES_CREATED = 1;
 const IMAGE_SIZE = "1024x1024";
