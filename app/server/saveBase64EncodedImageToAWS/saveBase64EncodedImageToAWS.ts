@@ -2,10 +2,10 @@ import AWS from "aws-sdk";
 
 const s3 = new AWS.S3({
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.ACCESS_KEY_ID_AWS!,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY_AWS!,
   },
-  region: process.env.AWS_REGION!,
+  region: process.env.REGION_AWS!,
 });
 
 export const saveBase64EncodedImageToAWS = async (
@@ -15,7 +15,7 @@ export const saveBase64EncodedImageToAWS = async (
   const response = await s3
     .putObject({
       Key: iconId,
-      Bucket: process.env.AWS_S3_BUCKET_NAME!,
+      Bucket: process.env.S3_BUCKET_NAME_AWS!,
       Body: Buffer.from(base64EncodedImage, "base64"),
       ContentType: "image/png",
       ContentEncoding: "base64",
