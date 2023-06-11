@@ -60,6 +60,7 @@ export default function App() {
       <body style={{ margin: 0 }}>
         <ConfigProvider
           theme={{
+            hashed: false,
             token: {
               colorPrimaryBorder: "#64ffda",
               colorBgBase: "#0a1930",
