@@ -11,7 +11,7 @@ export let authenticator = new Authenticator(sessionStorage, {
 // export let authenticator = new Authenticator<User>(sessionStorage, { sessionKey: '_session' });
 
 const getCallback = (provider: SocialsProvider) => {
-  return `http://localhost:3000/auth/${provider}/callback`;
+  return `${process.env.ORIGIN}/auth/${provider}/callback`;
 };
 
 authenticator.use(
