@@ -4,6 +4,7 @@ import { stripe } from "~/services/stripe.server";
 import { handleStripeEvent } from "~/services/webhook.server";
 
 //[credit @kiliman to get this webhook working](https://github.com/remix-run/remix/discussions/1978)
+// To have this webhook working locally, in another server we must run `stripe listen --forward-to localhost:3000/webhook` (yarn run stripe:listen)
 export const action: ActionFunction = async ({ request }) => {
   const payload = await request.text();
   const sig = request.headers.get("stripe-signature")!;
@@ -18,7 +19,7 @@ export const action: ActionFunction = async ({ request }) => {
     const userData = await handleStripeEvent(type, data, id);
 
     return { data: userData };
-  } catch (err: any) {
-    throw json({ errors: [{ message: err.message }] }, 400);
+  } catch (error: any) {
+    throw json({ errors: [{ message: error.message }] }, 400);
   }
 };
