@@ -242,7 +242,7 @@ const CreationsPage = () => {
                           2
                         </Button>
                       </div>
-                      <Typography.Text>
+                      <Typography.Text italic>
                         {new Date(image.createdAt).toLocaleString()}
                       </Typography.Text>
                     </div>
