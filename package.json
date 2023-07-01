@@ -13,6 +13,7 @@
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
     "@ant-design/icons": "^5.0.1",
+    "@aws-sdk/client-s3": "^3.363.0",
     "@netlify/functions": "^1.4.0",
     "@prisma/client": "^4.13.0",
     "@remix-run/netlify": "^1.15.0",
