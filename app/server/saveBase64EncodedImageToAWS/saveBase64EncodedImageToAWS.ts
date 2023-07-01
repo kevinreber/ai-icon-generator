@@ -1,6 +1,6 @@
-import AWS from "aws-sdk";
-
-const s3 = new AWS.S3({
+// import AWS from "aws-sdk";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+const s3Client = new S3Client({
   credentials: {
     accessKeyId: process.env.ACCESS_KEY_ID_AWS!,
     secretAccessKey: process.env.SECRET_ACCESS_KEY_AWS!,
@@ -8,19 +8,53 @@ const s3 = new AWS.S3({
   region: process.env.REGION_AWS!,
 });
 
+// const s3 = new AWS.S3({
+//   region: process.env.REGION_AWS!,
+//   credentials: {
+//     accessKeyId: process.env.ACCESS_KEY_ID_AWS!,
+//     secretAccessKey: process.env.SECRET_ACCESS_KEY_AWS!,
+//   },
+// });
+
+/**
+ * @description
+ * This function stores an image to our AWS S3 bucket
+ *
+ * @reference
+ * https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/index.html
+ *
+ */
 export const saveBase64EncodedImageToAWS = async (
   base64EncodedImage: string,
   iconId: string
 ) => {
-  const response = await s3
-    .putObject({
-      Key: iconId,
-      Bucket: process.env.S3_BUCKET_NAME_AWS!,
-      Body: Buffer.from(base64EncodedImage, "base64"),
-      ContentType: "image/png",
-      ContentEncoding: "base64",
-    })
-    .promise();
+  const putObjectCommand = new PutObjectCommand({
+    Key: iconId,
+    Bucket: process.env.S3_BUCKET_NAME_AWS!,
+    Body: Buffer.from(base64EncodedImage, "base64"),
+    ContentType: "image/png",
+    ContentEncoding: "base64",
+  });
 
-  return response;
+  try {
+    const response = await s3Client.send(putObjectCommand);
+
+    return response;
+  } catch (error: any) {
+    // const { requestId, cfId, extendedRequestId } = error.$$metadata;
+    // console.log({ requestId, cfId, extendedRequestId });
+    console.warn("Error Saving image to AWS S3 Bucket");
+    console.error(error);
+    // const response = await s3
+    //   .putObject({
+    //     Key: iconId,
+    //     Bucket: process.env.S3_BUCKET_NAME_AWS!,
+    //     Body: Buffer.from(base64EncodedImage, "base64"),
+    //     ContentType: "image/png",
+    //     ContentEncoding: "base64",
+    //   })
+    //   .promise();
+
+    // return response;
+  }
 };
