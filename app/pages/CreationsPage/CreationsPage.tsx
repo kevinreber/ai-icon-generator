@@ -25,6 +25,7 @@ import {
   Popover,
   type RadioChangeEvent,
 } from "antd";
+import { fallbackImageSource } from "~/utils";
 
 const CreationsPage = () => {
   const data = useLoaderData();
@@ -93,7 +94,12 @@ const CreationsPage = () => {
                 return (
                   <Col key={image.id}>
                     <div style={{ marginBottom: 10 }}>
-                      <Image width={200} src={image.url} alt={image.prompt} />
+                      <Image
+                        width={200}
+                        src={image.url}
+                        alt={image.prompt}
+                        fallback={fallbackImageSource}
+                      />
                     </div>
                     <div
                       style={{
@@ -221,7 +227,12 @@ const CreationsPage = () => {
               >
                 <List.Item.Meta
                   avatar={
-                    <Image width={100} src={image.url} alt={image.prompt} />
+                    <Image
+                      width={100}
+                      src={image.url}
+                      alt={image.prompt}
+                      fallback={fallbackImageSource}
+                    />
                   }
                   title={image.prompt}
                   description={

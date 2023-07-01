@@ -1,6 +1,7 @@
 import { Typography, Image, Card, Row, Col } from "antd";
 import { GenerateIconForm } from "./components";
 import { useActionData, useNavigation } from "@remix-run/react";
+import { fallbackImageSource } from "~/utils";
 
 const GenerateIconPage = () => {
   const actionData = useActionData();
@@ -35,6 +36,7 @@ const GenerateIconPage = () => {
                 width={200}
                 src={actionData.image}
                 alt='Your generated icon'
+                fallback={fallbackImageSource}
               />
             </Image.PreviewGroup>
           ) : (
