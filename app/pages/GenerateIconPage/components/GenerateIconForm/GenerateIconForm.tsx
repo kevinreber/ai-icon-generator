@@ -54,6 +54,7 @@ const GenerateIconForm = () => {
           options={ICON_STYLE_OPTIONS}
           // optionType="button"
         />
+        {/* TODO */}
         {/* {ICON_STYLE_OPTIONS.map((option) => (
           <div key={option.value}>
             <Radio.Button value={option.value} />
@@ -64,6 +65,7 @@ const GenerateIconForm = () => {
 
       <Form.Item label='Select shape of Icon' name='shape'>
         <Radio.Group options={ICON_SHAPE_OPTIONS} />
+        {/* TODO */}
         {/* {ICON_SHAPE_OPTIONS.map((option) => (
           <div key={option.value}>
             <Radio.Button value={option.value} />

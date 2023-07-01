@@ -9,7 +9,6 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-// const MOCK_IMAGE_ID = "clgueu0pg0001r2fbyg3do2ra";
 const MOCK_IMAGE_ID = "cliid9qad0001r2q9pscacuj0";
 
 const NUMBER_OF_IMAGES_CREATED = 1;
@@ -20,17 +19,12 @@ const DEFAULT_PAYLOAD = {
   prompt: "",
 };
 
+/**
+ * @description
+ * This function makes a request with a prompt to Open AI's Dall-E API to fetch
+ * an image generated using the prompt
+ */
 const generateIcon = async (prompt: string) => {
-  // if (process.env.USE_MOCK_DALLE === "true") {
-  //   console.log(
-  //     "\x1b[33m ⚠️ Warning – Using Mock Data ************************* \x1b[0m"
-  //   );
-
-  //   // `setTimeout` simulates making a "normal" API Request
-  //   await setTimeout(THREE_SECONDS_IN_MS);
-  //   return MOCK_BASE64_IMAGE;
-  // }
-
   const promptMessage = prompt;
 
   const response = await openai.createImage({
@@ -45,6 +39,13 @@ const generateIcon = async (prompt: string) => {
   return base64EncodedImage;
 };
 
+/**
+ * @description
+ * This function does the following in the listed order:
+ *   1. Gets an icon from OpenAI's Dall-E API
+ *   2. Creates a new Icon in our DB using the data returned from "Step 1"
+ *   3. Stores the image Blob from "Step 1" into our AWS S3 bucket
+ */
 export const getDallEGeneratedImage = async (
   formData = DEFAULT_PAYLOAD,
   userId: string,
