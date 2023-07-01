@@ -95,6 +95,7 @@ const ExplorePage = () => {
                         src={image.url}
                         alt={image.prompt}
                         fallback={fallbackImageSource}
+                        style={{ borderRadius: 12 }}
                       />
                     </div>
                     <div
@@ -180,6 +181,7 @@ const ExplorePage = () => {
                       src={image.url}
                       alt={image.prompt}
                       fallback={fallbackImageSource}
+                      style={{ borderRadius: 12 }}
                     />
                   }
                   title={image.prompt}
