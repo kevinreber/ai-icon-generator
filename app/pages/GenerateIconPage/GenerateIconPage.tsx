@@ -2,6 +2,7 @@ import { Typography, Image, Card, Row, Col } from "antd";
 import { GenerateIconForm } from "./components";
 import { useActionData, useNavigation } from "@remix-run/react";
 import { fallbackImageSource } from "~/utils";
+import type { ImageType } from "~/types";
 
 const GenerateIconPage = () => {
   const actionData = useActionData();
@@ -10,7 +11,7 @@ const GenerateIconPage = () => {
 
   console.log(actionData);
 
-  const imagesGenerated = actionData && actionData.image ? true : false;
+  const imagesGenerated = actionData && actionData.images ? true : false;
 
   return (
     <Row gutter={[16, 16]}>
@@ -32,12 +33,23 @@ const GenerateIconPage = () => {
                   console.log(`current index: ${current}, prev index: ${prev}`),
               }}
             >
-              <Image
-                width={200}
-                src={actionData.image}
-                alt='Your generated icon'
-                fallback={fallbackImageSource}
-              />
+              <Row gutter={16}>
+                {actionData.images.map((image: ImageType) => {
+                  return (
+                    <Col key={image.id}>
+                      <div style={{ marginBottom: 10 }}>
+                        <Image
+                          width={200}
+                          src={image.url}
+                          alt={image.prompt}
+                          fallback={fallbackImageSource}
+                          style={{ borderRadius: 12 }}
+                        />
+                      </div>
+                    </Col>
+                  );
+                })}
+              </Row>
             </Image.PreviewGroup>
           ) : (
             <Typography.Text italic disabled>

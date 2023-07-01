@@ -1,7 +1,23 @@
 import { useNavigation, useSubmit } from "@remix-run/react";
-import { Button, Col, Form, Input, Radio, Row, ColorPicker } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Radio,
+  Row,
+  ColorPicker,
+  InputNumber,
+} from "antd";
 import { COLOR_PICKER_PRESET_OPTIONS } from "app/utils";
 import { ICON_SHAPE_OPTIONS, ICON_STYLE_OPTIONS } from "./constants";
+
+const DEFAULT_FORM_VALUES = {
+  prompt: undefined,
+  color: undefined,
+  shape: undefined,
+  numberOfIcons: 1,
+};
 
 const GenerateIconForm = () => {
   const [formInstance] = Form.useForm();
@@ -30,8 +46,9 @@ const GenerateIconForm = () => {
       colon={false}
       layout='vertical'
       disabled={isLoadingData}
+      initialValues={DEFAULT_FORM_VALUES}
     >
-      <Form.Item name='prompt' label='Describe your icon'>
+      <Form.Item name='prompt' label='Describe your icon' required>
         <Input placeholder='Ex: "A happy panda"' />
       </Form.Item>
       <Form.Item
@@ -76,9 +93,17 @@ const GenerateIconForm = () => {
 
       <Form.Item
         label='How many icons do you want to generate?'
-        name='number-of-icons'
+        name='numberOfIcons'
+        tooltip='Enter a number 1-10'
+        required
       >
-        <Input type='number' min={1} />
+        <InputNumber
+          style={{ width: "100%" }}
+          type='number'
+          placeholder='Enter a number 1-10'
+          min={1}
+          max={10}
+        />
       </Form.Item>
       <Row
         style={{
