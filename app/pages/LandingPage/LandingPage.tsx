@@ -1,4 +1,4 @@
-import { Button, Col, Row, Typography } from "antd";
+import { Button, Col, Row, Typography, Image } from "antd";
 
 const LandingPage = () => {
   return (
@@ -14,8 +14,8 @@ const LandingPage = () => {
               type='secondary'
               style={{ color: "#ccd7f5" }}
             >
-              Use AI to generate icons in seconds instead of paying a designer
-              and waiting for them to create them for you.
+              Create custom icons in seconds with the help of Artificial
+              Intelligence
             </Typography.Title>
           </div>
           <Button href='/generate' type='primary' ghost>
@@ -23,11 +23,11 @@ const LandingPage = () => {
           </Button>
         </Col>
         <Col span={12}>
-          <Typography.Title level={3}>
-            [PLACEHOLDER] Use AI to generate icons in seconds instead of paying
-            a designer and waiting for them to create them for you.
-            [PLACEHOLDER]
-          </Typography.Title>
+          <Image
+            width={500}
+            src='https://ai-icon-generator.s3.us-east-2.amazonaws.com/cljk5l6tw0001r25sdhtgrm6j'
+            alt='Landing Page Image'
+          />
         </Col>
       </Row>
       {/* <Row>
