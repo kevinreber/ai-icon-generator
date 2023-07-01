@@ -15,7 +15,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 export async function action({ request }: ActionArgs) {
   const user = (await authenticator.isAuthenticated(request, {
     failureRedirect: "/",
-  })) as { id: string; username: string };
+  })) as { id: string; displayName: string };
 
   const formData = await request.formData();
   const intent = formData.get("intent");
@@ -36,7 +36,7 @@ export async function action({ request }: ActionArgs) {
       const data = await getDallEGeneratedImage(
         formattedPayload,
         user.id,
-        user.username
+        user.displayName
       );
 
       console.log("Data -----------------------");
