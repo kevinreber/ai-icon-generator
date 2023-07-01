@@ -3,7 +3,7 @@ import { getS3BucketURL } from "~/utils";
 
 export const getIcons = async () => {
   const icons = await prisma.icon.findMany({
-    take: 50,
+    take: 100,
     orderBy: {
       createdAt: "desc",
     },
