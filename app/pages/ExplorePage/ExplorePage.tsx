@@ -22,6 +22,7 @@ import {
   type RadioChangeEvent,
 } from "antd";
 import { fallbackImageSource } from "~/utils";
+import type { ImageType } from "~/types";
 
 const ExplorePage = () => {
   const data = useLoaderData();
@@ -29,7 +30,7 @@ const ExplorePage = () => {
   const isLoadingData = navigation.state !== "idle";
   const imagesCreated = data.data || [];
   const totalImages = imagesCreated.length;
-  const [displayImagesStyle, setDisplayImagesStyle] = React.useState("list");
+  const [displayImagesStyle, setDisplayImagesStyle] = React.useState("grid");
 
   const handleImageDisplayChange = (event: RadioChangeEvent) => {
     console.log(event.target.value);
@@ -86,7 +87,7 @@ const ExplorePage = () => {
             }}
           >
             <Row gutter={16}>
-              {imagesCreated.map((image: any) => {
+              {imagesCreated.map((image: ImageType) => {
                 return (
                   <Col key={image.id}>
                     <div style={{ marginBottom: 10 }}>
@@ -105,7 +106,20 @@ const ExplorePage = () => {
                       }}
                     >
                       <Typography.Text
-                        ellipsis={{ tooltip: true }}
+                        ellipsis={{
+                          tooltip: (
+                            <Typography.Text>
+                              {image.prompt}
+                              <br />
+                              <br />
+                              <Typography.Text italic>
+                                Created By: {image.createdBy}
+                                <br />
+                                {new Date(image.createdAt).toLocaleString()}
+                              </Typography.Text>
+                            </Typography.Text>
+                          ),
+                        }}
                         style={{ maxWidth: 160 }}
                       >
                         {image.prompt}
@@ -162,13 +176,7 @@ const ExplorePage = () => {
             //   pageSize: 3,
             // }}
             dataSource={imagesCreated}
-            renderItem={(image: {
-              id: string;
-              prompt: string;
-              url: string;
-              createdAt: Date;
-              createdBy: string;
-            }) => (
+            renderItem={(image: ImageType) => (
               <List.Item
                 key={image.id}
                 style={{ marginTop: 8, marginBottom: 8 }}

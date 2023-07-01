@@ -26,6 +26,7 @@ import {
   type RadioChangeEvent,
 } from "antd";
 import { fallbackImageSource } from "~/utils";
+import type { ImageType } from "~/types";
 
 const CreationsPage = () => {
   const data = useLoaderData();
@@ -90,7 +91,7 @@ const CreationsPage = () => {
             }}
           >
             <Row gutter={16}>
-              {imagesCreated.map((image: any) => {
+              {imagesCreated.map((image: ImageType) => {
                 return (
                   <Col key={image.id}>
                     <div style={{ marginBottom: 10 }}>
@@ -109,7 +110,20 @@ const CreationsPage = () => {
                       }}
                     >
                       <Typography.Text
-                        ellipsis={{ tooltip: true }}
+                        ellipsis={{
+                          tooltip: (
+                            <Typography.Text>
+                              {image.prompt}
+                              <br />
+                              <br />
+                              <Typography.Text italic>
+                                Created By: {image.createdBy}
+                                <br />
+                                {new Date(image.createdAt).toLocaleString()}
+                              </Typography.Text>
+                            </Typography.Text>
+                          ),
+                        }}
                         style={{ maxWidth: 160 }}
                       >
                         {image.prompt}
@@ -182,12 +196,7 @@ const CreationsPage = () => {
             //   pageSize: 3,
             // }}
             dataSource={imagesCreated}
-            renderItem={(image: {
-              id: string;
-              prompt: string;
-              url: string;
-              createdAt: Date;
-            }) => (
+            renderItem={(image: ImageType) => (
               <List.Item
                 key={image.id}
                 extra={
