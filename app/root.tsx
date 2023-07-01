@@ -51,6 +51,24 @@ export default function App() {
     );
   };
 
+  const navBarMenuItems = [
+    {
+      key: "generate",
+      label: <Link to='/generate'>Generate Icons</Link>,
+    },
+    {
+      key: "explore",
+      label: <Link to='/explore'>Explore</Link>,
+    },
+  ];
+
+  if (isLoggedIn) {
+    navBarMenuItems.push({
+      key: "creations",
+      label: <Link to='/creations'>Creations</Link>,
+    });
+  }
+
   return (
     <html lang='en'>
       <head>
@@ -90,12 +108,7 @@ export default function App() {
                 style={{ width: "100%" }}
                 theme='dark'
                 mode='horizontal'
-                items={[
-                  {
-                    key: "generate",
-                    label: <Link to='/generate'>Generate Icons</Link>,
-                  },
-                ]}
+                items={navBarMenuItems}
               />
               <div>
                 {!isLoggedIn ? (

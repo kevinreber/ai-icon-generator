@@ -43,21 +43,25 @@ model Session {
 }
 
 model User {
-  id       String    @id @default(cuid())
-  name     String?
-  email    String?   @unique
-  image    String?
-  credits  Int       @default(5)
-  accounts Account[]
-  sessions Session[]
-  Icon     Icon[]
+  id        String    @id @default(cuid())
+  name      String?
+  username  String?
+  email     String?   @unique
+  image     String?
+  credits   Int       @default(5)
+  accounts  Account[]
+  sessions  Session[]
+  Icon      Icon[]
+  createdAt DateTime  @default(now())
 }
 
 model Icon {
-  id     String  @id @default(cuid())
-  prompt String?
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
+  id        String   @id @default(cuid())
+  prompt    String?
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  createdBy String?
+  createdAt DateTime @default(now())
 }
 
 model VerificationToken {

@@ -47,7 +47,8 @@ const generateIcon = async (prompt: string) => {
 
 export const getDallEGeneratedImage = async (
   formData = DEFAULT_PAYLOAD,
-  userId: string
+  userId: string,
+  username: string
 ) => {
   const prompt = formData.prompt;
 
@@ -66,7 +67,7 @@ export const getDallEGeneratedImage = async (
     // Generate Icon
     const iconImage = await generateIcon(prompt);
     // Store Icon into DB
-    const iconData = await createNewIcon(prompt, userId);
+    const iconData = await createNewIcon(prompt, userId, username);
     // Store Image in S3
     const s3Data = await saveBase64EncodedImageToAWS(
       iconImage as string,
