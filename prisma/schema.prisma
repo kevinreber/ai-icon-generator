@@ -45,6 +45,7 @@ model Session {
 model User {
   id        String    @id @default(cuid())
   name      String?
+  username  String?
   email     String?   @unique
   image     String?
   credits   Int       @default(5)
@@ -59,6 +60,7 @@ model Icon {
   prompt    String?
   User      User?    @relation(fields: [userId], references: [id])
   userId    String?
+  createdBy String?
   createdAt DateTime @default(now())
 }
 

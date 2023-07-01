@@ -28,6 +28,7 @@ export const getUserData = async (userGoogleData: UserGoogleData) => {
     const newUser = {
       id: userGoogleData.id,
       name,
+      username: userGoogleData.displayName,
       email,
       image: picture,
     };

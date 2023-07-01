@@ -15,7 +15,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 export async function action({ request }: ActionArgs) {
   const user = (await authenticator.isAuthenticated(request, {
     failureRedirect: "/",
-  })) as { id: string };
+  })) as { id: string; username: string };
 
   const formData = await request.formData();
   const intent = formData.get("intent");
@@ -33,7 +33,11 @@ export async function action({ request }: ActionArgs) {
       const payload = formData.get("body");
       const formattedPayload = await JSON.parse(payload as any);
 
-      const data = await getDallEGeneratedImage(formattedPayload, user.id);
+      const data = await getDallEGeneratedImage(
+        formattedPayload,
+        user.id,
+        user.username
+      );
 
       console.log("Data -----------------------");
       console.log(data);
