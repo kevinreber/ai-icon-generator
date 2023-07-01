@@ -6,7 +6,10 @@ import { prisma } from "~/services/prisma.server";
  * This function updates a user's number of credits.
  * If a user has 0 credits available, an error is thrown
  */
-export const updateUserCredits = async (userId: string) => {
+export const updateUserCredits = async (
+  userId: string,
+  numberOfCreditsToDecrement = 1
+) => {
   const userData = await prisma.user.updateMany({
     where: {
       id: userId,
@@ -16,7 +19,7 @@ export const updateUserCredits = async (userId: string) => {
     },
     data: {
       credits: {
-        decrement: 1,
+        decrement: numberOfCreditsToDecrement,
       },
     },
   });

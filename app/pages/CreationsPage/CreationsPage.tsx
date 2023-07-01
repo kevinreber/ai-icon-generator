@@ -25,6 +25,8 @@ import {
   Popover,
   type RadioChangeEvent,
 } from "antd";
+import { fallbackImageSource } from "~/utils";
+import type { ImageType } from "~/types";
 
 const CreationsPage = () => {
   const data = useLoaderData();
@@ -89,11 +91,17 @@ const CreationsPage = () => {
             }}
           >
             <Row gutter={16}>
-              {imagesCreated.map((image: any) => {
+              {imagesCreated.map((image: ImageType) => {
                 return (
                   <Col key={image.id}>
                     <div style={{ marginBottom: 10 }}>
-                      <Image width={200} src={image.url} alt={image.prompt} />
+                      <Image
+                        width={200}
+                        src={image.url}
+                        alt={image.prompt}
+                        fallback={fallbackImageSource}
+                        style={{ borderRadius: 12 }}
+                      />
                     </div>
                     <div
                       style={{
@@ -102,7 +110,20 @@ const CreationsPage = () => {
                       }}
                     >
                       <Typography.Text
-                        ellipsis={{ tooltip: true }}
+                        ellipsis={{
+                          tooltip: (
+                            <Typography.Text>
+                              {image.prompt}
+                              <br />
+                              <br />
+                              <Typography.Text italic>
+                                Created By: {image.createdBy}
+                                <br />
+                                {new Date(image.createdAt).toLocaleString()}
+                              </Typography.Text>
+                            </Typography.Text>
+                          ),
+                        }}
                         style={{ maxWidth: 160 }}
                       >
                         {image.prompt}
@@ -175,12 +196,7 @@ const CreationsPage = () => {
             //   pageSize: 3,
             // }}
             dataSource={imagesCreated}
-            renderItem={(image: {
-              id: string;
-              prompt: string;
-              url: string;
-              createdAt: Date;
-            }) => (
+            renderItem={(image: ImageType) => (
               <List.Item
                 key={image.id}
                 extra={
@@ -221,7 +237,13 @@ const CreationsPage = () => {
               >
                 <List.Item.Meta
                   avatar={
-                    <Image width={100} src={image.url} alt={image.prompt} />
+                    <Image
+                      width={100}
+                      src={image.url}
+                      alt={image.prompt}
+                      fallback={fallbackImageSource}
+                      style={{ borderRadius: 12 }}
+                    />
                   }
                   title={image.prompt}
                   description={

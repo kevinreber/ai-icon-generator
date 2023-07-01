@@ -15,28 +15,28 @@ export const loader = async ({ request }: LoaderArgs) => {
 export async function action({ request }: ActionArgs) {
   const user = (await authenticator.isAuthenticated(request, {
     failureRedirect: "/",
-  })) as { id: string; username: string };
+  })) as { id: string; displayName: string };
 
   const formData = await request.formData();
   const intent = formData.get("intent");
 
   switch (intent) {
     case "_generate_icon": {
+      const payload = formData.get("body");
+      const formattedPayload = await JSON.parse(payload as string);
+
       // Verify user has enough credits
       try {
-        await updateUserCredits(user.id);
+        await updateUserCredits(user.id, formattedPayload.numberOfIcons);
       } catch (error: any) {
         console.error(error);
         return { image: "", message: "Error", error: error.message };
       }
 
-      const payload = formData.get("body");
-      const formattedPayload = await JSON.parse(payload as any);
-
       const data = await getDallEGeneratedImage(
         formattedPayload,
         user.id,
-        user.username
+        user.displayName
       );
 
       console.log("Data -----------------------");
