@@ -95,6 +95,14 @@ export default function App() {
                     key: "generate",
                     label: <Link to='/generate'>Generate Icons</Link>,
                   },
+                  {
+                    key: "explore",
+                    label: <Link to='/explore'>Explore</Link>,
+                  },
+                  {
+                    key: "creations",
+                    label: <Link to='/creations'>Creations</Link>,
+                  },
                 ]}
               />
               <div>
