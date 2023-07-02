@@ -60,7 +60,7 @@ export const getDallEGeneratedImage = async (
   const { prompt, numberOfIcons } = formData;
 
   try {
-    if (process.env.USE_MOCK_DALLE === "tre") {
+    if (process.env.USE_MOCK_DALLE === "true") {
       console.log(
         "\x1b[33m ⚠️ Warning – Using Mock Data ************************* \x1b[0m"
       );
