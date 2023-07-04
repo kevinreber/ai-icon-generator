@@ -17,19 +17,23 @@ export const deleteUserImage = async (imageId: string) => {
     console.log(deleteImageFromS3BucketResponse);
 
     return {
-      imageId,
-      message: `Successfully removed Image ID: ${imageId}`,
       success: true,
-      deleteImageResponse,
-      deleteImageFromS3BucketResponse,
+      data: {
+        imageId,
+        message: `Successfully removed Image ID: ${imageId}`,
+        deleteImageResponse,
+        deleteImageFromS3BucketResponse,
+      },
     };
   } catch (error) {
     console.error(error);
     return {
-      imageId,
-      message: `Error removing Image ID: ${imageId}`,
       success: false,
-      error,
+      data: {
+        imageId,
+        message: `Error removing Image ID: ${imageId}`,
+        error,
+      },
     };
   }
 };
