@@ -1,7 +1,6 @@
 import React from "react";
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import {
-  DeleteOutlined,
   DownloadOutlined,
   LikeOutlined,
   MessageOutlined,
@@ -20,13 +19,13 @@ import {
   List,
   Space,
   Button,
-  Popconfirm,
   Tooltip,
   Popover,
   type RadioChangeEvent,
 } from "antd";
 import { fallbackImageSource } from "~/utils";
 import type { ImageType } from "~/types";
+import { DeleteImageButton } from "./components";
 
 const CreationsPage = () => {
   const data = useLoaderData();
@@ -141,34 +140,7 @@ const CreationsPage = () => {
                                   Download
                                 </Button>
                               </Tooltip>
-                              <Popconfirm
-                                title='Delete this image'
-                                description={
-                                  <>
-                                    Are you sure to delete the image:
-                                    <br />
-                                    <Typography.Text strong italic>
-                                      {image.prompt}
-                                    </Typography.Text>
-                                    <br />
-                                    <br />
-                                    This action can not be undone
-                                  </>
-                                }
-                                // onConfirm={confirm}
-                                // onCancel={cancel}
-                                okText='Yes'
-                                cancelText='No'
-                              >
-                                <Button
-                                  size='small'
-                                  icon={<DeleteOutlined />}
-                                  danger
-                                  style={{ border: "none", textAlign: "left" }}
-                                >
-                                  Delete
-                                </Button>
-                              </Popconfirm>
+                              <DeleteImageButton image={image} />
                             </Space.Compact>
                           </Space>
                         }
@@ -207,31 +179,7 @@ const CreationsPage = () => {
                         style={{ border: "none" }}
                       />
                     </Tooltip>
-                    <Popconfirm
-                      title='Delete this image'
-                      description={
-                        <>
-                          Are you sure to delete the image:
-                          <br />
-                          <Typography.Text strong italic>
-                            {image.prompt}
-                          </Typography.Text>
-                          <br />
-                          <br />
-                          This action can not be undone
-                        </>
-                      }
-                      // onConfirm={confirm}
-                      // onCancel={cancel}
-                      okText='Yes'
-                      cancelText='No'
-                    >
-                      <Button
-                        icon={<DeleteOutlined />}
-                        danger
-                        style={{ border: "none" }}
-                      />
-                    </Popconfirm>
+                    <DeleteImageButton image={image} />
                   </Space>
                 }
               >

@@ -4,3 +4,6 @@ export * from "./getUserData";
 export * from "./createNewIcon";
 export * from "./getUserIcons";
 export * from "./getIcons";
+export * from "./deleteImage";
+export * from "./deleteImageFromS3Bucket";
+export * from "./deleteUserImage";

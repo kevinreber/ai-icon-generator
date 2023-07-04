@@ -1,6 +1,6 @@
-import { type LoaderArgs, json } from "@remix-run/node";
+import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
 import { CreationsPage } from "~/pages";
-import { getUserIcons } from "~/server";
+import { deleteUserImage, getUserIcons } from "~/server";
 import { authenticator } from "~/services/auth.server";
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -12,6 +12,27 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   return json({ data: icons });
 };
+
+export async function action({ request }: ActionArgs) {
+  const formData = await request.formData();
+  const intent = formData.get("intent");
+
+  switch (intent) {
+    case "_delete_image": {
+      const payload = JSON.parse(formData.get("body") as string);
+      const { imageId = "" } = payload;
+
+      const response = await deleteUserImage(imageId);
+      console.log("Response ------------------");
+      console.log(response);
+
+      return response;
+    }
+    default: {
+      return {};
+    }
+  }
+}
 
 export default function Index() {
   return <CreationsPage />;
