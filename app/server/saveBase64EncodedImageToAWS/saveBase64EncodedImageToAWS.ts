@@ -12,7 +12,7 @@ const s3Client = new S3Client({
  * This function stores an image to our AWS S3 bucket
  *
  * @reference
- * https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/index.html
+ * https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/
  *
  */
 export const saveBase64EncodedImageToAWS = async (
