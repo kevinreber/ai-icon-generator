@@ -1,7 +1,6 @@
 import React from "react";
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import {
-  DownloadOutlined,
   LikeOutlined,
   MessageOutlined,
   MoreOutlined,
@@ -19,13 +18,12 @@ import {
   List,
   Space,
   Button,
-  Tooltip,
   Popover,
   type RadioChangeEvent,
 } from "antd";
 import { fallbackImageSource } from "~/utils";
 import type { ImageType } from "~/types";
-import { DeleteImageButton } from "./components";
+import { DeleteImageButton, DownloadImageButton } from "./components";
 
 const CreationsPage = () => {
   const data = useLoaderData();
@@ -131,15 +129,7 @@ const CreationsPage = () => {
                         content={
                           <Space size='small'>
                             <Space.Compact direction='vertical'>
-                              <Tooltip title='Download image'>
-                                <Button
-                                  size='small'
-                                  icon={<DownloadOutlined />}
-                                  style={{ border: "none", textAlign: "left" }}
-                                >
-                                  Download
-                                </Button>
-                              </Tooltip>
+                              <DownloadImageButton image={image} />
                               <DeleteImageButton image={image} />
                             </Space.Compact>
                           </Space>
@@ -173,12 +163,7 @@ const CreationsPage = () => {
                 key={image.id}
                 extra={
                   <Space>
-                    <Tooltip title='Download image'>
-                      <Button
-                        icon={<DownloadOutlined />}
-                        style={{ border: "none" }}
-                      />
-                    </Tooltip>
+                    <DownloadImageButton image={image} />
                     <DeleteImageButton image={image} />
                   </Space>
                 }
