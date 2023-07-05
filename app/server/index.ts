@@ -7,3 +7,4 @@ export * from "./getIcons";
 export * from "./deleteImage";
 export * from "./deleteImageFromS3Bucket";
 export * from "./deleteUserImage";
+export * from "./getImageBlobFromS3";
