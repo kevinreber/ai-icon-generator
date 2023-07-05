@@ -1,20 +1,14 @@
 import { getCurrentLocaleDateAsString } from "~/utils";
 
-export const downloadImage = async (blob: any, imageName: string) => {
+export const downloadBase64Image = async (
+  base64Image: any,
+  imageName: string
+) => {
   console.log("downloading image .....");
+  const nowDate = getCurrentLocaleDateAsString();
 
   const link = window.document.createElement("a");
-  // const blob = new Blob([imageSrc], { type: "image/png" });
-  console.log(blob);
-
-  const nowDate = getCurrentLocaleDateAsString();
-  const blobURL = (link.href = window.URL.createObjectURL(blob));
-  console.log("Blob URL -----------------");
-  console.log(blobURL);
-
-  console.log("Blob URL -----------------");
-
-  link.href = window.URL.createObjectURL(blob);
+  link.href = `data:application/octet-stream;base64,${base64Image}`;
   link.download = `${imageName}_${nowDate}.png`;
   document.body.appendChild(link);
   link.click();

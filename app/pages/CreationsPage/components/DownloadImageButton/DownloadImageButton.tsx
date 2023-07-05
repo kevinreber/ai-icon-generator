@@ -1,9 +1,10 @@
 import { DownloadOutlined } from "@ant-design/icons";
 import { Button, notification, Tooltip } from "antd";
 import type { ImageType } from "~/types";
-import { useRemixFetcher } from "~/hooks";
-import { downloadImage } from "~/utils";
+// import { useRemixFetcher } from "~/hooks";
+import { downloadBase64Image } from "~/utils";
 import { getImageBlob } from "~/client";
+import React from "react";
 
 // TODO: Explore using action function
 // export async function action({ request }: ActionArgs) {
@@ -17,37 +18,29 @@ import { getImageBlob } from "~/client";
 // }
 
 const DownloadImageButton = ({ image }: { image: ImageType }) => {
-  const { fetcher, isLoadingFetcher } = useRemixFetcher({
-    onSuccess: (response) => {
-      console.log("DOWNLOAD IMAGE BUTTON: response");
-      console.log(response);
+  // TODO: Look into using fetcher
+  // const { fetcher, isLoadingFetcher } = useRemixFetcher({
+  //   onSuccess: (response) => {
+  //     console.log("DOWNLOAD IMAGE BUTTON: response");
+  //     console.log(response);
 
-      notification.success({ message: response.data.message });
-    },
-    onError: (error) => {
-      console.error(error);
-      notification.error({ message: error.data.message });
-    },
-  });
+  //     notification.success({ message: response.data.message });
+  //   },
+  //   onError: (error) => {
+  //     console.error(error);
+  //     notification.error({ message: error.data.message });
+  //   },
+  // });
+
+  const [isDownloadingImage, setIsDownloadingImage] = React.useState(false);
 
   const handleDownloadImage = async () => {
+    setIsDownloadingImage(true);
     console.log("downloading.....");
-    // alert("success");
-    // return;
 
-    // const data: any = await getImageBlob(image.url);
     const data: any = await getImageBlob(image.id);
-    console.log(data);
-    // const blob = await data.blob();
-    // const blob = new Blob([data.data.imageBlob]);
-
-    // console.log(blob);
-
-    // const data: any = await getImageBlob(image.id);
-    console.log("Client Response ----------");
-    // console.log(data);
-
-    // await downloadImage(blob, image.id);
+    await downloadBase64Image(data.data, image.id);
+    setIsDownloadingImage(false);
   };
 
   return (
@@ -58,7 +51,7 @@ const DownloadImageButton = ({ image }: { image: ImageType }) => {
           icon={<DownloadOutlined />}
           style={{ border: "none", textAlign: "left" }}
           onClick={handleDownloadImage}
-          loading={isLoadingFetcher}
+          loading={isDownloadingImage}
         >
           Download
         </Button>

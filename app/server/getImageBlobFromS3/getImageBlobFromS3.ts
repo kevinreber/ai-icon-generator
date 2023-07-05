@@ -1,7 +1,4 @@
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
-// import { createWriteStream } from "fs";
-import { getS3BucketURL } from "~/utils";
-// import fs from "fs";
 
 const s3Client = new S3Client({
   credentials: {
@@ -62,26 +59,4 @@ export const getImageBlobFromS3 = async (imageId: string) => {
       },
     };
   }
-};
-
-export const getImageURLBlob = async (imageId: string) => {
-  const imageURL = getS3BucketURL(imageId);
-  console.log("New URL ----------");
-  console.log(imageURL);
-
-  const data = await fetch(imageURL)
-    .then((response) => response.arrayBuffer())
-    .then((blob) => Buffer.from(blob).toString("base64"));
-  // console.log(data);
-
-  // const response = await fetch(url)
-  //   .then((response) => {
-  //     return response.blob();
-  //   })
-  //   .then((blob) => {
-  //     return URL.createObjectURL(blob);
-  //   });
-
-  // console.log(response);
-  return data;
 };

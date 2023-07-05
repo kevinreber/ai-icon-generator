@@ -8,3 +8,4 @@ export * from "./deleteImage";
 export * from "./deleteImageFromS3Bucket";
 export * from "./deleteUserImage";
 export * from "./getImageBlobFromS3";
+export * from "./getImageBase64";
