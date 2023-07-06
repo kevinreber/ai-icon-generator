@@ -22,7 +22,13 @@ import * as gtag from "~/services/client/gtags.client";
 export let loader = async ({ request }: LoaderArgs) => {
   const user = await authenticator.isAuthenticated(request);
   if (!user) {
-    return json({ data: undefined });
+    return json({
+      data: { userData: undefined },
+      ENV: {
+        NODE_ENV: process.env.NODE_ENV,
+        GA_TRACKING_ID: process.env.GA_TRACKING_ID,
+      },
+    });
   }
 
   const userData = await getUserData(user as any);
@@ -45,7 +51,8 @@ export default function App() {
   const loaderData = useLoaderData();
   const location = useLocation();
 
-  const isLoggedIn = loaderData.data.userData;
+  const isLoggedIn = Boolean(loaderData.data?.userData);
+
   const { GA_TRACKING_ID, NODE_ENV } = loaderData.ENV;
   const fetcher = useFetcher();
 
@@ -167,7 +174,7 @@ export default function App() {
                     >
                       <DollarOutlined style={{ marginRight: 4 }} />
                       <p style={{ display: "flex", alignItems: "center" }}>
-                        {loaderData.data?.credits} Credits
+                        {loaderData.data.userData.credits} Credits
                       </p>
                     </div>
 
