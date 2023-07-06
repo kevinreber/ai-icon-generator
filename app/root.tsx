@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Link,
   Links,
@@ -8,6 +9,7 @@ import {
   ScrollRestoration,
   useFetcher,
   useLoaderData,
+  useLocation,
 } from "@remix-run/react";
 import { Button, Layout, Menu, Space, Typography, ConfigProvider } from "antd";
 import { type LoaderArgs, json } from "@remix-run/node";
@@ -15,6 +17,7 @@ import { authenticator } from "~/services/auth.server";
 import { DollarOutlined } from "@ant-design/icons";
 import { SocialsProvider } from "remix-auth-socials";
 import { getUserData } from "~/server";
+import * as gtag from "~/services/client/gtags.client";
 
 export let loader = async ({ request }: LoaderArgs) => {
   const user = await authenticator.isAuthenticated(request);
@@ -24,7 +27,7 @@ export let loader = async ({ request }: LoaderArgs) => {
 
   const userData = await getUserData(user as any);
 
-  return json({ data: userData });
+  return json({ data: { userData, gaTrackingId: process.env.GA_TRACKING_ID } });
 };
 
 const INTENT_MAP = {
@@ -34,7 +37,10 @@ const INTENT_MAP = {
 
 export default function App() {
   const loaderData = useLoaderData();
-  const isLoggedIn = loaderData.data;
+  const location = useLocation();
+
+  const isLoggedIn = loaderData.data.userData;
+  const { gaTrackingId } = loaderData.data;
   const fetcher = useFetcher();
 
   const handleLogIn = () => {
@@ -50,6 +56,12 @@ export default function App() {
       { method: "post", action: "/logout" }
     );
   };
+
+  React.useEffect(() => {
+    if (gaTrackingId?.length) {
+      gtag.pageview(location.pathname, gaTrackingId);
+    }
+  }, [location, gaTrackingId]);
 
   const navBarMenuItems = [
     {
@@ -76,6 +88,30 @@ export default function App() {
         <Links />
       </head>
       <body style={{ margin: 0 }}>
+        {/* Reference to setup Google Analytics: https://github.com/remix-run/examples/tree/main/google-analytics */}
+        {process.env.NODE_ENV === "development" || !gaTrackingId ? null : (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
+            />
+            <script
+              async
+              id='gtag-init'
+              dangerouslySetInnerHTML={{
+                __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '${gaTrackingId}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+              }}
+            />
+          </>
+        )}
         <ConfigProvider
           theme={{
             hashed: false,
