@@ -27,7 +27,13 @@ export let loader = async ({ request }: LoaderArgs) => {
 
   const userData = await getUserData(user as any);
 
-  return json({ data: { userData, gaTrackingId: process.env.GA_TRACKING_ID } });
+  return json({
+    data: { userData },
+    ENV: {
+      NODE_ENV: process.env.NODE_ENV,
+      GA_TRACKING_ID: process.env.GA_TRACKING_ID,
+    },
+  });
 };
 
 const INTENT_MAP = {
@@ -40,7 +46,7 @@ export default function App() {
   const location = useLocation();
 
   const isLoggedIn = loaderData.data.userData;
-  const { gaTrackingId } = loaderData.data;
+  const { GA_TRACKING_ID, NODE_ENV } = loaderData.data.ENV;
   const fetcher = useFetcher();
 
   const handleLogIn = () => {
@@ -58,10 +64,10 @@ export default function App() {
   };
 
   React.useEffect(() => {
-    if (gaTrackingId?.length) {
-      gtag.pageview(location.pathname, gaTrackingId);
+    if (GA_TRACKING_ID?.length) {
+      gtag.pageview(location.pathname, GA_TRACKING_ID);
     }
-  }, [location, gaTrackingId]);
+  }, [location, GA_TRACKING_ID]);
 
   const navBarMenuItems = [
     {
@@ -89,11 +95,11 @@ export default function App() {
       </head>
       <body style={{ margin: 0 }}>
         {/* Reference to setup Google Analytics: https://github.com/remix-run/examples/tree/main/google-analytics */}
-        {process.env.NODE_ENV === "development" || !gaTrackingId ? null : (
+        {NODE_ENV === "development" || !GA_TRACKING_ID ? null : (
           <>
             <script
               async
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
             />
             <script
               async
@@ -104,7 +110,7 @@ export default function App() {
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
 
-                gtag('config', '${gaTrackingId}', {
+                gtag('config', '${GA_TRACKING_ID}', {
                   page_path: window.location.pathname,
                 });
               `,
