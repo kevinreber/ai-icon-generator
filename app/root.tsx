@@ -30,7 +30,7 @@ export let loader = async ({ request }: LoaderArgs) => {
   return json({
     data: { userData },
     ENV: {
-      // NODE_ENV: process.env.NODE_ENV,
+      NODE_ENV: process.env.NODE_ENV,
       GA_TRACKING_ID: process.env.GA_TRACKING_ID,
     },
   });
@@ -46,10 +46,7 @@ export default function App() {
   const location = useLocation();
 
   const isLoggedIn = loaderData.data.userData;
-  const {
-    GA_TRACKING_ID,
-    // NODE_ENV
-  } = loaderData.data.ENV;
+  const { GA_TRACKING_ID, NODE_ENV } = loaderData.ENV;
   const fetcher = useFetcher();
 
   const handleLogIn = () => {
@@ -98,19 +95,17 @@ export default function App() {
       </head>
       <body style={{ margin: 0 }}>
         {/* Reference to setup Google Analytics: https://github.com/remix-run/examples/tree/main/google-analytics */}
-        {
-          // NODE_ENV === "development" ||
-          !GA_TRACKING_ID ? null : (
-            <>
-              <script
-                async
-                src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-              />
-              <script
-                async
-                id='gtag-init'
-                dangerouslySetInnerHTML={{
-                  __html: `
+        {NODE_ENV === "development" || !GA_TRACKING_ID ? null : (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+            />
+            <script
+              async
+              id='gtag-init'
+              dangerouslySetInnerHTML={{
+                __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
@@ -119,11 +114,10 @@ export default function App() {
                   page_path: window.location.pathname,
                 });
               `,
-                }}
-              />
-            </>
-          )
-        }
+              }}
+            />
+          </>
+        )}
         <ConfigProvider
           theme={{
             hashed: false,
