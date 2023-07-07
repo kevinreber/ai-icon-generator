@@ -15,6 +15,7 @@ import { authenticator } from "~/services/auth.server";
 import { DollarOutlined } from "@ant-design/icons";
 import { SocialsProvider } from "remix-auth-socials";
 import { getUserData } from "~/server";
+import { UserAvatar } from "./components";
 
 export let loader = async ({ request }: LoaderArgs) => {
   const user = await authenticator.isAuthenticated(request);
@@ -27,11 +28,6 @@ export let loader = async ({ request }: LoaderArgs) => {
   return json({ data: userData });
 };
 
-const INTENT_MAP = {
-  USER_LOG_IN: "user-log-in",
-  USER_LOG_OUT: "user-log-out",
-};
-
 export default function App() {
   const loaderData = useLoaderData();
   const isLoggedIn = loaderData.data;
@@ -39,15 +35,8 @@ export default function App() {
 
   const handleLogIn = () => {
     fetcher.submit(
-      { intent: INTENT_MAP.USER_LOG_IN },
+      { intent: "user-log-in" },
       { method: "post", action: `/auth/${SocialsProvider.GOOGLE}` }
-    );
-  };
-
-  const handleLogOut = () => {
-    fetcher.submit(
-      { intent: INTENT_MAP.USER_LOG_OUT },
-      { method: "post", action: "/logout" }
     );
   };
 
@@ -137,8 +126,7 @@ export default function App() {
                     >
                       Buy Credits
                     </Button>
-
-                    <Button onClick={handleLogOut}>Logout</Button>
+                    <UserAvatar />
                   </Space>
                 )}
               </div>
