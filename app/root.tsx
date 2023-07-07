@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Link,
   Links,
@@ -8,6 +9,7 @@ import {
   ScrollRestoration,
   useFetcher,
   useLoaderData,
+  useLocation,
 } from "@remix-run/react";
 import { Button, Layout, Menu, Space, Typography, ConfigProvider } from "antd";
 import { type LoaderArgs, json } from "@remix-run/node";
@@ -15,16 +17,29 @@ import { authenticator } from "~/services/auth.server";
 import { DollarOutlined } from "@ant-design/icons";
 import { SocialsProvider } from "remix-auth-socials";
 import { getUserData } from "~/server";
+import * as gtag from "~/services/client/gtags.client";
 
 export let loader = async ({ request }: LoaderArgs) => {
   const user = await authenticator.isAuthenticated(request);
   if (!user) {
-    return json({ data: undefined });
+    return json({
+      data: { userData: undefined },
+      ENV: {
+        NODE_ENV: process.env.NODE_ENV,
+        GA_TRACKING_ID: process.env.GA_TRACKING_ID,
+      },
+    });
   }
 
   const userData = await getUserData(user as any);
 
-  return json({ data: userData });
+  return json({
+    data: { userData },
+    ENV: {
+      NODE_ENV: process.env.NODE_ENV,
+      GA_TRACKING_ID: process.env.GA_TRACKING_ID,
+    },
+  });
 };
 
 const INTENT_MAP = {
@@ -34,7 +49,11 @@ const INTENT_MAP = {
 
 export default function App() {
   const loaderData = useLoaderData();
-  const isLoggedIn = loaderData.data;
+  const location = useLocation();
+
+  const isLoggedIn = Boolean(loaderData.data?.userData);
+
+  const { GA_TRACKING_ID, NODE_ENV } = loaderData.ENV;
   const fetcher = useFetcher();
 
   const handleLogIn = () => {
@@ -50,6 +69,12 @@ export default function App() {
       { method: "post", action: "/logout" }
     );
   };
+
+  React.useEffect(() => {
+    if (GA_TRACKING_ID?.length) {
+      gtag.pageview(location.pathname, GA_TRACKING_ID);
+    }
+  }, [location, GA_TRACKING_ID]);
 
   const navBarMenuItems = [
     {
@@ -76,6 +101,30 @@ export default function App() {
         <Links />
       </head>
       <body style={{ margin: 0 }}>
+        {/* Reference to setup Google Analytics: https://github.com/remix-run/examples/tree/main/google-analytics */}
+        {NODE_ENV === "development" || !GA_TRACKING_ID ? null : (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+            />
+            <script
+              async
+              id='gtag-init'
+              dangerouslySetInnerHTML={{
+                __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-${GA_TRACKING_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+              }}
+            />
+          </>
+        )}
         <ConfigProvider
           theme={{
             hashed: false,
@@ -125,7 +174,7 @@ export default function App() {
                     >
                       <DollarOutlined style={{ marginRight: 4 }} />
                       <p style={{ display: "flex", alignItems: "center" }}>
-                        {loaderData.data?.credits} Credits
+                        {loaderData.data.userData.credits} Credits
                       </p>
                     </div>
 
