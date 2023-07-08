@@ -1,0 +1,10 @@
+/* This selector is for the Modal container */
+.ant-modal .ant-modal-content {
+  padding: 0;
+  height: 100%;
+}
+
+.ant-tabs .ant-tabs-content,
+.ant-tabs .ant-tabs-tabpane {
+  height: 100%;
+}
