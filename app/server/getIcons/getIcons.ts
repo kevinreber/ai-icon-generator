@@ -7,7 +7,39 @@ export const getIcons = async () => {
     orderBy: {
       createdAt: "desc",
     },
+    select: {
+      id: true,
+      prompt: true,
+      user: {
+        select: {
+          id: true,
+          username: true,
+        },
+      },
+      createdAt: true,
+      comments: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: {
+          id: true,
+          message: true,
+          createdAt: true,
+          updatedAt: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
+              image: true,
+            },
+          },
+          parentId: true,
+        },
+      },
+    },
   });
+
+  console.log(icons);
 
   // Append icons source URL since we cannot use `env` variables in our UI
   const formattedIcons = icons.map((icon) => ({
