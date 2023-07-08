@@ -33,11 +33,7 @@ export async function action({ request }: ActionArgs) {
         return { image: "", message: "Error", error: error.message };
       }
 
-      const data = await getDallEGeneratedImage(
-        formattedPayload,
-        user.id,
-        user.displayName
-      );
+      const data = await getDallEGeneratedImage(formattedPayload, user.id);
 
       console.log("Data -----------------------");
       console.log(data);

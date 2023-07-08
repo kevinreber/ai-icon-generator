@@ -54,8 +54,7 @@ const generateIcons = async (
  */
 export const getDallEGeneratedImage = async (
   formData = DEFAULT_PAYLOAD,
-  userId: string,
-  username: string
+  userId: string
 ) => {
   const { prompt, numberOfIcons } = formData;
 
@@ -70,8 +69,12 @@ export const getDallEGeneratedImage = async (
         prompt: "using mock data",
         userId: "testUser123",
         createdAt: "2023-06-26 03:17:19",
-        createdBy: "testUser123",
+        user: {
+          userId: "123456789",
+          username: "testUser123",
+        },
         url: imageURL,
+        comments: [],
       };
       const mockArrayOfDallEGeneratedImages = new Array(numberOfIcons).fill(
         mockDallEImage
@@ -88,7 +91,7 @@ export const getDallEGeneratedImage = async (
     const formattedIconsData = await Promise.all(
       iconImages.map(async (iconImage) => {
         // Store Icon into DB
-        const iconData = await createNewIcon(prompt, userId, username);
+        const iconData = await createNewIcon(prompt, userId);
         console.log("Stored Icon Data in DB: ", iconData.id);
 
         // Store Icon blob in S3
