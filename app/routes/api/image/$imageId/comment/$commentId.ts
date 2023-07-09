@@ -1,9 +1,16 @@
 import { type ActionArgs } from "@remix-run/node";
 import { deleteComment } from "~/server";
+import { getSession } from "~/services";
 
 export async function action({ request, params }: ActionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+  const googleSessionData = (await session.get("_session")) || undefined;
+  const userId = googleSessionData.id;
   const commentId = params?.commentId || "";
-  console.log("Successfully hit Action function!!!!!!!!");
+
+  if (!userId) {
+    throw new Error("Missing User ID: Must be logged in to Edit a Comment");
+  }
 
   switch (request.method.toUpperCase()) {
     case "DELETE": {

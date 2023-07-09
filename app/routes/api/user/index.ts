@@ -7,6 +7,10 @@ export async function action({ request, params }: ActionArgs) {
   const googleSessionData = (await session.get("_session")) || undefined;
   const userId = googleSessionData.id;
 
+  if (!userId) {
+    throw new Error("Missing User ID: Must be logged in to Edit user data");
+  }
+
   switch (request.method.toUpperCase()) {
     case "PATCH": {
       const formData = await request.formData();
