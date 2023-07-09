@@ -70,6 +70,18 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        <script
+          data-name='BMC-Widget'
+          data-cfasync='false'
+          src='https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js'
+          data-id='kevinreber'
+          data-description='Support me on Buy me a coffee!'
+          data-message='Thank you for visiting! Buy me a coffee so I build more cool things ☕'
+          data-color='#40DCA5'
+          data-position='Right'
+          data-x_margin='18'
+          data-y_margin='18'
+        ></script>
       </head>
       <body style={{ margin: 0 }}>
         <ConfigProvider
