@@ -1,3 +1,8 @@
+export type CommentLike = {
+  userId: string;
+  commentId: string;
+};
+
 export type Comment = {
   id: string;
   message: string;
@@ -8,6 +13,7 @@ export type Comment = {
     username: string;
   };
   parentId: string;
+  likes: CommentLike[];
 };
 
 export type ImageType = {

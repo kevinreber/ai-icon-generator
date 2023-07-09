@@ -12,6 +12,7 @@ import { useRemixFetcher } from "~/hooks";
 import { useLoaderData } from "@remix-run/react";
 import DeleteCommentButton from "./DeleteCommentButton";
 import { convertUtcDateToLocalDateString } from "~/utils";
+import { LikeCommentButton } from "~/components";
 
 const CommentCard = ({
   imageData,
@@ -59,7 +60,7 @@ const CommentCard = ({
               icon={<UserOutlined />}
               size='small'
             />
-            <Typography.Text strong>{imageData.user.username}</Typography.Text>
+            <Typography.Text strong>{comment.user.username}</Typography.Text>
           </Space>
         </div>
         <Typography.Text type='secondary' style={{ fontSize: 12 }}>
@@ -73,14 +74,7 @@ const CommentCard = ({
           justifyContent: "space-between",
         }}
       >
-        <Button
-          size='small'
-          style={{ border: "none" }}
-          icon={<HeartOutlined style={{ color: "#eb2f96" }} />}
-        >
-          156
-        </Button>
-        {/* <HeartTwoTone twoToneColor='#eb2f96' /> */}
+        <LikeCommentButton imageData={imageData} comment={comment} />
         {imageData.user.id === userId && (
           <Space>
             {/* TODO: Add Edit comment feature */}

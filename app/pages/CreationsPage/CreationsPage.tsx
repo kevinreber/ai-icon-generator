@@ -1,7 +1,6 @@
 import React from "react";
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import {
-  LikeOutlined,
   MessageOutlined,
   MoreOutlined,
   TableOutlined,
@@ -20,10 +19,9 @@ import {
   Popover,
   type RadioChangeEvent,
 } from "antd";
-import { fallbackImageSource } from "~/utils";
 import type { ImageType } from "~/types";
 import { DeleteImageButton, DownloadImageButton } from "./components";
-import { LikeImageButton } from "~/components";
+import { ImageModal, LikeImageButton } from "~/components";
 
 const CreationsPage = () => {
   const data = useLoaderData();
@@ -92,13 +90,7 @@ const CreationsPage = () => {
                 return (
                   <Col key={image.id}>
                     <div style={{ marginBottom: 10 }}>
-                      <Image
-                        width={200}
-                        src={image.url}
-                        alt={image.prompt}
-                        fallback={fallbackImageSource}
-                        style={{ borderRadius: 12 }}
-                      />
+                      <ImageModal imageData={image} width={200} />
                     </div>
                     <div
                       style={{
@@ -169,15 +161,7 @@ const CreationsPage = () => {
                 }
               >
                 <List.Item.Meta
-                  avatar={
-                    <Image
-                      width={100}
-                      src={image.url}
-                      alt={image.prompt}
-                      fallback={fallbackImageSource}
-                      style={{ borderRadius: 12 }}
-                    />
-                  }
+                  avatar={<ImageModal imageData={image} />}
                   title={image.prompt}
                   description={
                     <div
@@ -188,12 +172,10 @@ const CreationsPage = () => {
                     >
                       <div>
                         <LikeImageButton imageData={image} />
-                        <Button icon={<LikeOutlined />} type='link'>
-                          156
-                        </Button>
-                        <Button icon={<MessageOutlined />} type='link'>
-                          2
-                        </Button>
+                        <Space style={{ color: "#64ffda" }}>
+                          <MessageOutlined />
+                          {image.comments.length > 0 && image.comments.length}
+                        </Space>
                       </div>
                       <Typography.Text italic>
                         {new Date(image.createdAt).toLocaleString()}

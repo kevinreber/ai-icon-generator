@@ -34,6 +34,7 @@ export const getIcons = async () => {
             },
           },
           parentId: true,
+          likes: true,
         },
       },
       likes: {

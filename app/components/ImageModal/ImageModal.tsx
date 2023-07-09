@@ -19,9 +19,12 @@ import {
 } from "antd";
 import { convertUtcDateToLocalDateString, fallbackImageSource } from "~/utils";
 import type { ImageType, Comment } from "~/types";
-import { CopyToClipboardButton, LikeImageButton } from "~/components";
+import {
+  CopyToClipboardButton,
+  LikeImageButton,
+  CommentCard,
+} from "~/components";
 import { useRemixFetcher } from "~/hooks";
-import { CommentCard } from "../CommentCard";
 import { useLoaderData } from "@remix-run/react";
 
 const ImageModal = ({
@@ -59,7 +62,7 @@ const ImageModal = ({
         src={imageData.url}
         alt={imageData.prompt}
         fallback={fallbackImageSource}
-        style={{ borderRadius: 12, cursor: "pointer" }}
+        style={{ borderRadius: 8, cursor: "pointer" }}
         onClick={() => setShowImageModal(true)}
         preview={false}
       />
@@ -96,7 +99,6 @@ const ImageModal = ({
                 src={imageData.url}
                 alt={imageData.prompt}
                 fallback={fallbackImageSource}
-                // style={{ borderRadius: 12 }}
                 preview={false}
               />
             </div>
