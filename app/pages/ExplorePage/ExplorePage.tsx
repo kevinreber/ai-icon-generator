@@ -1,6 +1,8 @@
 import React from "react";
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import {
+  HeartOutlined,
+  HeartTwoTone,
   LikeOutlined,
   MessageOutlined,
   MoreOutlined,
@@ -10,7 +12,6 @@ import {
 } from "@ant-design/icons";
 import {
   Typography,
-  Image,
   Card,
   Row,
   Col,
@@ -21,8 +22,8 @@ import {
   Popover,
   type RadioChangeEvent,
 } from "antd";
-import { fallbackImageSource } from "~/utils";
 import type { ImageType } from "~/types";
+import { ImageModal } from "./components";
 
 const ExplorePage = () => {
   const data = useLoaderData();
@@ -80,91 +81,94 @@ const ExplorePage = () => {
         bodyStyle={{ textAlign: imagesCreated ? "initial" : "center" }}
       >
         {totalImages && displayImagesStyle === "grid" ? (
-          <Image.PreviewGroup
-            preview={{
-              onChange: (current, prev) =>
-                console.log(`current index: ${current}, prev index: ${prev}`),
-            }}
-          >
-            <Row gutter={16}>
-              {imagesCreated.map((image: ImageType) => {
-                return (
-                  <Col key={image.id}>
-                    <div style={{ marginBottom: 10 }}>
-                      <Image
-                        width={200}
-                        src={image.url}
-                        alt={image.prompt}
-                        fallback={fallbackImageSource}
-                        style={{ borderRadius: 12 }}
-                      />
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Typography.Text
-                        ellipsis={{
-                          tooltip: (
-                            <Typography.Text>
-                              {image.prompt}
+          // <Image.PreviewGroup
+          //   preview={{
+          //     onChange: (current, prev) =>
+          //       console.log(`current index: ${current}, prev index: ${prev}`),
+          //   }}
+          // >
+          <Row gutter={16}>
+            {imagesCreated.map((image: ImageType) => {
+              return (
+                <Col key={image.id}>
+                  <div style={{ marginBottom: 10 }}>
+                    <ImageModal width={200} imageData={image} />
+                    {/* <Image
+                      width={200}
+                      src={image.url}
+                      alt={image.prompt}
+                      fallback={fallbackImageSource}
+                      style={{ borderRadius: 12, cursor: "pointer" }}
+                      onClick={() => handleShowImageInModal(image)}
+                      preview={false}
+                    /> */}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography.Text
+                      ellipsis={{
+                        tooltip: (
+                          <Typography.Text>
+                            {image.prompt}
+                            <br />
+                            <br />
+                            <Typography.Text italic>
+                              Created By: {image.user.username}
                               <br />
-                              <br />
-                              <Typography.Text italic>
-                                Created By: {image.createdBy}
-                                <br />
-                                {new Date(image.createdAt).toLocaleString()}
-                              </Typography.Text>
+                              {new Date(image.createdAt).toLocaleString()}
                             </Typography.Text>
-                          ),
-                        }}
-                        style={{ maxWidth: 160 }}
-                      >
-                        {image.prompt}
-                      </Typography.Text>
-                      <Popover
-                        content={
-                          <Space size='small'>
-                            <Space.Compact direction='vertical'>
-                              <Button
-                                icon={<StarOutlined />}
-                                style={{ textAlign: "left" }}
-                                type='link'
-                              >
-                                156
-                              </Button>
-                              <Button
-                                icon={<LikeOutlined />}
-                                style={{ textAlign: "left" }}
-                                type='link'
-                              >
-                                156
-                              </Button>
-                              <Button
-                                icon={<MessageOutlined />}
-                                style={{ textAlign: "left" }}
-                                type='link'
-                              >
-                                2
-                              </Button>
-                            </Space.Compact>
-                          </Space>
-                        }
-                      >
-                        <Button
-                          icon={<MoreOutlined rotate={90} />}
-                          style={{ border: "none" }}
-                        />
-                      </Popover>
-                    </div>
-                  </Col>
-                );
-              })}
-            </Row>
-          </Image.PreviewGroup>
+                          </Typography.Text>
+                        ),
+                      }}
+                      style={{ maxWidth: 160 }}
+                    >
+                      {image.prompt}
+                    </Typography.Text>
+                    <Popover
+                      content={
+                        <Space size='small'>
+                          <Space.Compact direction='vertical'>
+                            <Button
+                              icon={<StarOutlined />}
+                              style={{ textAlign: "left" }}
+                              type='link'
+                            >
+                              156
+                            </Button>
+                            <Button
+                              icon={<LikeOutlined />}
+                              style={{ textAlign: "left" }}
+                              type='link'
+                            >
+                              156
+                            </Button>
+                            <Button
+                              icon={<MessageOutlined />}
+                              style={{ textAlign: "left" }}
+                              type='link'
+                            >
+                              2
+                            </Button>
+                          </Space.Compact>
+                        </Space>
+                      }
+                    >
+                      <Button
+                        icon={<MoreOutlined rotate={90} />}
+                        style={{ border: "none" }}
+                      />
+                    </Popover>
+                  </div>
+                </Col>
+              );
+            })}
+          </Row>
         ) : (
+          // </Image.PreviewGroup>
           <List
             itemLayout='vertical'
             size='small'
@@ -184,13 +188,16 @@ const ExplorePage = () => {
                 <List.Item.Meta
                   style={{ margin: 0 }}
                   avatar={
-                    <Image
-                      width={100}
-                      src={image.url}
-                      alt={image.prompt}
-                      fallback={fallbackImageSource}
-                      style={{ borderRadius: 12 }}
-                    />
+                    // <Image
+                    //   width={100}
+                    //   src={image.url}
+                    //   alt={image.prompt}
+                    //   fallback={fallbackImageSource}
+                    //   style={{ borderRadius: 12, cursor: "pointer" }}
+                    //   onClick={() => handleShowImageInModal(image)}
+                    //   preview={false}
+                    // />
+                    <ImageModal imageData={image} />
                   }
                   title={image.prompt}
                   description={
@@ -202,7 +209,7 @@ const ExplorePage = () => {
                         }}
                       >
                         <Typography.Text>
-                          Created By: {image.createdBy}
+                          Created By: {image.user.username}
                         </Typography.Text>
                         <Typography.Text italic>
                           {new Date(image.createdAt).toLocaleString()}
@@ -227,6 +234,7 @@ const ExplorePage = () => {
           />
         )}
       </Card>
+      {/* <ImageModal imageModalData={imageModalData} /> */}
     </>
   );
 };

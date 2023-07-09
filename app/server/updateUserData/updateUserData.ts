@@ -8,7 +8,7 @@ export const updateUserData = async (
     const message = `Success updating User Data for userID: ${userId}`;
     const { username } = payload;
 
-    const updatedUserResponse = await prisma.user.update({
+    const data = await prisma.user.update({
       where: {
         id: userId,
       },
@@ -17,19 +17,9 @@ export const updateUserData = async (
       },
     });
 
-    // Updated all images with `username`
-    const updatedImagesResponse = await prisma.icon.updateMany({
-      where: {
-        userId,
-      },
-      data: {
-        createdBy: username,
-      },
-    });
-
     return {
       success: true,
-      data: { updatedUserResponse, updatedImagesResponse },
+      data,
       message,
     };
   } catch (error) {

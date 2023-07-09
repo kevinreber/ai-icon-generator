@@ -10,3 +10,4 @@ export * from "./deleteUserImage";
 export * from "./getImageBlobFromS3";
 export * from "./getImageBase64";
 export * from "./updateUserData";
+export * from "./comments";

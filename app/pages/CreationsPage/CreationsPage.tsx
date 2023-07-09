@@ -114,7 +114,7 @@ const CreationsPage = () => {
                               <br />
                               <br />
                               <Typography.Text italic>
-                                Created By: {image.createdBy}
+                                Created By: {image.user.username}
                                 <br />
                                 {new Date(image.createdAt).toLocaleString()}
                               </Typography.Text>

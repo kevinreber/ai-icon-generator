@@ -9,6 +9,36 @@ export const getUserIcons = async (userId: string) => {
     orderBy: {
       createdAt: "desc",
     },
+    select: {
+      id: true,
+      prompt: true,
+      user: {
+        select: {
+          id: true,
+          username: true,
+        },
+      },
+      createdAt: true,
+      comments: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: {
+          id: true,
+          message: true,
+          createdAt: true,
+          updatedAt: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
+              image: true,
+            },
+          },
+          parentId: true,
+        },
+      },
+    },
   });
 
   // Append icons source URL since we cannot use `env` variables in our UI

@@ -17,6 +17,13 @@ import { SocialsProvider } from "remix-auth-socials";
 import { getUserData } from "~/server";
 import { UserAvatar } from "./components";
 
+// CSS
+import globalStyles from "~/css/global.css";
+
+export function links() {
+  return [{ rel: "stylesheet", href: globalStyles }];
+}
+
 export let loader = async ({ request }: LoaderArgs) => {
   const user = await authenticator.isAuthenticated(request);
   if (!user) {
