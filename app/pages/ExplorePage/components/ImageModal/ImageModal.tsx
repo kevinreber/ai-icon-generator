@@ -24,6 +24,7 @@ import type { ImageType, Comment } from "~/types";
 import { CopyToClipboardButton } from "~/components";
 import { useRemixFetcher } from "~/hooks";
 import { CommentCard } from "../CommentCard";
+import { useLoaderData } from "@remix-run/react";
 
 const ImageModal = ({
   imageData,
@@ -32,6 +33,8 @@ const ImageModal = ({
   imageData: ImageType;
   width?: number;
 }) => {
+  const loaderData = useLoaderData();
+  const isUserLoggedIn = Boolean(loaderData.user);
   const [showImageModal, setShowImageModal] = React.useState(false);
   const [formInstance] = Form.useForm();
 
@@ -158,37 +161,39 @@ const ImageModal = ({
                       height: "100%",
                     }}
                   >
-                    <div
-                      style={{
-                        position: "absolute",
-                        width: "100%",
-                        bottom: 0,
-                      }}
-                    >
-                      <Form
-                        onFinish={handleCommentFormSubmit}
-                        initialValues={{ comment: undefined }}
-                        form={formInstance}
+                    {isUserLoggedIn && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          width: "100%",
+                          bottom: 0,
+                        }}
                       >
-                        <Form.Item
-                          name='comment'
-                          style={{
-                            margin: 0,
-                          }}
+                        <Form
+                          onFinish={handleCommentFormSubmit}
+                          initialValues={{ comment: undefined }}
+                          form={formInstance}
                         >
-                          <Space.Compact style={{ width: "100%" }}>
-                            <Input placeholder='Leave a comment' allowClear />
-                            <Button
-                              type='primary'
-                              ghost
-                              icon={<SendOutlined />}
-                              onClick={() => formInstance.submit()}
-                              loading={isLoadingFetcher}
-                            />
-                          </Space.Compact>
-                        </Form.Item>
-                      </Form>
-                    </div>
+                          <Form.Item
+                            name='comment'
+                            style={{
+                              margin: 0,
+                            }}
+                          >
+                            <Space.Compact style={{ width: "100%" }}>
+                              <Input placeholder='Leave a comment' allowClear />
+                              <Button
+                                type='primary'
+                                ghost
+                                icon={<SendOutlined />}
+                                onClick={() => formInstance.submit()}
+                                loading={isLoadingFetcher}
+                              />
+                            </Space.Compact>
+                          </Form.Item>
+                        </Form>
+                      </div>
+                    )}
                     {imageData.comments.length ? (
                       imageData.comments.map((comment: Comment) => (
                         <CommentCard
