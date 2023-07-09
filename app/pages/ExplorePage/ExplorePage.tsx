@@ -1,7 +1,6 @@
 import React from "react";
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import {
-  LikeOutlined,
   MessageOutlined,
   MoreOutlined,
   TableOutlined,
@@ -20,8 +19,7 @@ import {
   type RadioChangeEvent,
 } from "antd";
 import type { ImageType } from "~/types";
-import { ImageModal } from "./components";
-import { LikeImageButton } from "~/components";
+import { ImageModal, LikeImageButton } from "~/components";
 
 const ExplorePage = () => {
   const data = useLoaderData();
@@ -79,27 +77,12 @@ const ExplorePage = () => {
         bodyStyle={{ textAlign: imagesCreated ? "initial" : "center" }}
       >
         {totalImages && displayImagesStyle === "grid" ? (
-          // <Image.PreviewGroup
-          //   preview={{
-          //     onChange: (current, prev) =>
-          //       console.log(`current index: ${current}, prev index: ${prev}`),
-          //   }}
-          // >
           <Row gutter={16}>
             {imagesCreated.map((image: ImageType) => {
               return (
                 <Col key={image.id}>
                   <div style={{ marginBottom: 10 }}>
                     <ImageModal width={200} imageData={image} />
-                    {/* <Image
-                      width={200}
-                      src={image.url}
-                      alt={image.prompt}
-                      fallback={fallbackImageSource}
-                      style={{ borderRadius: 12, cursor: "pointer" }}
-                      onClick={() => handleShowImageInModal(image)}
-                      preview={false}
-                    /> */}
                   </div>
                   <div
                     style={{
@@ -128,23 +111,14 @@ const ExplorePage = () => {
                     </Typography.Text>
                     <Popover
                       content={
-                        <Space size='small'>
+                        <Space size='small' align='center'>
                           <Space.Compact direction='vertical'>
                             <LikeImageButton imageData={image} />
-                            <Button
-                              icon={<LikeOutlined />}
-                              style={{ textAlign: "left" }}
-                              type='link'
-                            >
-                              156
-                            </Button>
-                            <Button
-                              icon={<MessageOutlined />}
-                              style={{ textAlign: "left" }}
-                              type='link'
-                            >
-                              2
-                            </Button>
+                            <span style={{ color: "#64ffda" }}>
+                              <MessageOutlined />
+                              {image.comments.length > 0 &&
+                                image.comments.length}
+                            </span>
                           </Space.Compact>
                         </Space>
                       }
@@ -160,7 +134,6 @@ const ExplorePage = () => {
             })}
           </Row>
         ) : (
-          // </Image.PreviewGroup>
           <List
             itemLayout='vertical'
             size='small'
@@ -179,18 +152,7 @@ const ExplorePage = () => {
               >
                 <List.Item.Meta
                   style={{ margin: 0 }}
-                  avatar={
-                    // <Image
-                    //   width={100}
-                    //   src={image.url}
-                    //   alt={image.prompt}
-                    //   fallback={fallbackImageSource}
-                    //   style={{ borderRadius: 12, cursor: "pointer" }}
-                    //   onClick={() => handleShowImageInModal(image)}
-                    //   preview={false}
-                    // />
-                    <ImageModal imageData={image} />
-                  }
+                  avatar={<ImageModal imageData={image} />}
                   title={image.prompt}
                   description={
                     <>
@@ -209,12 +171,10 @@ const ExplorePage = () => {
                       </div>
                       <div>
                         <LikeImageButton imageData={image} />
-                        <Button icon={<LikeOutlined />} type='link'>
-                          156
-                        </Button>
-                        <Button icon={<MessageOutlined />} type='link'>
-                          2
-                        </Button>
+                        <Space style={{ color: "#64ffda" }}>
+                          <MessageOutlined />
+                          {image.comments.length > 0 && image.comments.length}
+                        </Space>
                       </div>
                     </>
                   }
@@ -224,7 +184,6 @@ const ExplorePage = () => {
           />
         )}
       </Card>
-      {/* <ImageModal imageModalData={imageModalData} /> */}
     </>
   );
 };
