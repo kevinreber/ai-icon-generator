@@ -1,7 +1,5 @@
 import React from "react";
 import {
-  HeartOutlined,
-  HeartTwoTone,
   InfoCircleOutlined,
   MessageOutlined,
   SendOutlined,
@@ -21,7 +19,7 @@ import {
 } from "antd";
 import { convertUtcDateToLocalDateString, fallbackImageSource } from "~/utils";
 import type { ImageType, Comment } from "~/types";
-import { CopyToClipboardButton } from "~/components";
+import { CopyToClipboardButton, LikeImageButton } from "~/components";
 import { useRemixFetcher } from "~/hooks";
 import { CommentCard } from "../CommentCard";
 import { useLoaderData } from "@remix-run/react";
@@ -130,14 +128,7 @@ const ImageModal = ({
             <Typography.Text strong style={{ fontSize: 16 }}>
               {imageData.title || "Undefined"}
             </Typography.Text>
-            <Button
-              size='small'
-              style={{ border: "none" }}
-              icon={<HeartOutlined style={{ color: "#eb2f96" }} />}
-            >
-              156
-            </Button>
-            {/* <HeartTwoTone twoToneColor='#eb2f96' /> */}
+            <LikeImageButton imageData={imageData} />
           </Space>
 
           <Tabs

@@ -38,6 +38,11 @@ export const getUserIcons = async (userId: string) => {
           parentId: true,
         },
       },
+      likes: {
+        select: {
+          userId: true,
+        },
+      },
     },
   });
 

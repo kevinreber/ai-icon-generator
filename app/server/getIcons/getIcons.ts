@@ -36,6 +36,11 @@ export const getIcons = async () => {
           parentId: true,
         },
       },
+      likes: {
+        select: {
+          userId: true,
+        },
+      },
     },
   });
 

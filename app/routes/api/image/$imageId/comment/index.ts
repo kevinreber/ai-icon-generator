@@ -8,6 +8,10 @@ export async function action({ request, params }: ActionArgs) {
   const imageId = params?.imageId || "";
   const userId = googleSessionData.id;
 
+  if (!userId) {
+    throw new Error("Missing User ID: Must be logged in to Create a Comment");
+  }
+
   switch (request.method.toUpperCase()) {
     case "POST": {
       const formData = await request.formData();

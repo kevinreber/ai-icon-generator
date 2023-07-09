@@ -22,4 +22,5 @@ export type ImageType = {
     username: string;
   };
   comments: Comment[];
+  likes: { userId: string }[];
 };
