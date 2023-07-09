@@ -3,7 +3,6 @@ import {
   HeartOutlined,
   HeartTwoTone,
   InfoCircleOutlined,
-  LikeOutlined,
   MessageOutlined,
   SendOutlined,
   UserOutlined,
@@ -11,7 +10,6 @@ import {
 import {
   Typography,
   Image,
-  Card,
   Space,
   Button,
   Modal,
@@ -21,9 +19,11 @@ import {
   Input,
   Descriptions,
 } from "antd";
-import { fallbackImageSource } from "~/utils";
+import { convertUtcDateToLocalDateString, fallbackImageSource } from "~/utils";
 import type { ImageType, Comment } from "~/types";
 import { CopyToClipboardButton } from "~/components";
+import { useRemixFetcher } from "~/hooks";
+import { CommentCard } from "../CommentCard";
 
 const ImageModal = ({
   imageData,
@@ -33,11 +33,22 @@ const ImageModal = ({
   width?: number;
 }) => {
   const [showImageModal, setShowImageModal] = React.useState(false);
-
   const [formInstance] = Form.useForm();
 
+  const { fetcher, isLoadingFetcher } = useRemixFetcher({
+    // onSuccess: (response) => {
+    //   notification.success({ message: response.message });
+    // },
+    // onError: (response) => {
+    //   notification.error({ message: response.message });
+    // },
+  });
+
   const handleCommentFormSubmit = (formValues: { comment: string }) => {
-    console.log(formValues);
+    fetcher.submit(
+      { intent: "image-add-comment", body: JSON.stringify(formValues) },
+      { method: "post", action: `api/image/${imageData.id}/comment?index` }
+    );
   };
 
   return (
@@ -108,7 +119,7 @@ const ImageModal = ({
                 {imageData.user.username}
               </Typography.Text>
               <Typography.Text type='secondary' style={{ fontSize: 12 }}>
-                {new Date(imageData.createdAt).toLocaleString()}
+                {convertUtcDateToLocalDateString(imageData.createdAt)}
               </Typography.Text>
             </div>
           </Space>
@@ -172,6 +183,7 @@ const ImageModal = ({
                               ghost
                               icon={<SendOutlined />}
                               onClick={() => formInstance.submit()}
+                              loading={isLoadingFetcher}
                             />
                           </Space.Compact>
                         </Form.Item>
@@ -179,51 +191,11 @@ const ImageModal = ({
                     </div>
                     {imageData.comments.length ? (
                       imageData.comments.map((comment: Comment) => (
-                        <Card size='small' key={comment.id}>
-                          <header
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <div>
-                              <Space>
-                                <Avatar
-                                  style={{ cursor: "pointer" }}
-                                  icon={<UserOutlined />}
-                                  size='small'
-                                />
-                                {/* <div style={{ display: 'flex', flexDirection: 'column' }}> */}
-                                <Typography.Text strong>
-                                  {imageData.user.username}
-                                </Typography.Text>
-                              </Space>
-                            </div>
-                            <Typography.Text
-                              type='secondary'
-                              style={{ fontSize: 12 }}
-                            >
-                              {new Date(imageData.createdAt).toLocaleString()}
-                            </Typography.Text>
-                            {/* </div> */}
-                          </header>
-                          {comment.message}
-                          <footer>
-                            <Button
-                              size='small'
-                              icon={
-                                <HeartOutlined
-                                  style={{ color: "#eb2f96", border: "none" }}
-                                />
-                              }
-                              // type="link"
-                            >
-                              156
-                            </Button>
-                            {/* <HeartTwoTone twoToneColor='#eb2f96' /> */}
-                          </footer>
-                        </Card>
+                        <CommentCard
+                          key={comment.id}
+                          imageData={imageData}
+                          comment={comment}
+                        />
                       ))
                     ) : (
                       <Typography.Text

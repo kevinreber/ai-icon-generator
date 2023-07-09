@@ -39,8 +39,6 @@ export const getIcons = async () => {
     },
   });
 
-  console.log(icons);
-
   // Append icons source URL since we cannot use `env` variables in our UI
   const formattedIcons = icons.map((icon) => ({
     ...icon,
