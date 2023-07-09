@@ -1,12 +1,9 @@
 import React from "react";
 import { useLoaderData, useNavigation } from "@remix-run/react";
 import {
-  HeartOutlined,
-  HeartTwoTone,
   LikeOutlined,
   MessageOutlined,
   MoreOutlined,
-  StarOutlined,
   TableOutlined,
   UnorderedListOutlined,
 } from "@ant-design/icons";
@@ -24,6 +21,7 @@ import {
 } from "antd";
 import type { ImageType } from "~/types";
 import { ImageModal } from "./components";
+import { LikeImageButton } from "~/components";
 
 const ExplorePage = () => {
   const data = useLoaderData();
@@ -132,13 +130,7 @@ const ExplorePage = () => {
                       content={
                         <Space size='small'>
                           <Space.Compact direction='vertical'>
-                            <Button
-                              icon={<StarOutlined />}
-                              style={{ textAlign: "left" }}
-                              type='link'
-                            >
-                              156
-                            </Button>
+                            <LikeImageButton imageData={image} />
                             <Button
                               icon={<LikeOutlined />}
                               style={{ textAlign: "left" }}
@@ -216,9 +208,7 @@ const ExplorePage = () => {
                         </Typography.Text>
                       </div>
                       <div>
-                        <Button icon={<StarOutlined />} type='link'>
-                          156
-                        </Button>
+                        <LikeImageButton imageData={image} />
                         <Button icon={<LikeOutlined />} type='link'>
                           156
                         </Button>

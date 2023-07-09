@@ -4,7 +4,6 @@ import {
   LikeOutlined,
   MessageOutlined,
   MoreOutlined,
-  StarOutlined,
   TableOutlined,
   UnorderedListOutlined,
 } from "@ant-design/icons";
@@ -24,6 +23,7 @@ import {
 import { fallbackImageSource } from "~/utils";
 import type { ImageType } from "~/types";
 import { DeleteImageButton, DownloadImageButton } from "./components";
+import { LikeImageButton } from "~/components";
 
 const CreationsPage = () => {
   const data = useLoaderData();
@@ -187,9 +187,7 @@ const CreationsPage = () => {
                       }}
                     >
                       <div>
-                        <Button icon={<StarOutlined />} type='link'>
-                          156
-                        </Button>
+                        <LikeImageButton imageData={image} />
                         <Button icon={<LikeOutlined />} type='link'>
                           156
                         </Button>
