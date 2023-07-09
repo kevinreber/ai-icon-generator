@@ -10,7 +10,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   const icons = await getUserIcons(user.id);
 
-  return json({ data: icons });
+  return json({ data: icons, user });
 };
 
 export async function action({ request }: ActionArgs) {
