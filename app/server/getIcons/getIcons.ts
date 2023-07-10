@@ -9,6 +9,7 @@ export const getIcons = async () => {
     },
     select: {
       id: true,
+      title: true,
       prompt: true,
       user: {
         select: {

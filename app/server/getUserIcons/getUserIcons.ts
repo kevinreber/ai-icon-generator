@@ -11,6 +11,7 @@ export const getUserIcons = async (userId: string) => {
     },
     select: {
       id: true,
+      title: true,
       prompt: true,
       user: {
         select: {

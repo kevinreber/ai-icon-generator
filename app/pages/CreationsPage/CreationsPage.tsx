@@ -18,10 +18,16 @@ import {
   Button,
   Popover,
   type RadioChangeEvent,
+  Tooltip,
 } from "antd";
 import type { ImageType } from "~/types";
-import { DeleteImageButton, DownloadImageButton } from "./components";
+import {
+  DeleteImageButton,
+  DownloadImageButton,
+  EditImageButton,
+} from "./components";
 import { ImageModal, LikeImageButton } from "~/components";
+import { convertUtcDateToLocalDateString } from "~/utils";
 
 const CreationsPage = () => {
   const data = useLoaderData();
@@ -98,29 +104,31 @@ const CreationsPage = () => {
                         justifyContent: "space-between",
                       }}
                     >
-                      <Typography.Text
-                        ellipsis={{
-                          tooltip: (
-                            <Typography.Text>
+                      <Tooltip
+                        title={
+                          <Typography.Text>
+                            {image.title}
+                            <br />
+                            <Typography.Text italic>
                               {image.prompt}
                               <br />
                               <br />
-                              <Typography.Text italic>
-                                Created By: {image.user.username}
-                                <br />
-                                {new Date(image.createdAt).toLocaleString()}
-                              </Typography.Text>
+                              Created By: {image.user.username}
+                              <br />
+                              {convertUtcDateToLocalDateString(image.createdAt)}
                             </Typography.Text>
-                          ),
-                        }}
-                        style={{ maxWidth: 160 }}
+                          </Typography.Text>
+                        }
                       >
-                        {image.prompt}
-                      </Typography.Text>
+                        <Typography.Text ellipsis style={{ maxWidth: 160 }}>
+                          {image.title || "Untitled"}
+                        </Typography.Text>
+                      </Tooltip>
                       <Popover
                         content={
                           <Space size='small'>
                             <Space.Compact direction='vertical'>
+                              <EditImageButton image={image} />
                               <DownloadImageButton image={image} />
                               <DeleteImageButton image={image} />
                             </Space.Compact>
@@ -155,6 +163,7 @@ const CreationsPage = () => {
                 key={image.id}
                 extra={
                   <Space>
+                    <EditImageButton image={image} />
                     <DownloadImageButton image={image} />
                     <DeleteImageButton image={image} />
                   </Space>
@@ -162,25 +171,42 @@ const CreationsPage = () => {
               >
                 <List.Item.Meta
                   avatar={<ImageModal imageData={image} />}
-                  title={image.prompt}
+                  title={image.title || "Untitled"}
                   description={
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div>
-                        <LikeImageButton imageData={image} />
-                        <Space style={{ color: "#64ffda" }}>
-                          <MessageOutlined />
-                          {image.comments.length > 0 && image.comments.length}
+                    <>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Typography.Text italic style={{ marginBottom: 8 }}>
+                          {image.prompt}
+                        </Typography.Text>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            marginBottom: 8,
+                          }}
+                        >
+                          <Typography.Text>
+                            Created By: {image.user.username}
+                          </Typography.Text>
+                          <Typography.Text italic>
+                            {convertUtcDateToLocalDateString(image.createdAt)}
+                          </Typography.Text>
+                        </div>
+                        <Space>
+                          <LikeImageButton imageData={image} />
+                          <Space style={{ color: "#64ffda" }}>
+                            <MessageOutlined />
+                            {image.comments.length > 0 && image.comments.length}
+                          </Space>
                         </Space>
                       </div>
-                      <Typography.Text italic>
-                        {new Date(image.createdAt).toLocaleString()}
-                      </Typography.Text>
-                    </div>
+                    </>
                   }
                 />
               </List.Item>

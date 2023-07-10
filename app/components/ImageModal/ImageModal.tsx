@@ -128,7 +128,7 @@ const ImageModal = ({
           </Space>
           <Space style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography.Text strong style={{ fontSize: 16 }}>
-              {imageData.title || "Undefined"}
+              {imageData.title || "Untitled"}
             </Typography.Text>
             <LikeImageButton imageData={imageData} />
           </Space>
