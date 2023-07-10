@@ -20,7 +20,11 @@ import {
   type RadioChangeEvent,
 } from "antd";
 import type { ImageType } from "~/types";
-import { DeleteImageButton, DownloadImageButton } from "./components";
+import {
+  DeleteImageButton,
+  DownloadImageButton,
+  EditImageButton,
+} from "./components";
 import { ImageModal, LikeImageButton } from "~/components";
 
 const CreationsPage = () => {
@@ -121,6 +125,7 @@ const CreationsPage = () => {
                         content={
                           <Space size='small'>
                             <Space.Compact direction='vertical'>
+                              <EditImageButton image={image} />
                               <DownloadImageButton image={image} />
                               <DeleteImageButton image={image} />
                             </Space.Compact>
@@ -155,6 +160,7 @@ const CreationsPage = () => {
                 key={image.id}
                 extra={
                   <Space>
+                    <EditImageButton image={image} />
                     <DownloadImageButton image={image} />
                     <DeleteImageButton image={image} />
                   </Space>

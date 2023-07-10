@@ -22,7 +22,6 @@ export type ImageType = {
   title?: string;
   url: string;
   createdAt: Date;
-  // createdBy: string;
   user: {
     id: string;
     username: string;
