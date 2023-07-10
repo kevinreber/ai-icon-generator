@@ -61,7 +61,7 @@ model User {
 
 model Icon {
   id        String      @id @default(cuid())
-  title     String?
+  title     String?     @default("Untitled")
   prompt    String?
   user      User?       @relation(fields: [userId], references: [id])
   userId    String?
