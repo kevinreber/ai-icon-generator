@@ -58,7 +58,6 @@ const EditImageButton = ({ image }: { image: ImageType }) => {
       <Modal
         open={showEditImageModal}
         footer={false}
-        // onOk={() => formInstance.submit()}
         onCancel={toggleEditImageModal}
       >
         <div>
