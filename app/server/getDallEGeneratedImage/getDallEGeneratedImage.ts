@@ -17,7 +17,7 @@ const THREE_SECONDS_IN_MS = 1000 * 3;
 const BASE_64_FORMAT = "b64_json";
 const DEFAULT_PAYLOAD = {
   prompt: "",
-  numberOfIcons: DEFAULT_NUMBER_OF_IMAGES_CREATED,
+  numberOfImages: DEFAULT_NUMBER_OF_IMAGES_CREATED,
 };
 
 /**
@@ -26,14 +26,14 @@ const DEFAULT_PAYLOAD = {
  */
 const generateIcons = async (
   prompt: string,
-  numberOfIcons = DEFAULT_NUMBER_OF_IMAGES_CREATED
+  numberOfImages = DEFAULT_NUMBER_OF_IMAGES_CREATED
 ) => {
   const promptMessage = prompt;
-  const numberOfIconsToGenerate = Math.round(numberOfIcons);
+  const numberOfImagesToGenerate = Math.round(numberOfImages);
 
   const response = await openai.createImage({
     prompt: promptMessage,
-    n: numberOfIconsToGenerate,
+    n: numberOfImagesToGenerate,
     size: IMAGE_SIZE,
     response_format: BASE_64_FORMAT,
   });
@@ -56,7 +56,7 @@ export const getDallEGeneratedImage = async (
   formData = DEFAULT_PAYLOAD,
   userId: string
 ) => {
-  const { prompt, numberOfIcons } = formData;
+  const { prompt, numberOfImages } = formData;
 
   try {
     if (process.env.USE_MOCK_DALLE === "true") {
@@ -76,7 +76,7 @@ export const getDallEGeneratedImage = async (
         url: imageURL,
         comments: [],
       };
-      const mockArrayOfDallEGeneratedImages = new Array(numberOfIcons).fill(
+      const mockArrayOfDallEGeneratedImages = new Array(numberOfImages).fill(
         mockDallEImage
       );
       await setTimeout(THREE_SECONDS_IN_MS);
@@ -85,7 +85,7 @@ export const getDallEGeneratedImage = async (
     }
 
     // Generate Icons
-    const iconImages = await generateIcons(prompt, numberOfIcons);
+    const iconImages = await generateIcons(prompt, numberOfImages);
     // const formattedIconsData = [];
 
     const formattedIconsData = await Promise.all(

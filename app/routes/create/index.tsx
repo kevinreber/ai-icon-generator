@@ -27,7 +27,7 @@ export async function action({ request }: ActionArgs) {
 
       // Verify user has enough credits
       try {
-        await updateUserCredits(user.id, formattedPayload.numberOfIcons);
+        await updateUserCredits(user.id, formattedPayload.numberOfImages);
       } catch (error: any) {
         console.error(error);
         return { image: "", message: "Error", error: error.message };

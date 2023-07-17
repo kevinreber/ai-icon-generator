@@ -16,7 +16,7 @@ const DEFAULT_FORM_VALUES = {
   prompt: undefined,
   color: undefined,
   shape: undefined,
-  numberOfIcons: 1,
+  numberOfImages: 1,
 };
 
 const CreateImageForm = () => {
@@ -93,7 +93,7 @@ const CreateImageForm = () => {
 
       <Form.Item
         label='How many icons do you want to generate?'
-        name='numberOfIcons'
+        name='numberOfImages'
         tooltip='Enter a number 1-10'
         required
       >
