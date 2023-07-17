@@ -2,9 +2,9 @@ import { prisma } from "~/services/prisma.server";
 
 /**
  * @description
- * This function creates a new Icon in our DB
+ * This function creates a new image in our DB
  */
-export const createNewIcon = async (prompt: string, userId: string) => {
+export const createNewImage = async (prompt: string, userId: string) => {
   const icon = await prisma.icon.create({
     data: {
       prompt,
@@ -12,6 +12,6 @@ export const createNewIcon = async (prompt: string, userId: string) => {
     },
   });
 
-  // Return new icon created
+  // Return new image created
   return icon;
 };

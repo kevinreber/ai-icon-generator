@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from "openai";
 import { setTimeout } from "timers/promises";
 // import { MOCK_BASE64_IMAGE } from "~/__mocks__/base64Image";
-import { saveBase64EncodedImageToAWS, createNewIcon } from "~/server";
+import { saveBase64EncodedImageToAWS, createNewImage } from "~/server";
 import { getS3BucketURL } from "~/utils";
 
 const configuration = new Configuration({
@@ -91,7 +91,7 @@ export const getDallEGeneratedImage = async (
     const formattedIconsData = await Promise.all(
       iconImages.map(async (iconImage) => {
         // Store Icon into DB
-        const iconData = await createNewIcon(prompt, userId);
+        const iconData = await createNewImage(prompt, userId);
         console.log("Stored Icon Data in DB: ", iconData.id);
 
         // Store Icon blob in S3

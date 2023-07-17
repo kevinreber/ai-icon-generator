@@ -1,11 +1,9 @@
 import { prisma } from "~/services/prisma.server";
 import { getS3BucketURL } from "~/utils";
 
-export const getUserIcons = async (userId: string) => {
-  const icons = await prisma.icon.findMany({
-    where: {
-      userId,
-    },
+export const getImages = async () => {
+  const images = await prisma.icon.findMany({
+    take: 100,
     orderBy: {
       createdAt: "desc",
     },
@@ -48,10 +46,10 @@ export const getUserIcons = async (userId: string) => {
     },
   });
 
-  // Append icons source URL since we cannot use `env` variables in our UI
-  const formattedIcons = icons.map((icon) => ({
+  // Append Images source URL since we cannot use `env` variables in our UI
+  const formattedImages = images.map((icon) => ({
     ...icon,
     url: getS3BucketURL(icon.id),
   }));
-  return formattedIcons;
+  return formattedImages;
 };

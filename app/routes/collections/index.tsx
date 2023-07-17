@@ -1,6 +1,6 @@
 import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
 import { CollectionsPage } from "~/pages";
-import { deleteUserImage, getUserIcons } from "~/server";
+import { deleteUserImage, getUserImages } from "~/server";
 import { authenticator } from "~/services/auth.server";
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -8,7 +8,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     failureRedirect: "/",
   })) as { id: string };
 
-  const icons = await getUserIcons(user.id);
+  const icons = await getUserImages(user.id);
 
   return json({ data: icons, user });
 };

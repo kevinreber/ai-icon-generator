@@ -1,9 +1,11 @@
 import { prisma } from "~/services/prisma.server";
 import { getS3BucketURL } from "~/utils";
 
-export const getIcons = async () => {
+export const getUserImages = async (userId: string) => {
   const icons = await prisma.icon.findMany({
-    take: 100,
+    where: {
+      userId,
+    },
     orderBy: {
       createdAt: "desc",
     },
