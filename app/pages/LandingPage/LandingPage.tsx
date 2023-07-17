@@ -18,7 +18,7 @@ const LandingPage = () => {
               Intelligence
             </Typography.Title>
           </div>
-          <Button href='/generate' type='primary' ghost>
+          <Button href='/create' type='primary' ghost>
             Generate your Icons
           </Button>
         </Col>

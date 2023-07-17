@@ -1,5 +1,4 @@
 import {
-  Link,
   Links,
   LiveReload,
   Meta,
@@ -9,10 +8,9 @@ import {
   useFetcher,
   useLoaderData,
 } from "@remix-run/react";
-import { Button, Layout, Menu, Space, Typography, ConfigProvider } from "antd";
+import { Button, Layout, Space, Typography, ConfigProvider } from "antd";
 import { type LoaderArgs, json } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
-import { DollarOutlined } from "@ant-design/icons";
 import { SocialsProvider } from "remix-auth-socials";
 import { getUserData } from "~/server";
 import { UserAvatar } from "./components";
@@ -46,24 +44,6 @@ export default function App() {
       { method: "post", action: `/auth/${SocialsProvider.GOOGLE}` }
     );
   };
-
-  const navBarMenuItems = [
-    {
-      key: "generate",
-      label: <Link to='/generate'>Generate Icons</Link>,
-    },
-    {
-      key: "explore",
-      label: <Link to='/explore'>Explore</Link>,
-    },
-  ];
-
-  if (isLoggedIn) {
-    navBarMenuItems.push({
-      key: "creations",
-      label: <Link to='/creations'>Creations</Link>,
-    });
-  }
 
   return (
     <html lang='en'>
@@ -99,73 +79,57 @@ export default function App() {
           }}
         >
           <Layout>
-            <Layout.Header className='header' style={{ display: "flex" }}>
+            <Layout.Header
+              className='header'
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
               <Typography.Link
                 href='/'
                 style={{
                   color: "#e6f1ff",
                   width: 240,
-                  margin: "auto",
+                  margin: "auto 0",
                   fontSize: 18,
                   fontWeight: 600,
                 }}
               >
                 AI Icon Generator
               </Typography.Link>
-              <Menu
-                style={{ width: "100%" }}
-                theme='dark'
-                mode='horizontal'
-                items={navBarMenuItems}
-              />
-              <div>
+
+              <Space>
+                <Button
+                  type='link'
+                  href='/explore'
+                  style={{ width: 100, color: "#fff" }}
+                >
+                  Explore
+                </Button>
                 {!isLoggedIn ? (
                   <Button onClick={handleLogIn}>Sign In</Button>
                 ) : (
-                  <Space style={{ lineHeight: "normal" }}>
-                    <div
-                      style={{
-                        color: "#fff",
-                        display: "flex",
-                        alignItems: "center",
-                        width: 110,
-                      }}
-                    >
-                      <DollarOutlined style={{ marginRight: 4 }} />
-                      <p style={{ display: "flex", alignItems: "center" }}>
-                        {loaderData.data?.credits} Credits
-                      </p>
-                    </div>
-
+                  <>
                     <Button
-                      icon={<DollarOutlined />}
-                      href='/checkout'
+                      href='/creations'
+                      type='link'
+                      style={{ width: 100, color: "#fff" }}
+                    >
+                      Creations
+                    </Button>
+                    <Button
+                      href='/create'
                       type='primary'
                       ghost
+                      style={{ width: 100, marginRight: 10 }}
                     >
-                      Buy Credits
+                      Create
                     </Button>
                     <UserAvatar />
-                  </Space>
+                  </>
                 )}
-              </div>
+              </Space>
             </Layout.Header>
             <Layout style={{ minHeight: "96vh", width: "80%", margin: "auto" }}>
-              {/* <Layout.Sider width={200} style={{ background: colorBgContainer }}> */}
-              {/* <Menu
-                mode='inline'
-                defaultSelectedKeys={["1"]}
-                defaultOpenKeys={["sub1"]}
-                style={{ height: "100%", borderRight: 0 }}
-                items={[{ key: "generate", label: "Generate" }]}
-              /> */}
-              {/* </Layout.Sider> */}
               <Layout>
-                {/* <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb> */}
                 <Layout.Content
                   style={{
                     padding: 24,

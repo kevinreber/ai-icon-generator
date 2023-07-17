@@ -9,8 +9,10 @@ import {
   Form,
   Input,
   notification,
+  Typography,
 } from "antd";
 import {
+  DollarOutlined,
   EditOutlined,
   UserOutlined,
   createFromIconfontCN,
@@ -95,6 +97,15 @@ const UserAvatar = () => {
         }
         content={
           <Space align='center' direction='vertical' style={{ width: "100%" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <Typography.Text>
+                <DollarOutlined style={{ marginRight: 4 }} />
+                {userData.credits} Credits
+              </Typography.Text>
+              <Button size='small' href='/checkout' type='link'>
+                Buy Credits
+              </Button>
+            </div>
             <Button
               style={{ width: 130 }}
               icon={<EditOutlined />}
