@@ -16,10 +16,10 @@ const DEFAULT_FORM_VALUES = {
   prompt: undefined,
   color: undefined,
   shape: undefined,
-  numberOfIcons: 1,
+  numberOfImages: 1,
 };
 
-const GenerateIconForm = () => {
+const CreateImageForm = () => {
   const [formInstance] = Form.useForm();
   const submit = useSubmit();
   const navigation = useNavigation();
@@ -32,7 +32,7 @@ const GenerateIconForm = () => {
 
     submit(
       {
-        intent: "_generate_icon",
+        intent: "_generate_image",
         body: JSON.stringify(formValues),
       },
       { method: "POST" }
@@ -48,12 +48,12 @@ const GenerateIconForm = () => {
       disabled={isLoadingData}
       initialValues={DEFAULT_FORM_VALUES}
     >
-      <Form.Item name='prompt' label='Describe your icon' required>
+      <Form.Item name='prompt' label='Describe your image' required>
         <Input placeholder='Ex: "A happy panda"' />
       </Form.Item>
-      <Form.Item
+      {/* <Form.Item
         name='color'
-        label='Select a primary color of your icon'
+        label='Select a primary color of your image'
         style={{ margin: "auto" }}
       >
         <ColorPicker
@@ -64,36 +64,24 @@ const GenerateIconForm = () => {
             },
           ]}
         />
-      </Form.Item>
+      </Form.Item> */}
 
-      <Form.Item label='Select a style for your Icon' name='style'>
+      {/* TODO */}
+      {/* <Form.Item label='Select a style for your Image' name='style'>
         <Radio.Group
           options={ICON_STYLE_OPTIONS}
           // optionType="button"
         />
-        {/* TODO */}
-        {/* {ICON_STYLE_OPTIONS.map((option) => (
-          <div key={option.value}>
-            <Radio.Button value={option.value} />
-            {option.value}
-          </div>
-        ))} */}
-      </Form.Item>
+      </Form.Item> */}
 
-      <Form.Item label='Select shape of Icon' name='shape'>
+      {/* TODO */}
+      {/* <Form.Item label='Select shape of Image' name='shape'>
         <Radio.Group options={ICON_SHAPE_OPTIONS} />
-        {/* TODO */}
-        {/* {ICON_SHAPE_OPTIONS.map((option) => (
-          <div key={option.value}>
-            <Radio.Button value={option.value} />
-            {option.value}
-          </div>
-        ))} */}
-      </Form.Item>
+      </Form.Item> */}
 
       <Form.Item
-        label='How many icons do you want to generate?'
-        name='numberOfIcons'
+        label='How many images do you want to generate?'
+        name='numberOfImages'
         tooltip='Enter a number 1-10'
         required
       >
@@ -138,4 +126,4 @@ const GenerateIconForm = () => {
   );
 };
 
-export default GenerateIconForm;
+export default CreateImageForm;

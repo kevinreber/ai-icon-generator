@@ -29,7 +29,7 @@ import {
 import { ImageModal, LikeImageButton } from "~/components";
 import { convertUtcDateToLocalDateString } from "~/utils";
 
-const CreationsPage = () => {
+const CollectionsPage = () => {
   const data = useLoaderData();
   const navigation = useNavigation();
   const isLoadingData = navigation.state !== "idle";
@@ -51,7 +51,7 @@ const CreationsPage = () => {
           alignItems: "baseline",
         }}
       >
-        <Typography.Title level={3}>Creations</Typography.Title>
+        <Typography.Title level={3}>Collection</Typography.Title>
         <div
           style={{
             display: "flex",
@@ -222,4 +222,4 @@ const CreationsPage = () => {
   );
 };
 
-export default CreationsPage;
+export default CollectionsPage;

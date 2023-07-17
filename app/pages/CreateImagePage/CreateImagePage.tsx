@@ -1,10 +1,10 @@
 import { Typography, Image, Card, Row, Col } from "antd";
-import { GenerateIconForm } from "./components";
+import { CreateImageForm } from "./components";
 import { useActionData, useNavigation } from "@remix-run/react";
 import { fallbackImageSource } from "~/utils";
 import type { ImageType } from "~/types";
 
-const GenerateIconPage = () => {
+const CreateImagePage = () => {
   const actionData = useActionData();
   const navigation = useNavigation();
   const isLoadingData = navigation.state !== "idle";
@@ -16,11 +16,11 @@ const GenerateIconPage = () => {
   return (
     <Row gutter={[16, 16]}>
       <Col span={12}>
-        <Typography.Title level={3}>Generate Icon</Typography.Title>
-        <GenerateIconForm />
+        <Typography.Title level={3}>Create Images</Typography.Title>
+        <CreateImageForm />
       </Col>
       <Col span={12}>
-        <Typography.Title level={3}>Icons Generated</Typography.Title>
+        <Typography.Title level={3}>Images Generated</Typography.Title>
         <Card
           loading={isLoadingData}
           style={{ minHeight: 400 }}
@@ -53,7 +53,7 @@ const GenerateIconPage = () => {
             </Image.PreviewGroup>
           ) : (
             <Typography.Text italic disabled>
-              Icons generated will appear here
+              Images generated will appear here
             </Typography.Text>
           )}
         </Card>
@@ -62,4 +62,4 @@ const GenerateIconPage = () => {
   );
 };
 
-export default GenerateIconPage;
+export default CreateImagePage;

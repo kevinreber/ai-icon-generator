@@ -9,8 +9,10 @@ import {
   Form,
   Input,
   notification,
+  Typography,
 } from "antd";
 import {
+  DollarOutlined,
   EditOutlined,
   UserOutlined,
   createFromIconfontCN,
@@ -44,7 +46,6 @@ const UserAvatar = () => {
     // },
   });
   const [formInstance] = Form.useForm();
-  const [showPopOver, setShowPopOver] = React.useState(false);
   const [showEditProfileModal, setShowEditProfileModal] = React.useState(false);
 
   const handleLogOut = () => {
@@ -52,6 +53,7 @@ const UserAvatar = () => {
       { intent: "user-log-out" },
       { method: "post", action: "/logout" }
     );
+    notification.success({ message: "Successfully logged out" });
   };
 
   const handleSubmitEditUserData = () => {
@@ -71,9 +73,6 @@ const UserAvatar = () => {
   };
 
   const handleToggleModal = () => {
-    if (showPopOver) {
-      setShowPopOver(false);
-    }
     setShowEditProfileModal(!showEditProfileModal);
   };
 
@@ -81,7 +80,6 @@ const UserAvatar = () => {
     <>
       <Popover
         placement='bottomRight'
-        open={showPopOver}
         title={
           <Space>
             <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
@@ -94,6 +92,15 @@ const UserAvatar = () => {
         }
         content={
           <Space align='center' direction='vertical' style={{ width: "100%" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <Typography.Text>
+                <DollarOutlined style={{ marginRight: 4 }} />
+                {userData.credits} Credits
+              </Typography.Text>
+              <Button size='small' href='/checkout' type='link'>
+                Buy Credits
+              </Button>
+            </div>
             <Button
               style={{ width: 130 }}
               icon={<EditOutlined />}
@@ -115,11 +122,6 @@ const UserAvatar = () => {
         <Avatar
           style={{ cursor: isLoadingFetcher ? "wait" : "pointer" }}
           icon={<UserOutlined />}
-          onClick={() => {
-            if (!isLoadingFetcher) {
-              setShowPopOver(!showPopOver);
-            }
-          }}
         />
       </Popover>
       <Modal

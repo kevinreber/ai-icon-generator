@@ -1,5 +1,5 @@
 import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
-import { GenerateIconPage } from "~/pages";
+import { CreateImagePage } from "~/pages";
 import { authenticator } from "~/services/auth.server";
 import { getDallEGeneratedImage } from "~/server";
 import { updateUserCredits } from "~/server/updateUserCredits";
@@ -21,13 +21,13 @@ export async function action({ request }: ActionArgs) {
   const intent = formData.get("intent");
 
   switch (intent) {
-    case "_generate_icon": {
+    case "_generate_image": {
       const payload = formData.get("body");
       const formattedPayload = await JSON.parse(payload as string);
 
       // Verify user has enough credits
       try {
-        await updateUserCredits(user.id, formattedPayload.numberOfIcons);
+        await updateUserCredits(user.id, formattedPayload.numberOfImages);
       } catch (error: any) {
         console.error(error);
         return { image: "", message: "Error", error: error.message };
@@ -49,5 +49,5 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function Index() {
-  return <GenerateIconPage />;
+  return <CreateImagePage />;
 }
