@@ -1,5 +1,5 @@
 import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
-import { GenerateIconPage } from "~/pages";
+import { CreateImagePage } from "~/pages";
 import { authenticator } from "~/services/auth.server";
 import { getDallEGeneratedImage } from "~/server";
 import { updateUserCredits } from "~/server/updateUserCredits";
@@ -49,5 +49,5 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function Index() {
-  return <GenerateIconPage />;
+  return <CreateImagePage />;
 }

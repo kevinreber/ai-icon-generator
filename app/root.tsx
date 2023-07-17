@@ -41,7 +41,7 @@ export default function App() {
   const handleLogIn = () => {
     fetcher.submit(
       { intent: "user-log-in" },
-      { method: "post", action: `/auth/${SocialsProvider.GOOGLE}` }
+      { method: "post", action: `/api/auth/${SocialsProvider.GOOGLE}` }
     );
   };
 
@@ -100,7 +100,7 @@ export default function App() {
                 <Button
                   type='link'
                   href='/explore'
-                  style={{ width: 100, color: "#fff" }}
+                  style={{ width: 64, color: "#fff" }}
                 >
                   Explore
                 </Button>
@@ -109,11 +109,11 @@ export default function App() {
                 ) : (
                   <>
                     <Button
-                      href='/creations'
+                      href='/collections'
                       type='link'
-                      style={{ width: 100, color: "#fff" }}
+                      style={{ color: "#fff" }}
                     >
-                      Creations
+                      Collections
                     </Button>
                     <Button
                       href='/create'

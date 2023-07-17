@@ -19,7 +19,7 @@ const DEFAULT_FORM_VALUES = {
   numberOfIcons: 1,
 };
 
-const GenerateIconForm = () => {
+const CreateImageForm = () => {
   const [formInstance] = Form.useForm();
   const submit = useSubmit();
   const navigation = useNavigation();
@@ -138,4 +138,4 @@ const GenerateIconForm = () => {
   );
 };
 
-export default GenerateIconForm;
+export default CreateImageForm;
