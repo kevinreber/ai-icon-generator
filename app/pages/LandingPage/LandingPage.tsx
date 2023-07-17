@@ -7,19 +7,19 @@ const LandingPage = () => {
         <Col span={12}>
           <div style={{ marginBottom: 16 }}>
             <Typography.Title>
-              Generate icons with a click of a button
+              Generate images with a click of a button
             </Typography.Title>
             <Typography.Title
               level={4}
               type='secondary'
               style={{ color: "#ccd7f5" }}
             >
-              Create custom icons in seconds with the help of Artificial
+              Create custom images in seconds with the help of Artificial
               Intelligence
             </Typography.Title>
           </div>
           <Button href='/create' type='primary' ghost>
-            Generate your Icons
+            Generate your Images
           </Button>
         </Col>
         <Col span={12}>
@@ -33,14 +33,14 @@ const LandingPage = () => {
       {/* <Row>
         <Col>
           <Button href='/checkout' type='primary' ghost>
-            Generate your Icons
+            Generate your Images
           </Button>
         </Col>
       </Row> */}
 
       {/* <Image
         src="/banner.png"
-        alt="an image of a bunch of nice looking icons"
+        alt="an image of a bunch of nice looking images"
         width="400"
         height="300"
         className="order-first sm:-order-none"

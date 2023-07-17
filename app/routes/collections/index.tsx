@@ -8,9 +8,9 @@ export const loader = async ({ request }: LoaderArgs) => {
     failureRedirect: "/",
   })) as { id: string };
 
-  const icons = await getUserImages(user.id);
+  const images = await getUserImages(user.id);
 
-  return json({ data: icons, user });
+  return json({ data: images, user });
 };
 
 export async function action({ request }: ActionArgs) {

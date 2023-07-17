@@ -21,7 +21,7 @@ export async function action({ request }: ActionArgs) {
   const intent = formData.get("intent");
 
   switch (intent) {
-    case "_generate_icon": {
+    case "_generate_image": {
       const payload = formData.get("body");
       const formattedPayload = await JSON.parse(payload as string);
 

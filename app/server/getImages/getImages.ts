@@ -47,9 +47,9 @@ export const getImages = async () => {
   });
 
   // Append Images source URL since we cannot use `env` variables in our UI
-  const formattedImages = images.map((icon) => ({
-    ...icon,
-    url: getS3BucketURL(icon.id),
+  const formattedImages = images.map((image) => ({
+    ...image,
+    url: getS3BucketURL(image.id),
   }));
   return formattedImages;
 };

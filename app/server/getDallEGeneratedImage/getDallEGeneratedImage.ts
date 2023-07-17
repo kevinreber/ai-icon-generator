@@ -24,7 +24,7 @@ const DEFAULT_PAYLOAD = {
  * @description
  * This function makes a request to Open AI's Dall-E API to fetch images generated using the prompt
  */
-const generateIcons = async (
+const generateImages = async (
   prompt: string,
   numberOfImages = DEFAULT_NUMBER_OF_IMAGES_CREATED
 ) => {
@@ -48,8 +48,8 @@ const generateIcons = async (
 /**
  * @description
  * This function does the following in the listed order:
- *   1. Gets an icon from OpenAI's Dall-E API
- *   2. Creates a new Icon in our DB using the data returned from "Step 1"
+ *   1. Gets an image from OpenAI's Dall-E API
+ *   2. Creates a new Image in our DB using the data returned from "Step 1"
  *   3. Stores the image Blob from "Step 1" into our AWS S3 bucket
  */
 export const getDallEGeneratedImage = async (
@@ -84,29 +84,28 @@ export const getDallEGeneratedImage = async (
       return { images: mockArrayOfDallEGeneratedImages };
     }
 
-    // Generate Icons
-    const iconImages = await generateIcons(prompt, numberOfImages);
-    // const formattedIconsData = [];
+    // Generate Images
+    const imagesImages = await generateImages(prompt, numberOfImages);
 
-    const formattedIconsData = await Promise.all(
-      iconImages.map(async (iconImage) => {
-        // Store Icon into DB
-        const iconData = await createNewImage(prompt, userId);
-        console.log("Stored Icon Data in DB: ", iconData.id);
+    const formattedImageData = await Promise.all(
+      imagesImages.map(async (imageImage) => {
+        // Store Image into DB
+        const imageData = await createNewImage(prompt, userId);
+        console.log("Stored Image Data in DB: ", imageData.id);
 
-        // Store Icon blob in S3
-        await saveBase64EncodedImageToAWS(iconImage as string, iconData.id);
-        console.log("Stored S3 Data for icon ID: ", iconData.id);
+        // Store Image blob in S3
+        await saveBase64EncodedImageToAWS(imageImage as string, imageData.id);
+        console.log("Stored S3 Data for Image ID: ", imageData.id);
 
-        const imageURL = getS3BucketURL(iconData.id);
-        const formattedIconData = { ...iconData, url: imageURL };
+        const imageURL = getS3BucketURL(imageData.id);
+        const formattedImageData = { ...imageData, url: imageURL };
 
-        return formattedIconData;
+        return formattedImageData;
       })
     );
 
     // 'https://ai-icon-generator.s3.us-east-2.amazonaws.com/clgueu0pg0001r2fbyg3do2ra'
-    return { images: formattedIconsData };
+    return { images: formattedImageData };
   } catch (error) {
     console.error(error);
 

@@ -53,7 +53,7 @@ const CreateImagePage = () => {
             </Image.PreviewGroup>
           ) : (
             <Typography.Text italic disabled>
-              Icons generated will appear here
+              Images generated will appear here
             </Typography.Text>
           )}
         </Card>

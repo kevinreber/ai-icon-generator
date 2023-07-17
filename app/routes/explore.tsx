@@ -7,9 +7,9 @@ export const loader = async ({ request }: LoaderArgs) => {
   const session = await getSession(request.headers.get("Cookie"));
   const googleSessionData = (await session.get("_session")) || undefined;
 
-  const icons = await getImages();
+  const images = await getImages();
 
-  return json({ data: icons, user: googleSessionData });
+  return json({ data: images, user: googleSessionData });
 };
 
 export default function Index() {
