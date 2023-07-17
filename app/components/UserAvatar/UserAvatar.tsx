@@ -52,6 +52,7 @@ const UserAvatar = () => {
       { intent: "user-log-out" },
       { method: "post", action: "/logout" }
     );
+    notification.success({ message: "Successfully logged out" });
   };
 
   const handleSubmitEditUserData = () => {

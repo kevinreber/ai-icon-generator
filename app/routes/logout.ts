@@ -3,13 +3,7 @@ import { authenticator } from "~/services/auth.server";
 
 export const action = async ({ request }: ActionArgs) => {
   try {
-    const data = await authenticator.logout(request, { redirectTo: "/" });
-
-    return {
-      success: true,
-      message: "Successfully logged out",
-      data,
-    };
+    return authenticator.logout(request, { redirectTo: "/" });
   } catch (error) {
     const message = "Error while attempting to log out, please try again";
     console.error(error);
