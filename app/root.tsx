@@ -93,7 +93,7 @@ export default function App() {
                   fontWeight: 600,
                 }}
               >
-                AI Icon Generator
+                AI Image Generator
               </Typography.Link>
 
               <Space>

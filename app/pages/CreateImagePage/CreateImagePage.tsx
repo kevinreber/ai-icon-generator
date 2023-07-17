@@ -16,11 +16,11 @@ const CreateImagePage = () => {
   return (
     <Row gutter={[16, 16]}>
       <Col span={12}>
-        <Typography.Title level={3}>Generate Icon</Typography.Title>
+        <Typography.Title level={3}>Create Images</Typography.Title>
         <CreateImageForm />
       </Col>
       <Col span={12}>
-        <Typography.Title level={3}>Icons Generated</Typography.Title>
+        <Typography.Title level={3}>Images Generated</Typography.Title>
         <Card
           loading={isLoadingData}
           style={{ minHeight: 400 }}

@@ -1,5 +1,5 @@
 import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
-import { CreationsPage } from "~/pages";
+import { CollectionsPage } from "~/pages";
 import { deleteUserImage, getUserIcons } from "~/server";
 import { authenticator } from "~/services/auth.server";
 
@@ -35,5 +35,5 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function Index() {
-  return <CreationsPage />;
+  return <CollectionsPage />;
 }
