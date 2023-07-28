@@ -25,7 +25,7 @@ const LandingPage = () => {
         <Col span={12}>
           <Image
             width={500}
-            src='https://ai-icon-generator.s3.us-east-2.amazonaws.com/cljk5l6tw0001r25sdhtgrm6j'
+            src='https://ai-icon-generator.s3.us-east-2.amazonaws.com/cljuw4xah000tr2vmeb1f26wf'
             alt='Landing Page Image'
           />
         </Col>
