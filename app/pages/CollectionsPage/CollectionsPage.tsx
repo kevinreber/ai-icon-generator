@@ -1,5 +1,9 @@
 import React from "react";
-import { useLoaderData, useNavigation } from "@remix-run/react";
+import {
+  useLoaderData,
+  useNavigation,
+  useSearchParams,
+} from "@remix-run/react";
 import {
   MessageOutlined,
   MoreOutlined,
@@ -19,6 +23,7 @@ import {
   Popover,
   type RadioChangeEvent,
   Tooltip,
+  Pagination,
 } from "antd";
 import type { ImageType } from "~/types";
 import {
@@ -27,20 +32,44 @@ import {
   EditImageButton,
 } from "./components";
 import { ImageModal, LikeImageButton } from "~/components";
-import { convertUtcDateToLocalDateString } from "~/utils";
+import {
+  convertNumberToLocaleString,
+  convertUtcDateToLocalDateString,
+  getPaginationRange,
+} from "~/utils";
 
 const CollectionsPage = () => {
   const data = useLoaderData();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const pageSize = Number(searchParams.get("page_size")) || 50;
+
   const navigation = useNavigation();
   const isLoadingData = navigation.state !== "idle";
-  const imagesCreated = data.data || [];
-  const totalImages = imagesCreated.length;
+  const images = data.data.images || [];
+  const currentImagesShown = images.length;
+  const totalImages = data.data.count;
   const [displayImagesStyle, setDisplayImagesStyle] = React.useState("list");
 
   const handleImageDisplayChange = (event: RadioChangeEvent) => {
     console.log(event.target.value);
     setDisplayImagesStyle(event.target.value);
   };
+
+  const handlePaginationChange = (page: number, pageSize: number) => {
+    setSearchParams((prevParams: any) => ({
+      ...prevParams,
+      page,
+      page_size: pageSize,
+    }));
+  };
+
+  const paginationRange = getPaginationRange(
+    currentPage,
+    pageSize,
+    totalImages
+  );
 
   return (
     <>
@@ -51,17 +80,31 @@ const CollectionsPage = () => {
           alignItems: "baseline",
         }}
       >
-        <Typography.Title level={3}>Collection</Typography.Title>
+        <Typography.Title level={3}>Collections</Typography.Title>
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
-            maxWidth: 180,
+            maxWidth: 280,
             width: "100%",
             alignItems: "baseline",
           }}
         >
-          <Typography.Text>Total Images: {totalImages}</Typography.Text>
+          <Typography.Text>
+            {paginationRange.startRange &&
+            paginationRange.endRange &&
+            totalImages ? (
+              <>
+                Showing{" "}
+                {convertNumberToLocaleString(paginationRange.startRange)}-
+                {convertNumberToLocaleString(paginationRange.endRange)} of{" "}
+                {convertNumberToLocaleString(totalImages)} images
+              </>
+            ) : (
+              <>No images found</>
+            )}
+          </Typography.Text>
+
           <div>
             <Radio.Group
               onChange={handleImageDisplayChange}
@@ -81,10 +124,15 @@ const CollectionsPage = () => {
       </div>
       <Card
         loading={isLoadingData}
-        style={{ minHeight: totalImages ? "" : 400 }}
-        bodyStyle={{ textAlign: imagesCreated ? "initial" : "center" }}
+        style={{ minHeight: currentImagesShown ? "" : 400 }}
+        bodyStyle={{
+          textAlign: images ? "initial" : "center",
+          maxHeight: 790,
+          minHeight: 790,
+          overflow: "auto",
+        }}
       >
-        {totalImages && displayImagesStyle === "grid" ? (
+        {currentImagesShown && displayImagesStyle === "grid" ? (
           <Image.PreviewGroup
             preview={{
               onChange: (current, prev) =>
@@ -92,7 +140,7 @@ const CollectionsPage = () => {
             }}
           >
             <Row gutter={16}>
-              {imagesCreated.map((image: ImageType) => {
+              {images.map((image: ImageType) => {
                 return (
                   <Col key={image.id}>
                     <div style={{ marginBottom: 10 }}>
@@ -146,7 +194,7 @@ const CollectionsPage = () => {
               })}
             </Row>
           </Image.PreviewGroup>
-        ) : totalImages && displayImagesStyle === "list" ? (
+        ) : currentImagesShown && displayImagesStyle === "list" ? (
           <List
             itemLayout='vertical'
             size='small'
@@ -157,7 +205,7 @@ const CollectionsPage = () => {
             //   },
             //   pageSize: 3,
             // }}
-            dataSource={imagesCreated}
+            dataSource={images}
             renderItem={(image: ImageType) => (
               <List.Item
                 key={image.id}
@@ -218,6 +266,16 @@ const CollectionsPage = () => {
           </Typography.Text>
         )}
       </Card>
+      <Pagination
+        style={{ padding: 16 }}
+        size='small'
+        showSizeChanger
+        total={totalImages}
+        current={currentPage}
+        pageSize={pageSize}
+        pageSizeOptions={[50, 100, 150, 200]}
+        onChange={handlePaginationChange}
+      />
     </>
   );
 };

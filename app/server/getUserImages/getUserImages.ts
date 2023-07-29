@@ -1,8 +1,22 @@
 import { prisma } from "~/services/prisma.server";
 import { getS3BucketURL } from "~/utils";
 
-export const getUserImages = async (userId: string) => {
+const DEFAULT_CURRENT_PAGE = 1;
+const DEFAULT_PAGE_SIZE = 50;
+
+export const getUserImages = async (
+  userId: string,
+  page = DEFAULT_CURRENT_PAGE,
+  pageSize = DEFAULT_PAGE_SIZE
+) => {
+  const count = await prisma.icon.count({
+    where: {
+      userId,
+    },
+  });
   const images = await prisma.icon.findMany({
+    take: pageSize,
+    skip: (page - 1) * pageSize,
     where: {
       userId,
     },
@@ -53,5 +67,5 @@ export const getUserImages = async (userId: string) => {
     ...image,
     url: getS3BucketURL(image.id),
   }));
-  return formattedImages;
+  return { images: formattedImages, count };
 };

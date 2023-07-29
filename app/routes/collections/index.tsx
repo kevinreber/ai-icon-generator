@@ -8,7 +8,11 @@ export const loader = async ({ request }: LoaderArgs) => {
     failureRedirect: "/",
   })) as { id: string };
 
-  const images = await getUserImages(user.id);
+  const searchParams = new URL(request.url).searchParams;
+  const currentPage = Math.max(Number(searchParams.get("page") || 1), 1);
+  const pageSize = Number(searchParams.get("page_size")) || 50;
+
+  const images = await getUserImages(user.id, currentPage, pageSize);
 
   return json({ data: images, user });
 };

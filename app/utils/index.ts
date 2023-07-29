@@ -5,3 +5,5 @@ export * from "./getCurrentLocaleDateAsString";
 export * from "./downloadImage";
 export * from "./convertUtcDateToLocalMomentObject";
 export * from "./convertUtcDateToLocalDateString";
+export * from "./getPaginationRange";
+export * from "./convertNumberToLocaleString";

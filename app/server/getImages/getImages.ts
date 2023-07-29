@@ -1,9 +1,16 @@
 import { prisma } from "~/services/prisma.server";
 import { getS3BucketURL } from "~/utils";
 
-export const getImages = async () => {
+const DEFAULT_CURRENT_PAGE = 1;
+const DEFAULT_PAGE_SIZE = 50;
+
+export const getImages = async (
+  page = DEFAULT_CURRENT_PAGE,
+  pageSize = DEFAULT_PAGE_SIZE
+) => {
   const images = await prisma.icon.findMany({
-    take: 100,
+    take: pageSize,
+    skip: (page - 1) * pageSize,
     orderBy: {
       createdAt: "desc",
     },
