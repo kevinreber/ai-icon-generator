@@ -1,5 +1,5 @@
 import React from "react";
-import { useLoaderData, useNavigation } from "@remix-run/react";
+import { useFetcher, useLoaderData, useNavigation } from "@remix-run/react";
 import {
   MessageOutlined,
   MoreOutlined,
@@ -23,12 +23,17 @@ import type { ImageType } from "~/types";
 import { ImageModal, LikeImageButton } from "~/components";
 import { convertUtcDateToLocalDateString } from "~/utils";
 
+/**
+ *
+ * TODO: Try to get endless scroll working on this page. Use this blog for reference: https://dev.to/vetswhocode/infinite-scroll-with-remix-run-1g7
+ */
+
 const ExplorePage = () => {
-  const data = useLoaderData();
+  const loaderData = useLoaderData();
   const navigation = useNavigation();
   const isLoadingData = navigation.state !== "idle";
-  const imagesCreated = data.data || [];
-  const totalImages = imagesCreated.length;
+  const images = loaderData.data || [];
+  const totalImages = images.length;
   const [displayImagesStyle, setDisplayImagesStyle] = React.useState("grid");
 
   const handleImageDisplayChange = (event: RadioChangeEvent) => {
@@ -45,7 +50,9 @@ const ExplorePage = () => {
           alignItems: "baseline",
         }}
       >
-        <Typography.Title level={3}>Explore Icons</Typography.Title>
+        <Typography.Title level={3}>
+          Explore AI Generated Images
+        </Typography.Title>
         <div
           style={{
             display: "flex",
@@ -76,11 +83,15 @@ const ExplorePage = () => {
       <Card
         loading={isLoadingData}
         style={{ minHeight: totalImages ? "" : 400 }}
-        bodyStyle={{ textAlign: imagesCreated ? "initial" : "center" }}
+        bodyStyle={{
+          textAlign: images ? "initial" : "center",
+          maxHeight: 820,
+          overflow: "auto",
+        }}
       >
         {totalImages && displayImagesStyle === "grid" ? (
           <Row gutter={16}>
-            {imagesCreated.map((image: ImageType) => {
+            {images.map((image: ImageType) => {
               return (
                 <Col key={image.id}>
                   <div style={{ marginBottom: 10 }}>
@@ -147,7 +158,7 @@ const ExplorePage = () => {
             //   },
             //   pageSize: 3,
             // }}
-            dataSource={imagesCreated}
+            dataSource={images}
             renderItem={(image: ImageType) => (
               <List.Item
                 key={image.id}
