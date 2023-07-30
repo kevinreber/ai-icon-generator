@@ -119,7 +119,12 @@ export const createImageFromStableDiffusionAPI = async (
       images.artifacts.map(async (image) => {
         if (image.finishReason !== "ERROR") {
           // Store Image into DB
-          const imageData = await addNewImageToDB(prompt, userId);
+          const imageData = await addNewImageToDB(
+            prompt,
+            userId,
+            model,
+            stylePreset
+          );
           console.log("Stored Image Data in DB: ", imageData.id);
 
           // Store Image blob in S3

@@ -61,6 +61,8 @@ const ImageModal = ({
     <>
       <Image
         width={width}
+        // ? TODO: Should we make this into a smaller thumbnail URL so it loads faster?
+        // TODO: Look into AWS S3 auto generating thumbnails
         src={imageData.url}
         alt={imageData.prompt}
         fallback={fallbackImageSource}
@@ -250,6 +252,11 @@ const ImageModal = ({
                       labelStyle={{ fontWeight: 600 }}
                       colon={false}
                     >
+                      <Descriptions.Item label='Engine Model'>
+                        <Typography.Text italic>
+                          {imageData.model}
+                        </Typography.Text>
+                      </Descriptions.Item>
                       <Descriptions.Item label='Prompt'>
                         <Typography.Text italic>
                           {imageData.prompt}

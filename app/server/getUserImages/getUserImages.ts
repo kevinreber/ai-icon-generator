@@ -27,6 +27,8 @@ export const getUserImages = async (
       id: true,
       title: true,
       prompt: true,
+      model: true,
+      stylePreset: true,
       user: {
         select: {
           id: true,

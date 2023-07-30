@@ -57,7 +57,7 @@ export const createImageFromDallEAPI = async (
   formData = DEFAULT_PAYLOAD,
   userId: string
 ) => {
-  const { prompt, numberOfImages } = formData;
+  const { prompt, numberOfImages, model } = formData;
 
   try {
     if (process.env.USE_MOCK_DALLE === "true") {
@@ -76,7 +76,7 @@ export const createImageFromDallEAPI = async (
     const formattedImageData = await Promise.all(
       imagesImages.map(async (imageImage) => {
         // Store Image into DB
-        const imageData = await addNewImageToDB(prompt, userId);
+        const imageData = await addNewImageToDB(prompt, userId, model);
         console.log("Stored Image Data in DB: ", imageData.id);
 
         // Store Image blob in S3
