@@ -1,4 +1,4 @@
-import { deleteImage, deleteImageFromS3Bucket } from "~/server";
+import { deleteImageFromDB, deleteImageFromS3Bucket } from "~/server";
 
 /**
  * @description
@@ -6,7 +6,7 @@ import { deleteImage, deleteImageFromS3Bucket } from "~/server";
  */
 export const deleteUserImage = async (imageId: string) => {
   try {
-    const deleteImageResponse = await deleteImage(imageId);
+    const deleteImageResponse = await deleteImageFromDB(imageId);
     console.log("Delete from DB -------------");
     console.log(deleteImageResponse);
     const deleteImageFromS3BucketResponse = await deleteImageFromS3Bucket(

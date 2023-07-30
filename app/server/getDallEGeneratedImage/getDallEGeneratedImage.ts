@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from "openai";
 import { setTimeout } from "timers/promises";
 // import { MOCK_BASE64_IMAGE } from "~/__mocks__/base64Image";
-import { saveBase64EncodedImageToAWS, createNewImage } from "~/server";
+import { addBase64EncodedImageToAWS, addNewImageToDB } from "~/server";
 import { getS3BucketURL } from "~/utils";
 
 const configuration = new Configuration({
@@ -90,11 +90,11 @@ export const getDallEGeneratedImage = async (
     const formattedImageData = await Promise.all(
       imagesImages.map(async (imageImage) => {
         // Store Image into DB
-        const imageData = await createNewImage(prompt, userId);
+        const imageData = await addNewImageToDB(prompt, userId);
         console.log("Stored Image Data in DB: ", imageData.id);
 
         // Store Image blob in S3
-        await saveBase64EncodedImageToAWS(imageImage as string, imageData.id);
+        await addBase64EncodedImageToAWS(imageImage as string, imageData.id);
         console.log("Stored S3 Data for Image ID: ", imageData.id);
 
         const imageURL = getS3BucketURL(imageData.id);
