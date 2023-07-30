@@ -1,7 +1,7 @@
 import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
 import { CreateImagePage } from "~/pages";
 import { authenticator } from "~/services/auth.server";
-import { getDallEGeneratedImage } from "~/server";
+import { createImageFromDallEAPI } from "~/server";
 import { updateUserCredits } from "~/server/updateUserCredits";
 import { createNewImages } from "~/server/createNewImages";
 

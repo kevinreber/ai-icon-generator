@@ -1,4 +1,4 @@
-export * from "./getDallEGeneratedImage";
+export * from "./createImageFromDallEAPI";
 export * from "./addBase64EncodedImageToAWS";
 export * from "./getUserData";
 export * from "./addNewImageToDB";

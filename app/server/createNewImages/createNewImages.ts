@@ -2,7 +2,7 @@ import {
   createImageFromStableDiffusionAPI,
   // addBase64EncodedImageToAWS,
   // addNewImageToDB,
-  getDallEGeneratedImage,
+  createImageFromDallEAPI,
 } from "~/server";
 
 const DEFAULT_NUMBER_OF_IMAGES_CREATED = 1;
@@ -28,7 +28,7 @@ export const createNewImages = async (
 
   try {
     if (AILanguageModelToUse === "dall-e") {
-      const data = await getDallEGeneratedImage(formData, userId);
+      const data = await createImageFromDallEAPI(formData, userId);
 
       return data;
     }

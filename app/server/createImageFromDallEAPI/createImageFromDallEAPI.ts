@@ -54,7 +54,7 @@ const generateImages = async (
  *   2. Creates a new Image in our DB using the data returned from "Step 1"
  *   3. Stores the image Blob from "Step 1" into our AWS S3 bucket
  */
-export const getDallEGeneratedImage = async (
+export const createImageFromDallEAPI = async (
   formData = DEFAULT_PAYLOAD,
   userId: string
 ) => {
