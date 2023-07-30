@@ -15,7 +15,7 @@ const s3Client = new S3Client({
  * https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/
  *
  */
-export const saveBase64EncodedImageToAWS = async (
+export const addBase64EncodedImageToAWS = async (
   base64EncodedImage: string,
   iconId: string
 ) => {
