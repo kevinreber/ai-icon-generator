@@ -1,7 +1,7 @@
 import { setTimeout } from "timers/promises";
 import { addBase64EncodedImageToAWS, addNewImageToDB } from "~/server";
 import { getS3BucketURL } from "~/utils";
-import { getMockDataResponse } from "./utils";
+import { getEngineId, getMockDataResponse } from "./utils";
 
 const IMAGE_HEIGHT = 1024;
 const IMAGE_WIDTH = 1024;
@@ -18,10 +18,6 @@ const DEFAULT_PAYLOAD = {
   stylePreset: DEFAULT_IMAGE_STYLE_PRESET,
 };
 
-const STABLE_DIFFUSION_XL_ID = "stable-diffusion-xl-1024-v1-0";
-const STABLE_DIFFUSION_1_5_ID = "stable-diffusion-v1-5";
-const STABLE_DIFFUSION_2_1_ID = "stable-diffusion-512-v2-1";
-
 interface GenerationResponse {
   artifacts: Array<{
     base64: string;
@@ -30,17 +26,6 @@ interface GenerationResponse {
   }>;
 }
 
-const getEngineId = (model: string) => {
-  let engineId = STABLE_DIFFUSION_XL_ID;
-  if (model.includes("1-5")) {
-    engineId = STABLE_DIFFUSION_1_5_ID;
-  }
-  if (model.includes("2-5")) {
-    engineId = STABLE_DIFFUSION_2_1_ID;
-  }
-  return engineId;
-};
-
 /**
  * @description
  * This function makes a request to Stability AI's – Stable Diffusion API to fetch images generated using the prompt
@@ -48,7 +33,7 @@ const getEngineId = (model: string) => {
  * @reference
  * https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/textToImage
  */
-const createImages = async (
+const createStableDiffusionImages = async (
   prompt: string,
   numberOfImages = DEFAULT_NUMBER_OF_IMAGES_CREATED,
   model = DEFAULT_AI_IMAGE_LANGUAGE_MODEL,
@@ -123,7 +108,7 @@ export const createImageFromStableDiffusionAPI = async (
     }
 
     // Generate Images
-    const images = await createImages(
+    const images = await createStableDiffusionImages(
       prompt,
       numberOfImages,
       model,

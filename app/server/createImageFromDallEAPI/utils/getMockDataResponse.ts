@@ -1,10 +1,10 @@
 import { getS3BucketURL } from "~/utils";
 
-const MOCK_IMAGE_ID = "stable-diffusion-xl-futuristic-bonsai-tree";
+const MOCK_IMAGE_ID = "cliid9qad0001r2q9pscacuj0";
 
 export const getMockDataResponse = (numberOfImages = 1) => {
   const imageURL = getS3BucketURL(MOCK_IMAGE_ID);
-  const mockImageData = {
+  const mockDallEImage = {
     id: MOCK_IMAGE_ID,
     prompt: "using mock data",
     userId: "testUser123",
@@ -16,8 +16,7 @@ export const getMockDataResponse = (numberOfImages = 1) => {
     url: imageURL,
     comments: [],
   };
-
-  const mockData = new Array(numberOfImages).fill(mockImageData);
+  const mockData = new Array(numberOfImages).fill(mockDallEImage);
 
   return mockData;
 };
