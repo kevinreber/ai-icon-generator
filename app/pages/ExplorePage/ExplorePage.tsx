@@ -105,10 +105,10 @@ const ExplorePage = () => {
                   >
                     <Tooltip
                       title={
-                        <Typography.Text>
+                        <Typography.Text style={{ color: "#fff" }}>
                           {image.title}
                           <br />
-                          <Typography.Text italic>
+                          <Typography.Text italic style={{ color: "#fff" }}>
                             {image.prompt}
                             <br />
                             <br />

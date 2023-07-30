@@ -19,6 +19,8 @@ export type Comment = {
 export type ImageType = {
   id: string;
   prompt: string;
+  model: string;
+  stylePreset?: string;
   title?: string;
   url: string;
   createdAt: Date;
