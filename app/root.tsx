@@ -64,7 +64,7 @@ export default function App() {
         ></script>
       </head>
       <body style={{ margin: 0 }}>
-        <ConfigProvider
+        {/* <ConfigProvider
           theme={{
             hashed: false,
             token: {
@@ -77,72 +77,72 @@ export default function App() {
               colorTextDisabled: "#495670",
             },
           }}
-        >
-          <Layout>
-            <Layout.Header
-              className='header'
-              style={{ display: "flex", justifyContent: "space-between" }}
+        > */}
+        <Layout>
+          <Layout.Header
+            className='header'
+            style={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Typography.Link
+              href='/'
+              style={{
+                color: "#e6f1ff",
+                width: 240,
+                margin: "auto 0",
+                fontSize: 18,
+                fontWeight: 600,
+              }}
             >
-              <Typography.Link
-                href='/'
+              AI Image Generator
+            </Typography.Link>
+
+            <Space>
+              <Button
+                type='link'
+                href='/explore'
+                style={{ width: 64, color: "#fff" }}
+              >
+                Explore
+              </Button>
+              {!isLoggedIn ? (
+                <Button onClick={handleLogIn}>Sign In</Button>
+              ) : (
+                <>
+                  <Button
+                    href='/collections'
+                    type='link'
+                    style={{ color: "#fff" }}
+                  >
+                    Collections
+                  </Button>
+                  <Button
+                    href='/create'
+                    type='primary'
+                    ghost
+                    style={{ width: 100, marginRight: 10 }}
+                  >
+                    Create
+                  </Button>
+                  <UserAvatar />
+                </>
+              )}
+            </Space>
+          </Layout.Header>
+          <Layout style={{ minHeight: "96vh", width: "80%", margin: "auto" }}>
+            <Layout>
+              <Layout.Content
                 style={{
-                  color: "#e6f1ff",
-                  width: 240,
-                  margin: "auto 0",
-                  fontSize: 18,
-                  fontWeight: 600,
+                  padding: 24,
+                  margin: 0,
+                  minHeight: 280,
                 }}
               >
-                AI Image Generator
-              </Typography.Link>
-
-              <Space>
-                <Button
-                  type='link'
-                  href='/explore'
-                  style={{ width: 64, color: "#fff" }}
-                >
-                  Explore
-                </Button>
-                {!isLoggedIn ? (
-                  <Button onClick={handleLogIn}>Sign In</Button>
-                ) : (
-                  <>
-                    <Button
-                      href='/collections'
-                      type='link'
-                      style={{ color: "#fff" }}
-                    >
-                      Collections
-                    </Button>
-                    <Button
-                      href='/create'
-                      type='primary'
-                      ghost
-                      style={{ width: 100, marginRight: 10 }}
-                    >
-                      Create
-                    </Button>
-                    <UserAvatar />
-                  </>
-                )}
-              </Space>
-            </Layout.Header>
-            <Layout style={{ minHeight: "96vh", width: "80%", margin: "auto" }}>
-              <Layout>
-                <Layout.Content
-                  style={{
-                    padding: 24,
-                    margin: 0,
-                    minHeight: 280,
-                  }}
-                >
-                  <Outlet />
-                </Layout.Content>
-              </Layout>
+                <Outlet />
+              </Layout.Content>
             </Layout>
           </Layout>
-        </ConfigProvider>
+        </Layout>
+        {/* </ConfigProvider> */}
 
         <ScrollRestoration />
         <Scripts />
