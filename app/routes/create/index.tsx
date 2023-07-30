@@ -3,6 +3,7 @@ import { CreateImagePage } from "~/pages";
 import { authenticator } from "~/services/auth.server";
 import { getDallEGeneratedImage } from "~/server";
 import { updateUserCredits } from "~/server/updateUserCredits";
+import { createNewImages } from "~/server/createNewImages";
 
 export const loader = async ({ request }: LoaderArgs) => {
   await authenticator.isAuthenticated(request, {
@@ -33,7 +34,7 @@ export async function action({ request }: ActionArgs) {
         return { image: "", message: "Error", error: error.message };
       }
 
-      const data = await getDallEGeneratedImage(formattedPayload, user.id);
+      const data = await createNewImages(formattedPayload, user.id);
 
       console.log("Data -----------------------");
       console.log(data);

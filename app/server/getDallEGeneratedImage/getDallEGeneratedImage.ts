@@ -10,14 +10,16 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const MOCK_IMAGE_ID = "cliid9qad0001r2q9pscacuj0";
-
 const DEFAULT_NUMBER_OF_IMAGES_CREATED = 1;
 const IMAGE_SIZE = "1024x1024";
+const DEFAULT_AI_IMAGE_LANGUAGE_MODEL = "dall-e";
+
 const THREE_SECONDS_IN_MS = 1000 * 3;
 const BASE_64_FORMAT = "b64_json";
 const DEFAULT_PAYLOAD = {
   prompt: "",
   numberOfImages: DEFAULT_NUMBER_OF_IMAGES_CREATED,
+  model: DEFAULT_AI_IMAGE_LANGUAGE_MODEL,
 };
 
 /**
