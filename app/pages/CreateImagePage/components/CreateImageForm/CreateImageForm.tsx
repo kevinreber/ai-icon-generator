@@ -8,6 +8,7 @@ import {
   Row,
   ColorPicker,
   InputNumber,
+  Select,
 } from "antd";
 import { COLOR_PICKER_PRESET_OPTIONS } from "app/utils";
 import { ICON_SHAPE_OPTIONS, ICON_STYLE_OPTIONS } from "./constants";
@@ -18,6 +19,25 @@ const DEFAULT_FORM_VALUES = {
   shape: undefined,
   numberOfImages: 1,
 };
+
+const LANGUAGE_MODEL_OPTIONS = [
+  {
+    label: "Dall-E",
+    value: "dall-e",
+  },
+  {
+    label: "Stable Diffusion XL",
+    value: "stable-diffusion-xl",
+  },
+  {
+    label: "Stable Diffusion 1.5",
+    value: "stable-diffusion-1-5",
+  },
+  {
+    label: "Stable Diffusion 2.1",
+    value: "stable-diffusion-2-1",
+  },
+];
 
 const CreateImageForm = () => {
   const [formInstance] = Form.useForm();
@@ -49,7 +69,20 @@ const CreateImageForm = () => {
       initialValues={DEFAULT_FORM_VALUES}
     >
       <Form.Item name='prompt' label='Describe your image' required>
-        <Input placeholder='Ex: "A happy panda"' />
+        <Input.TextArea
+          placeholder='Ex: "A happy panda"'
+          style={{ height: 120 }}
+        />
+      </Form.Item>
+      <Form.Item
+        name='model'
+        label='Select which language model to use'
+        required
+      >
+        <Select
+          placeholder='Ex: Stable Diffusion XL'
+          options={LANGUAGE_MODEL_OPTIONS}
+        />
       </Form.Item>
       {/* <Form.Item
         name='color'
