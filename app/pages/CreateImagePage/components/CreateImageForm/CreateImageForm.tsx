@@ -18,6 +18,7 @@ const DEFAULT_FORM_VALUES = {
   color: undefined,
   shape: undefined,
   numberOfImages: 1,
+  model: undefined,
 };
 
 const LANGUAGE_MODEL_OPTIONS = [

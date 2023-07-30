@@ -1,4 +1,4 @@
-import { HeartOutlined, HeartTwoTone } from "@ant-design/icons";
+import { HeartFilled, HeartOutlined, HeartTwoTone } from "@ant-design/icons";
 import { Button } from "antd";
 import type { ImageType } from "~/types";
 import { useRemixFetcher } from "~/hooks";
@@ -27,21 +27,25 @@ const LikeImageButton = ({ imageData }: { imageData: ImageType }) => {
   const userLikesImage = imageData.likes.some((like) => like.userId === userId);
 
   const buttonIcon = userLikesImage ? (
-    <HeartTwoTone twoToneColor='#eb2f96' />
+    // <HeartTwoTone twoToneColor='#eb2f96' />
+    <HeartFilled style={{ color: "#eb2f96" }} />
   ) : (
-    <HeartOutlined style={{ color: "#eb2f96" }} />
+    <HeartOutlined style={{ color: "rgba(0, 0, 0, 0.45)" }} />
+    // <HeartOutlined style={{ color: "#eb2f96" }} />
   );
 
   return (
     <Button
       size='small'
-      style={{ border: "none" }}
+      style={{ border: "none", boxShadow: "none" }}
       icon={buttonIcon}
       onClick={handleLikeImage}
       loading={isLoadingFetcher}
       disabled={!userId}
     >
-      <span>{imageData.likes.length > 0 && imageData.likes.length}</span>
+      <span style={{ color: "rgba(0, 0, 0, 0.45)" }}>
+        {imageData.likes.length > 0 && imageData.likes.length}
+      </span>
     </Button>
   );
 };
