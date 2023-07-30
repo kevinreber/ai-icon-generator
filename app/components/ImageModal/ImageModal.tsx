@@ -38,6 +38,8 @@ const ImageModal = ({
   const isUserLoggedIn = Boolean(loaderData.user);
   const [showImageModal, setShowImageModal] = React.useState(false);
   const [formInstance] = Form.useForm();
+  // `imagePreviewHeight` will be same as width so we have a cube
+  const imagePreviewHeight = width;
 
   const { fetcher, isLoadingFetcher } = useRemixFetcher({
     // onSuccess: (response) => {
@@ -65,6 +67,15 @@ const ImageModal = ({
         style={{ borderRadius: 8, cursor: "pointer" }}
         onClick={() => setShowImageModal(true)}
         preview={false}
+        placeholder={
+          <div
+            style={{
+              width,
+              height: imagePreviewHeight,
+              backgroundColor: "#d9d9d9",
+            }}
+          />
+        }
       />
       <Modal
         open={showImageModal}
@@ -94,12 +105,29 @@ const ImageModal = ({
               flexDirection: "column",
             }}
           >
-            <div style={{ width: "100%", maxWidth: 1024 }}>
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 1024,
+                margin: "auto",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <Image
                 src={imageData.url}
                 alt={imageData.prompt}
                 fallback={fallbackImageSource}
                 preview={false}
+                placeholder={
+                  <div
+                    style={{
+                      width: 1024,
+                      height: 1024,
+                      background: "black",
+                    }}
+                  />
+                }
               />
             </div>
           </div>
