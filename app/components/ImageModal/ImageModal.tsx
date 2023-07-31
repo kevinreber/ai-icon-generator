@@ -25,7 +25,7 @@ import {
   CommentCard,
 } from "~/components";
 import { useRemixFetcher } from "~/hooks";
-import { useLoaderData } from "@remix-run/react";
+import { UserContext } from "~/context";
 
 const ImageModal = ({
   imageData,
@@ -34,8 +34,9 @@ const ImageModal = ({
   imageData: ImageType;
   width?: number;
 }) => {
-  const loaderData = useLoaderData();
-  const isUserLoggedIn = Boolean(loaderData.user);
+  const userData = React.useContext(UserContext);
+  const isUserLoggedIn = Boolean(userData);
+
   const [showImageModal, setShowImageModal] = React.useState(false);
   const [formInstance] = Form.useForm();
   // `imagePreviewHeight` will be same as width so we have a cube

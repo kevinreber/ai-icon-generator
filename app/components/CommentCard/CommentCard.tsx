@@ -9,10 +9,10 @@ import {
 import { Typography, Card, Space, Button, Modal, Avatar } from "antd";
 import type { ImageType, Comment } from "~/types";
 import { useRemixFetcher } from "~/hooks";
-import { useLoaderData } from "@remix-run/react";
 import DeleteCommentButton from "./DeleteCommentButton";
 import { convertUtcDateToLocalDateString } from "~/utils";
 import { LikeCommentButton } from "~/components";
+import { UserContext } from "~/context";
 
 const CommentCard = ({
   imageData,
@@ -21,8 +21,9 @@ const CommentCard = ({
   imageData: ImageType;
   comment: Comment;
 }) => {
-  const loaderData = useLoaderData();
-  const userId = loaderData.user?.id || undefined;
+  const userData = React.useContext(UserContext);
+
+  const userId = userData.id || undefined;
 
   const { fetcher, isLoadingFetcher } = useRemixFetcher({
     // onSuccess: (response) => {

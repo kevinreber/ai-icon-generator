@@ -1,8 +1,9 @@
+import React from "react";
 import { HeartOutlined, HeartTwoTone } from "@ant-design/icons";
 import { Button } from "antd";
 import type { Comment, ImageType } from "~/types";
 import { useRemixFetcher } from "~/hooks";
-import { useLoaderData } from "@remix-run/react";
+import { UserContext } from "~/context";
 
 const LikeCommentButton = ({
   imageData,
@@ -11,8 +12,9 @@ const LikeCommentButton = ({
   imageData: ImageType;
   comment: Comment;
 }) => {
-  const loaderData = useLoaderData();
-  const userId = loaderData.user?.id || undefined;
+  const userData = React.useContext(UserContext);
+  const userId = userData.id || undefined;
+
   const { fetcher, isLoadingFetcher } = useRemixFetcher();
 
   const handleLikeComment = () => {
