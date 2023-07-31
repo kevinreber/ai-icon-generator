@@ -17,7 +17,7 @@ type UserGoogleData = {
   };
 };
 
-export const getUserData = async (userGoogleData: UserGoogleData) => {
+export const getLoggedInUserData = async (userGoogleData: UserGoogleData) => {
   let userData = await prisma.user.findUnique({
     where: { id: userGoogleData.id },
   });

@@ -12,7 +12,7 @@ import { Button, Layout, Space, Typography, ConfigProvider } from "antd";
 import { type LoaderArgs, json } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 import { SocialsProvider } from "remix-auth-socials";
-import { getUserData } from "~/server";
+import { getLoggedInUserData } from "~/server";
 import { UserAvatar } from "./components";
 import { UserContext } from "~/context";
 
@@ -29,7 +29,7 @@ export let loader = async ({ request }: LoaderArgs) => {
     return json({ data: undefined });
   }
 
-  const userData = await getUserData(user as any);
+  const userData = await getLoggedInUserData(user as any);
 
   return json({ data: userData });
 };
