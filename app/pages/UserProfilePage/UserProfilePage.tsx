@@ -142,7 +142,7 @@ const UserProfilePage = () => {
                               <br />
                               <Typography.Link
                                 strong
-                                href={`/profile/${image.user.username}`}
+                                href={`/profile/${image.user.id}`}
                               >
                                 {image.user.username}
                               </Typography.Link>

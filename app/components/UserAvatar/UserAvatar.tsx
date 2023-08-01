@@ -75,7 +75,9 @@ const UserAvatar = () => {
             <div style={{ display: "flex", flexDirection: "column" }}>
               {/* <Space direction='vertical' size='small'> */}
               <span>{userData.name}</span>
-              <span>{userData.username}</span>
+              <Typography.Link strong href={`/profile/${userData.id}`}>
+                {userData.username}
+              </Typography.Link>
             </div>
           </Space>
         }
