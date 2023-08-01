@@ -25,7 +25,7 @@ import {
   CommentCard,
 } from "~/components";
 import { useRemixFetcher } from "~/hooks";
-import { useLoaderData } from "@remix-run/react";
+import { UserContext } from "~/context";
 
 const ImageModal = ({
   imageData,
@@ -34,8 +34,9 @@ const ImageModal = ({
   imageData: ImageType;
   width?: number;
 }) => {
-  const loaderData = useLoaderData();
-  const isUserLoggedIn = Boolean(loaderData.user);
+  const userData = React.useContext(UserContext);
+  const isUserLoggedIn = Boolean(userData);
+
   const [showImageModal, setShowImageModal] = React.useState(false);
   const [formInstance] = Form.useForm();
   // `imagePreviewHeight` will be same as width so we have a cube
@@ -148,9 +149,9 @@ const ImageModal = ({
             <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
 
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <Typography.Text strong>
+              <Typography.Link strong href={`/profile/${imageData.user.id}`}>
                 {imageData.user.username}
-              </Typography.Text>
+              </Typography.Link>
               <Typography.Text type='secondary' style={{ fontSize: 12 }}>
                 {convertUtcDateToLocalDateString(imageData.createdAt)}
               </Typography.Text>

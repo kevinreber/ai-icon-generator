@@ -12,15 +12,16 @@ import { Button, Layout, Space, Typography, ConfigProvider } from "antd";
 import { type LoaderArgs, json } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 import { SocialsProvider } from "remix-auth-socials";
-import { getUserData } from "~/server";
+import { getLoggedInUserData } from "~/server";
 import { UserAvatar } from "./components";
+import { UserContext } from "~/context";
 
 // CSS
-// import globalStyles from "~/css/global.css";
+import globalStyles from "~/css/global.css";
 
-// export function links() {
-//   return [{ rel: "stylesheet", href: globalStyles }];
-// }
+export function links() {
+  return [{ rel: "stylesheet", href: globalStyles }];
+}
 
 export let loader = async ({ request }: LoaderArgs) => {
   const user = await authenticator.isAuthenticated(request);
@@ -28,14 +29,15 @@ export let loader = async ({ request }: LoaderArgs) => {
     return json({ data: undefined });
   }
 
-  const userData = await getUserData(user as any);
+  const userData = await getLoggedInUserData(user as any);
 
   return json({ data: userData });
 };
 
 export default function App() {
   const loaderData = useLoaderData();
-  const isLoggedIn = loaderData.data;
+  const isLoggedIn = Boolean(loaderData.data);
+  const userData = loaderData.data;
   const fetcher = useFetcher();
 
   const handleLogIn = () => {
@@ -64,7 +66,8 @@ export default function App() {
         ></script>
       </head>
       <body style={{ margin: 0 }}>
-        {/* <ConfigProvider
+        <UserContext.Provider value={userData}>
+          {/* <ConfigProvider
           theme={{
             hashed: false,
             token: {
@@ -78,71 +81,72 @@ export default function App() {
             },
           }}
         > */}
-        <Layout>
-          <Layout.Header
-            className='header'
-            style={{ display: "flex", justifyContent: "space-between" }}
-          >
-            <Typography.Link
-              href='/'
-              style={{
-                color: "#e6f1ff",
-                width: 240,
-                margin: "auto 0",
-                fontSize: 18,
-                fontWeight: 600,
-              }}
+          <Layout>
+            <Layout.Header
+              className='header'
+              style={{ display: "flex", justifyContent: "space-between" }}
             >
-              AI Image Generator
-            </Typography.Link>
-
-            <Space>
-              <Button
-                type='link'
-                href='/explore'
-                style={{ width: 64, color: "#fff" }}
-              >
-                Explore
-              </Button>
-              {!isLoggedIn ? (
-                <Button onClick={handleLogIn}>Sign In</Button>
-              ) : (
-                <>
-                  <Button
-                    href='/collections'
-                    type='link'
-                    style={{ color: "#fff" }}
-                  >
-                    Collections
-                  </Button>
-                  <Button
-                    href='/create'
-                    type='primary'
-                    ghost
-                    style={{ width: 100, marginRight: 10 }}
-                  >
-                    Create
-                  </Button>
-                  <UserAvatar />
-                </>
-              )}
-            </Space>
-          </Layout.Header>
-          <Layout style={{ minHeight: "96vh", width: "80%", margin: "auto" }}>
-            <Layout>
-              <Layout.Content
+              <Typography.Link
+                href='/'
                 style={{
-                  padding: 24,
-                  margin: 0,
-                  minHeight: 280,
+                  color: "#e6f1ff",
+                  width: 240,
+                  margin: "auto 0",
+                  fontSize: 18,
+                  fontWeight: 600,
                 }}
               >
-                <Outlet />
-              </Layout.Content>
+                AI Image Generator
+              </Typography.Link>
+
+              <Space>
+                <Button
+                  type='link'
+                  href='/explore'
+                  style={{ width: 64, color: "#fff" }}
+                >
+                  Explore
+                </Button>
+                {!isLoggedIn ? (
+                  <Button onClick={handleLogIn}>Sign In</Button>
+                ) : (
+                  <>
+                    <Button
+                      href='/collections'
+                      type='link'
+                      style={{ color: "#fff" }}
+                    >
+                      Collections
+                    </Button>
+                    <Button
+                      href='/create'
+                      type='primary'
+                      ghost
+                      style={{ width: 100, marginRight: 10 }}
+                    >
+                      Create
+                    </Button>
+                    <UserAvatar />
+                  </>
+                )}
+              </Space>
+            </Layout.Header>
+            <Layout style={{ minHeight: "96vh", width: "80%", margin: "auto" }}>
+              <Layout>
+                <Layout.Content
+                  style={{
+                    padding: 24,
+                    margin: 0,
+                    minHeight: 280,
+                  }}
+                >
+                  <Outlet />
+                </Layout.Content>
+              </Layout>
             </Layout>
           </Layout>
-        </Layout>
-        {/* </ConfigProvider> */}
+          {/* </ConfigProvider> */}
+        </UserContext.Provider>
 
         <ScrollRestoration />
         <Scripts />

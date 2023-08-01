@@ -1,6 +1,6 @@
 export * from "./createImageFromDallEAPI";
 export * from "./addBase64EncodedImageToAWS";
-export * from "./getUserData";
+export * from "./getLoggedInUserData";
 export * from "./addNewImageToDB";
 export * from "./getUserImages";
 export * from "./getImages";
@@ -13,3 +13,4 @@ export * from "./updateUserData";
 export * from "./comments";
 export * from "./images";
 export * from "./createImageFromStableDiffusionAPI";
+export * from "./getUserData";

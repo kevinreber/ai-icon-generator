@@ -1,5 +1,4 @@
 import React from "react";
-import { useLoaderData } from "@remix-run/react";
 import {
   Popover,
   Button,
@@ -18,25 +17,15 @@ import {
   createFromIconfontCN,
 } from "@ant-design/icons";
 import { useRemixFetcher } from "~/hooks";
-
-type User = {
-  id: string;
-  name: string;
-  username: string;
-  email: string;
-  avatar: string;
-  credits: number;
-  createdAt: Date;
-  updateddAt: Date;
-};
+import { UserContext } from "~/context";
 
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
 });
 
 const UserAvatar = () => {
-  const loaderData = useLoaderData() as unknown as { data: User };
-  const userData = loaderData.data;
+  const userData = React.useContext(UserContext);
+
   const { fetcher, isLoadingFetcher } = useRemixFetcher({
     // onSuccess: (response) => {
     //   notification.success({ message: response.message });
@@ -86,7 +75,9 @@ const UserAvatar = () => {
             <div style={{ display: "flex", flexDirection: "column" }}>
               {/* <Space direction='vertical' size='small'> */}
               <span>{userData.name}</span>
-              <span>{userData.username}</span>
+              <Typography.Link strong href={`/profile/${userData.id}`}>
+                {userData.username}
+              </Typography.Link>
             </div>
           </Space>
         }

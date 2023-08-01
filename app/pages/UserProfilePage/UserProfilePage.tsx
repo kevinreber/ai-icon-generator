@@ -9,6 +9,7 @@ import {
   MoreOutlined,
   TableOutlined,
   UnorderedListOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import {
   Typography,
@@ -24,6 +25,7 @@ import {
   type RadioChangeEvent,
   Tooltip,
   Pagination,
+  Avatar,
 } from "antd";
 import type { ImageType } from "~/types";
 import {
@@ -32,14 +34,12 @@ import {
   EditImageButton,
 } from "./components";
 import { ImageModal, LikeImageButton } from "~/components";
-import {
-  convertNumberToLocaleString,
-  convertUtcDateToLocalDateString,
-  getPaginationRange,
-} from "~/utils";
+import { convertUtcDateToLocalDateString } from "~/utils";
 
-const CollectionsPage = () => {
+const UserProfilePage = () => {
   const data = useLoaderData();
+  const userData = data.user;
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -47,9 +47,9 @@ const CollectionsPage = () => {
 
   const navigation = useNavigation();
   const isLoadingData = navigation.state !== "idle";
-  const images = data.data.images || [];
+  const images = data.images || [];
   const currentImagesShown = images.length;
-  const totalImages = data.data.count;
+  const totalImages = data.count;
   const [displayImagesStyle, setDisplayImagesStyle] = React.useState("list");
 
   const handleImageDisplayChange = (event: RadioChangeEvent) => {
@@ -65,67 +65,46 @@ const CollectionsPage = () => {
     }));
   };
 
-  const paginationRange = getPaginationRange(
-    currentPage,
-    pageSize,
-    totalImages
-  );
-
   return (
     <>
+      <Space style={{ marginBottom: "1rem", alignItems: "inherit" }}>
+        <Avatar
+          size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+          style={{ cursor: "pointer" }}
+          icon={<UserOutlined />}
+        />
+        <div>
+          <Typography.Title level={3} style={{ marginBottom: 0 }}>
+            {userData.username}
+          </Typography.Title>
+          <Typography.Text>{totalImages} images</Typography.Text>
+        </div>
+      </Space>
+
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
-          alignItems: "baseline",
+          justifyContent: "flex-end",
         }}
       >
-        <Typography.Title level={3}>Collections</Typography.Title>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            maxWidth: 280,
-            width: "100%",
-            alignItems: "baseline",
-          }}
+        <Radio.Group
+          onChange={handleImageDisplayChange}
+          // defaultValue='list'
+          size='small'
+          value={displayImagesStyle}
         >
-          <Typography.Text>
-            {paginationRange.startRange &&
-            paginationRange.endRange &&
-            totalImages ? (
-              <>
-                Showing{" "}
-                {convertNumberToLocaleString(paginationRange.startRange)}-
-                {convertNumberToLocaleString(paginationRange.endRange)} of{" "}
-                {convertNumberToLocaleString(totalImages)} images
-              </>
-            ) : (
-              <>No images found</>
-            )}
-          </Typography.Text>
-
-          <div>
-            <Radio.Group
-              onChange={handleImageDisplayChange}
-              // defaultValue='list'
-              size='small'
-              value={displayImagesStyle}
-            >
-              <Radio.Button value='list'>
-                <UnorderedListOutlined />
-              </Radio.Button>
-              <Radio.Button value='grid'>
-                <TableOutlined />
-              </Radio.Button>
-            </Radio.Group>
-          </div>
-        </div>
+          <Radio.Button value='list'>
+            <UnorderedListOutlined />
+          </Radio.Button>
+          <Radio.Button value='grid'>
+            <TableOutlined />
+          </Radio.Button>
+        </Radio.Group>
       </div>
       <Card
         loading={isLoadingData}
         style={{
-          height: "calc(100vh - 220px)",
+          height: "calc(100vh - 270px)",
           overflow: "auto",
         }}
         bodyStyle={{
@@ -203,6 +182,7 @@ const CollectionsPage = () => {
           <List
             itemLayout='vertical'
             size='small'
+            loading={isLoadingData}
             // size='large'
             // pagination={{
             //   onChange: (page) => {
@@ -225,6 +205,7 @@ const CollectionsPage = () => {
                 <List.Item.Meta
                   avatar={<ImageModal imageData={image} />}
                   title={image.title || "Untitled"}
+                  style={{ marginBottom: 0 }}
                   description={
                     <>
                       <div
@@ -244,10 +225,7 @@ const CollectionsPage = () => {
                             marginBottom: 8,
                           }}
                         >
-                          <Typography.Link
-                            strong
-                            href={`/profile/${image.user.id}`}
-                          >
+                          <Typography.Link href={`/profile/${image.user.id}`}>
                             {image.user.username}
                           </Typography.Link>
                           <Typography.Text italic>
@@ -281,6 +259,9 @@ const CollectionsPage = () => {
         total={totalImages}
         current={currentPage}
         pageSize={pageSize}
+        showTotal={(total, range) =>
+          `Showing ${range[0]}-${range[1]} of ${total} images`
+        }
         pageSizeOptions={[50, 100, 150, 200]}
         onChange={handlePaginationChange}
       />
@@ -288,4 +269,4 @@ const CollectionsPage = () => {
   );
 };
 
-export default CollectionsPage;
+export default UserProfilePage;
