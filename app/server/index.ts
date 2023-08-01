@@ -13,3 +13,4 @@ export * from "./updateUserData";
 export * from "./comments";
 export * from "./images";
 export * from "./createImageFromStableDiffusionAPI";
+export * from "./getUserData";

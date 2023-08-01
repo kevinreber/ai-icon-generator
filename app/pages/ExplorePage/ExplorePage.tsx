@@ -82,11 +82,12 @@ const ExplorePage = () => {
       </div>
       <Card
         loading={isLoadingData}
-        style={{ minHeight: totalImages ? "" : 400 }}
+        style={{
+          height: "calc(100vh - 180px)",
+          overflow: "auto",
+        }}
         bodyStyle={{
           textAlign: images ? "initial" : "center",
-          maxHeight: 820,
-          overflow: "auto",
         }}
       >
         {totalImages && displayImagesStyle === "grid" ? (
@@ -112,7 +113,12 @@ const ExplorePage = () => {
                             {image.prompt}
                             <br />
                             <br />
-                            Created By: {image.user.username}
+                            <Typography.Link
+                              strong
+                              href={`/profile/${image.user.id}`}
+                            >
+                              {image.user.username}
+                            </Typography.Link>
                             <br />
                             {convertUtcDateToLocalDateString(image.createdAt)}
                           </Typography.Text>
@@ -187,9 +193,12 @@ const ExplorePage = () => {
                             marginBottom: 8,
                           }}
                         >
-                          <Typography.Text>
-                            Created By: {image.user.username}
-                          </Typography.Text>
+                          <Typography.Link
+                            strong
+                            href={`/profile/${image.user.username}`}
+                          >
+                            {image.user.username}
+                          </Typography.Link>
                           <Typography.Text italic>
                             {convertUtcDateToLocalDateString(image.createdAt)}
                           </Typography.Text>

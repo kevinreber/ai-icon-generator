@@ -149,9 +149,9 @@ const ImageModal = ({
             <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
 
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <Typography.Text strong>
+              <Typography.Link strong href={`/profile/${imageData.user.id}`}>
                 {imageData.user.username}
-              </Typography.Text>
+              </Typography.Link>
               <Typography.Text type='secondary' style={{ fontSize: 12 }}>
                 {convertUtcDateToLocalDateString(imageData.createdAt)}
               </Typography.Text>
