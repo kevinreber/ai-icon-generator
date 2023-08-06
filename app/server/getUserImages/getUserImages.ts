@@ -1,5 +1,5 @@
 import { prisma } from "~/services/prisma.server";
-import { getS3BucketURL } from "~/utils";
+import { getS3BucketThumbnailURL, getS3BucketURL } from "~/utils";
 
 const DEFAULT_CURRENT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 50;
@@ -68,6 +68,7 @@ export const getUserImages = async (
   const formattedImages = images.map((image) => ({
     ...image,
     url: getS3BucketURL(image.id),
+    thumbnailURL: getS3BucketThumbnailURL(image.id),
   }));
   return { images: formattedImages, count };
 };

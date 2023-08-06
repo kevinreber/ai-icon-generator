@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from "openai";
 import { setTimeout } from "timers/promises";
 import { addBase64EncodedImageToAWS, addNewImageToDB } from "~/server";
-import { getS3BucketURL } from "~/utils";
+import { getS3BucketURL, getS3BucketThumbnailURL } from "~/utils";
 import { getMockDataResponse } from "./utils";
 
 const configuration = new Configuration({
@@ -84,7 +84,12 @@ export const createImageFromDallEAPI = async (
         console.log("Stored S3 Data for Image ID: ", imageData.id);
 
         const imageURL = getS3BucketURL(imageData.id);
-        const formattedImageData = { ...imageData, url: imageURL };
+        const thumbnailURL = getS3BucketThumbnailURL(imageData.id);
+        const formattedImageData = {
+          ...imageData,
+          url: imageURL,
+          thumbnailURL,
+        };
 
         return formattedImageData;
       })

@@ -1,9 +1,11 @@
-import { getS3BucketURL } from "~/utils";
+import { getS3BucketThumbnailURL, getS3BucketURL } from "~/utils";
 
 const MOCK_IMAGE_ID = "cliid9qad0001r2q9pscacuj0";
 
 export const getMockDataResponse = (numberOfImages = 1) => {
   const imageURL = getS3BucketURL(MOCK_IMAGE_ID);
+  const thumbnailURL = getS3BucketThumbnailURL(MOCK_IMAGE_ID);
+
   const mockDallEImage = {
     id: MOCK_IMAGE_ID,
     prompt: "using mock data",
@@ -14,6 +16,7 @@ export const getMockDataResponse = (numberOfImages = 1) => {
       username: "testUser123",
     },
     url: imageURL,
+    thumbnailURL,
     comments: [],
   };
   const mockData = new Array(numberOfImages).fill(mockDallEImage);

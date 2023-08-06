@@ -1,6 +1,6 @@
 import { setTimeout } from "timers/promises";
 import { addBase64EncodedImageToAWS, addNewImageToDB } from "~/server";
-import { getS3BucketURL } from "~/utils";
+import { getS3BucketThumbnailURL, getS3BucketURL } from "~/utils";
 import { getEngineId, getMockDataResponse } from "./utils";
 
 const IMAGE_HEIGHT = 1024;
@@ -132,7 +132,13 @@ export const createImageFromStableDiffusionAPI = async (
           console.log("Stored S3 Data for Image ID: ", imageData.id);
 
           const imageURL = getS3BucketURL(imageData.id);
-          const formattedImageData = { ...imageData, url: imageURL };
+          const thumbnailURL = getS3BucketThumbnailURL(imageData.id);
+
+          const formattedImageData = {
+            ...imageData,
+            url: imageURL,
+            thumbnailURL,
+          };
 
           return formattedImageData;
         }
