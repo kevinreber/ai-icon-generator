@@ -18,11 +18,13 @@ import { UserContext } from "~/context";
 
 // CSS
 import antdStyles from "antd/dist/antd.css";
+import darkStyle from "~/css/antd.dark.css";
 import globalStyles from "~/css/global.css";
 
 export function links() {
   return [
     { rel: "stylesheet", href: antdStyles },
+    { rel: "stylesheet", href: darkStyle },
     { rel: "stylesheet", href: globalStyles },
   ];
 }
