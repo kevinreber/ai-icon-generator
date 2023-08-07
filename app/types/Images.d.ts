@@ -23,6 +23,7 @@ export type ImageType = {
   stylePreset?: string;
   title?: string;
   url: string;
+  thumbnailURL: string;
   createdAt: Date;
   user: {
     id: string;

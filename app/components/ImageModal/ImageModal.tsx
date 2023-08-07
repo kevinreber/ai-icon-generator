@@ -62,9 +62,7 @@ const ImageModal = ({
     <>
       <Image
         width={width}
-        // ? TODO: Should we make this into a smaller thumbnail URL so it loads faster?
-        // TODO: Look into AWS S3 auto generating thumbnails
-        src={imageData.url}
+        src={imageData.thumbnailURL}
         alt={imageData.prompt}
         fallback={fallbackImageSource}
         style={{ borderRadius: 8, cursor: "pointer" }}

@@ -70,7 +70,7 @@ const EditImageButton = ({ image }: { image: ImageType }) => {
           >
             <Image
               width={300}
-              src={image.url}
+              src={image.thumbnailURL}
               alt={image.title}
               fallback={fallbackImageSource}
               style={{ cursor: "pointer" }}
