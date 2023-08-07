@@ -27,31 +27,32 @@ const CreateImagePage = () => {
           bodyStyle={{ textAlign: imagesGenerated ? "initial" : "center" }}
         >
           {imagesGenerated ? (
-            <Image.PreviewGroup
-              preview={{
-                onChange: (current, prev) =>
-                  console.log(`current index: ${current}, prev index: ${prev}`),
-              }}
-            >
-              <Row gutter={16}>
-                {actionData.images.map((image: ImageType) => {
-                  return (
-                    <Col key={image.id}>
-                      <div style={{ marginBottom: 10 }}>
-                        <Image
-                          width={200}
-                          src={image.url}
-                          alt={image.prompt}
-                          fallback={fallbackImageSource}
-                          style={{ borderRadius: 12 }}
-                        />
-                      </div>
-                    </Col>
-                  );
-                })}
-              </Row>
-            </Image.PreviewGroup>
+            // <Image.PreviewGroup
+            //   preview={{
+            //     onChange: (current, prev) =>
+            //       console.log(`current index: ${current}, prev index: ${prev}`),
+            //   }}
+            // >
+            <Row gutter={16}>
+              {actionData.images.map((image: ImageType) => {
+                return (
+                  <Col key={image.id}>
+                    <div style={{ marginBottom: 10 }}>
+                      <Image
+                        width={200}
+                        src={image.url}
+                        alt={image.prompt}
+                        fallback={fallbackImageSource}
+                        style={{ borderRadius: 12 }}
+                        preview
+                      />
+                    </div>
+                  </Col>
+                );
+              })}
+            </Row>
           ) : (
+            // </Image.PreviewGroup>
             <Typography.Text italic disabled>
               Images generated will appear here
             </Typography.Text>
