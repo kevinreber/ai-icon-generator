@@ -17,10 +17,14 @@ import { UserAvatar } from "./components";
 import { UserContext } from "~/context";
 
 // CSS
+import antdStyles from "antd/dist/antd.css";
 import globalStyles from "~/css/global.css";
 
 export function links() {
-  return [{ rel: "stylesheet", href: globalStyles }];
+  return [
+    { rel: "stylesheet", href: antdStyles },
+    { rel: "stylesheet", href: globalStyles },
+  ];
 }
 
 export let loader = async ({ request }: LoaderArgs) => {
