@@ -8,7 +8,7 @@ import {
   useFetcher,
   useLoaderData,
 } from "@remix-run/react";
-import { Button, Layout, Space, Typography, ConfigProvider } from "antd";
+import { Button, Layout, Space, Typography } from "antd";
 import { type LoaderArgs, json } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 import { SocialsProvider } from "remix-auth-socials";
@@ -18,11 +18,13 @@ import { UserContext } from "~/context";
 
 // CSS
 import antdStyles from "antd/dist/antd.css";
+import darkStyle from "~/css/antd.dark.css";
 import globalStyles from "~/css/global.css";
 
 export function links() {
   return [
     { rel: "stylesheet", href: antdStyles },
+    { rel: "stylesheet", href: darkStyle },
     { rel: "stylesheet", href: globalStyles },
   ];
 }
@@ -56,7 +58,7 @@ export default function App() {
       <head>
         <Meta />
         <Links />
-        <script
+        {/* <script
           data-name='BMC-Widget'
           data-cfasync='false'
           src='https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js'
@@ -67,7 +69,7 @@ export default function App() {
           data-position='Right'
           data-x_margin='18'
           data-y_margin='18'
-        ></script>
+        ></script> */}
       </head>
       <body style={{ margin: 0 }}>
         <UserContext.Provider value={userData}>
