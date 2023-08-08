@@ -104,7 +104,7 @@ const UserProfilePage = () => {
       <Card
         loading={isLoadingData}
         style={{
-          height: "calc(100vh - 270px)",
+          height: "calc(100vh - 228px)",
           overflow: "auto",
         }}
         bodyStyle={{

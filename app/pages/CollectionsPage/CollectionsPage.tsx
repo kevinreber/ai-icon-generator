@@ -125,7 +125,7 @@ const CollectionsPage = () => {
       <Card
         loading={isLoadingData}
         style={{
-          height: "calc(100vh - 220px)",
+          height: "calc(100vh - 140px)",
           overflow: "auto",
         }}
         bodyStyle={{

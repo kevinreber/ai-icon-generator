@@ -83,7 +83,7 @@ const ExplorePage = () => {
       <Card
         loading={isLoadingData}
         style={{
-          height: "calc(100vh - 180px)",
+          height: "calc(100vh - 140px)",
           overflow: "auto",
         }}
         bodyStyle={{
