@@ -5,15 +5,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useFetcher,
   useLoaderData,
 } from "@remix-run/react";
-import { Button, Layout, Space, Typography } from "antd";
+import { Layout } from "antd";
 import { type LoaderArgs, json } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
-import { SocialsProvider } from "remix-auth-socials";
 import { getLoggedInUserData } from "~/server";
-import { UserAvatar } from "./components";
+import { NavigationSidebar } from "./components";
 import { UserContext } from "~/context";
 
 // CSS
@@ -42,16 +40,7 @@ export let loader = async ({ request }: LoaderArgs) => {
 
 export default function App() {
   const loaderData = useLoaderData();
-  const isLoggedIn = Boolean(loaderData.data);
   const userData = loaderData.data;
-  const fetcher = useFetcher();
-
-  const handleLogIn = () => {
-    fetcher.submit(
-      { intent: "user-log-in" },
-      { method: "post", action: `/api/auth/${SocialsProvider.GOOGLE}` }
-    );
-  };
 
   return (
     <html lang='en'>
@@ -88,66 +77,22 @@ export default function App() {
           }}
         > */}
           <Layout>
-            <Layout.Header
-              className='header'
-              style={{ display: "flex", justifyContent: "space-between" }}
-            >
-              <Typography.Link
-                href='/'
-                style={{
-                  color: "#e6f1ff",
-                  width: 240,
-                  margin: "auto 0",
-                  fontSize: 18,
-                  fontWeight: 600,
-                }}
+            <NavigationSidebar />
+            <Layout style={{ marginLeft: 200 }}>
+              <Layout
+                style={{ minHeight: "100vh", width: "95%", margin: "0 auto" }}
               >
-                AI Image Generator
-              </Typography.Link>
-
-              <Space>
-                <Button
-                  type='link'
-                  href='/explore'
-                  style={{ width: 64, color: "#fff" }}
-                >
-                  Explore
-                </Button>
-                {!isLoggedIn ? (
-                  <Button onClick={handleLogIn}>Sign In</Button>
-                ) : (
-                  <>
-                    <Button
-                      href='/collections'
-                      type='link'
-                      style={{ color: "#fff" }}
-                    >
-                      Collections
-                    </Button>
-                    <Button
-                      href='/create'
-                      type='primary'
-                      ghost
-                      style={{ width: 100, marginRight: 10 }}
-                    >
-                      Create
-                    </Button>
-                    <UserAvatar />
-                  </>
-                )}
-              </Space>
-            </Layout.Header>
-            <Layout style={{ minHeight: "96vh", width: "80%", margin: "auto" }}>
-              <Layout>
-                <Layout.Content
-                  style={{
-                    padding: 24,
-                    margin: 0,
-                    minHeight: 280,
-                  }}
-                >
-                  <Outlet />
-                </Layout.Content>
+                <Layout>
+                  <Layout.Content
+                    style={{
+                      padding: 24,
+                      margin: 0,
+                      minHeight: 280,
+                    }}
+                  >
+                    <Outlet />
+                  </Layout.Content>
+                </Layout>
               </Layout>
             </Layout>
           </Layout>
