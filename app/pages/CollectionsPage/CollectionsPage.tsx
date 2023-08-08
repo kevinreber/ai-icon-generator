@@ -133,73 +133,73 @@ const CollectionsPage = () => {
         }}
       >
         {currentImagesShown && displayImagesStyle === "grid" ? (
-          <Image.PreviewGroup
-            preview={{
-              onChange: (current, prev) =>
-                console.log(`current index: ${current}, prev index: ${prev}`),
-            }}
-          >
-            <Row gutter={16}>
-              {images.map((image: ImageType) => {
-                return (
-                  <Col key={image.id}>
-                    <div style={{ marginBottom: 10 }}>
-                      <ImageModal imageData={image} width={200} />
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Tooltip
-                        title={
-                          <Typography.Text style={{ color: "#fff" }}>
-                            {image.title}
+          // <Image.PreviewGroup
+          //   preview={{
+          //     onChange: (current, prev) =>
+          //       console.log(`current index: ${current}, prev index: ${prev}`),
+          //   }}
+          // >
+          <Row gutter={16}>
+            {images.map((image: ImageType) => {
+              return (
+                <Col key={image.id}>
+                  <div style={{ marginBottom: 10 }}>
+                    <ImageModal imageData={image} width={200} />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Tooltip
+                      title={
+                        <Typography.Text style={{ color: "#fff" }}>
+                          {image.title}
+                          <br />
+                          <Typography.Text italic style={{ color: "#fff" }}>
+                            {image.prompt}
                             <br />
-                            <Typography.Text italic style={{ color: "#fff" }}>
-                              {image.prompt}
-                              <br />
-                              <br />
-                              <Typography.Link
-                                strong
-                                href={`/profile/${image.user.id}`}
-                              >
-                                {image.user.username}
-                              </Typography.Link>
-                              <br />
-                              {convertUtcDateToLocalDateString(image.createdAt)}
-                            </Typography.Text>
+                            <br />
+                            <Typography.Link
+                              strong
+                              href={`/profile/${image.user.id}`}
+                            >
+                              {image.user.username}
+                            </Typography.Link>
+                            <br />
+                            {convertUtcDateToLocalDateString(image.createdAt)}
                           </Typography.Text>
-                        }
-                      >
-                        <Typography.Text ellipsis style={{ maxWidth: 160 }}>
-                          {image.title || "Untitled"}
                         </Typography.Text>
-                      </Tooltip>
-                      <Popover
-                        content={
-                          <Space size='small'>
-                            <Space.Compact direction='vertical'>
-                              <EditImageButton image={image} />
-                              <DownloadImageButton image={image} />
-                              <DeleteImageButton image={image} />
-                            </Space.Compact>
-                          </Space>
-                        }
-                      >
-                        <Button
-                          icon={<MoreOutlined rotate={90} />}
-                          style={{ border: "none" }}
-                        />
-                      </Popover>
-                    </div>
-                  </Col>
-                );
-              })}
-            </Row>
-          </Image.PreviewGroup>
-        ) : currentImagesShown && displayImagesStyle === "list" ? (
+                      }
+                    >
+                      <Typography.Text ellipsis style={{ maxWidth: 160 }}>
+                        {image.title || "Untitled"}
+                      </Typography.Text>
+                    </Tooltip>
+                    <Popover
+                      content={
+                        <Space size='small'>
+                          <Space.Compact direction='vertical'>
+                            <EditImageButton image={image} />
+                            <DownloadImageButton image={image} />
+                            <DeleteImageButton image={image} />
+                          </Space.Compact>
+                        </Space>
+                      }
+                    >
+                      <Button
+                        icon={<MoreOutlined rotate={90} />}
+                        style={{ border: "none" }}
+                      />
+                    </Popover>
+                  </div>
+                </Col>
+              );
+            })}
+          </Row>
+        ) : // </Image.PreviewGroup>
+        currentImagesShown && displayImagesStyle === "list" ? (
           <List
             itemLayout='vertical'
             size='small'
