@@ -57,19 +57,21 @@ model User {
   comments     Comment[]
   imageLikes   ImageLike[]
   commentLikes CommentLike[]
+  collections  Collection[]
 }
 
 model Icon {
-  id          String      @id @default(cuid())
-  title       String?     @default("Untitled")
+  id          String       @id @default(cuid())
+  title       String?      @default("Untitled")
   prompt      String?
-  model       String?     @default("dall-e")
-  stylePreset String?     @default("none")
-  user        User?       @relation(fields: [userId], references: [id])
+  model       String?      @default("dall-e")
+  stylePreset String?      @default("none")
+  user        User?        @relation(fields: [userId], references: [id])
   userId      String?
-  createdAt   DateTime    @default(now())
+  createdAt   DateTime     @default(now())
   comments    Comment[]
   likes       ImageLike[]
+  collections Collection[]
 }
 
 model ImageLike {
@@ -103,6 +105,17 @@ model CommentLike {
   commentId String
 
   @@id([userId, commentId])
+}
+
+model Collection {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  description String?
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  images      Icon[]
 }
 
 model VerificationToken {
