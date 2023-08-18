@@ -2,7 +2,7 @@ import { prisma } from "~/services/prisma.server";
 
 /**
  * @description
- * This function creates adds a Comment to an Image in our DB
+ * This function creates a Comment to an Image in our DB
  */
 export const createComment = async ({
   imageId,
