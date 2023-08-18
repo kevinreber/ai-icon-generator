@@ -1,6 +1,7 @@
 import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
 import { CollectionsPage } from "~/pages";
-import { deleteUserImage, getUserImages } from "~/server";
+import { createNewCollection, getUserCollections } from "~/server";
+import { getSession } from "~/services";
 import { authenticator } from "~/services/auth.server";
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -12,25 +13,34 @@ export const loader = async ({ request }: LoaderArgs) => {
   const currentPage = Math.max(Number(searchParams.get("page") || 1), 1);
   const pageSize = Number(searchParams.get("page_size")) || 50;
 
-  const images = await getUserImages(user.id, currentPage, pageSize);
+  const collections = await getUserCollections(user.id, currentPage, pageSize);
 
-  return json({ data: images, user });
+  return json({ data: collections, user });
 };
 
 export async function action({ request }: ActionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+  const googleSessionData = (await session.get("_session")) || undefined;
+  const userId = googleSessionData.id;
+
+  if (!userId) {
+    throw new Error("Missing User ID: Must be logged in to Create a Comment");
+  }
+
   const formData = await request.formData();
   const intent = formData.get("intent");
 
   switch (intent) {
-    case "_delete_image": {
+    case "_create_collection": {
       const payload = JSON.parse(formData.get("body") as string);
-      const { imageId = "" } = payload;
+      const { title, description = "" } = payload;
+      const data = await createNewCollection({
+        userId,
+        title,
+        description,
+      });
 
-      const response = await deleteUserImage(imageId);
-      console.log("Response ------------------");
-      console.log(response);
-
-      return response;
+      return data;
     }
     default: {
       return {};
