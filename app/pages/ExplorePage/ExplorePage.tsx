@@ -130,15 +130,25 @@ const ExplorePage = () => {
                       </Typography.Text>
                     </Tooltip>
                     <Popover
+                      style={{ display: "block" }}
                       content={
                         <Space size='small' align='center'>
                           <Space.Compact direction='vertical'>
                             <LikeImageButton imageData={image} />
-                            <span style={{ color: "#64ffda" }}>
-                              <MessageOutlined />
-                              {image.comments.length > 0 &&
-                                image.comments.length}
-                            </span>
+                            <Button
+                              size='small'
+                              style={{
+                                border: "none",
+                                boxShadow: "none",
+                                cursor: "default",
+                              }}
+                              icon={<MessageOutlined />}
+                            >
+                              <span>
+                                {image.comments.length > 0 &&
+                                  image.comments.length}
+                              </span>
+                            </Button>
                           </Space.Compact>
                         </Space>
                       }
@@ -205,10 +215,20 @@ const ExplorePage = () => {
                         </div>
                         <Space>
                           <LikeImageButton imageData={image} />
-                          <Space style={{ color: "#64ffda" }}>
-                            <MessageOutlined />
-                            {image.comments.length > 0 && image.comments.length}
-                          </Space>
+                          <Button
+                            size='small'
+                            style={{
+                              border: "none",
+                              boxShadow: "none",
+                              cursor: "default",
+                            }}
+                            icon={<MessageOutlined />}
+                          >
+                            <span>
+                              {image.comments.length > 0 &&
+                                image.comments.length}
+                            </span>
+                          </Button>
                         </Space>
                       </div>
                     </>
