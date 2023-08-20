@@ -8,7 +8,9 @@ export async function action({ request }: ActionArgs) {
   const userId = googleSessionData.id;
 
   if (!userId) {
-    throw new Error("Missing User ID: Must be logged in to Create a Comment");
+    throw new Error(
+      "Missing User ID: Must be logged in to Create a Collection"
+    );
   }
 
   const formData = await request.formData();

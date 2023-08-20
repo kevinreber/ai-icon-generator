@@ -33,6 +33,12 @@ export const getUserCollections = async (
         },
       },
       createdAt: true,
+      updatedAt: true,
+      images: {
+        select: {
+          id: true,
+        },
+      },
     },
   });
 

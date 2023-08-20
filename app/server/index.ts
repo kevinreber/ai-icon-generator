@@ -16,3 +16,5 @@ export * from "./createImageFromStableDiffusionAPI";
 export * from "./getUserData";
 export * from "./getUserCollections";
 export * from "./createNewCollection";
+export * from "./deleteCollection";
+export * from "./updateCollection";
