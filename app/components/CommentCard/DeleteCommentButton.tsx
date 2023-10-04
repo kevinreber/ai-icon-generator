@@ -24,7 +24,7 @@ const DeleteCommentButton = ({
       { intent: "image-delete-comment" },
       {
         method: "delete",
-        action: `api/image/${imageData.id}/comment/${commentId}`,
+        action: `/api/image/${imageData.id}/comment/${commentId}`,
       }
     );
   };

@@ -17,7 +17,7 @@ const DeleteCollectionButton = ({ collectionId }: { collectionId: string }) => {
       { intent: "_delete_collection" },
       {
         method: "DELETE",
-        action: `api/collection/${collectionId}`,
+        action: `/api/collection/${collectionId}`,
       }
     );
   };

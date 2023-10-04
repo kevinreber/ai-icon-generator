@@ -55,7 +55,7 @@ const ImageModal = ({
   const handleCommentFormSubmit = (formValues: { comment: string }) => {
     fetcher.submit(
       { intent: "image-add-comment", body: JSON.stringify(formValues) },
-      { method: "post", action: `api/image/${imageData.id}/comment?index` }
+      { method: "post", action: `/api/image/${imageData.id}/comment?index` }
     );
   };
 

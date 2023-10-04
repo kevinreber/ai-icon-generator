@@ -40,7 +40,7 @@ const CommentCard = ({
   //     { intent: "image-edit-comment" },
   //     {
   //       method: "patch",
-  //       action: `api/image/${imageData.id}/comment/${commentId}`,
+  //       action: `/api/image/${imageData.id}/comment/${commentId}`,
   //     }
   //   );
   // };

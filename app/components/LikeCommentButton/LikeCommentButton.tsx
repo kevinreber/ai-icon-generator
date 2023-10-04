@@ -27,7 +27,7 @@ const LikeCommentButton = ({
       { intent: "image-toggle-like" },
       {
         method: "post",
-        action: `api/image/${imageData.id}/comment/${comment.id}/like?index`,
+        action: `/api/image/${imageData.id}/comment/${comment.id}/like?index`,
       }
     );
   };

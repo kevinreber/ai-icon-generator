@@ -20,7 +20,7 @@ const LikeImageButton = ({ imageData }: { imageData: ImageType }) => {
       { intent: "image-toggle-like" },
       {
         method: "post",
-        action: `api/image/${imageData.id}/like?index`,
+        action: `/api/image/${imageData.id}/like?index`,
       }
     );
   };
