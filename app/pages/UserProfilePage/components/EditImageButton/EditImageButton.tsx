@@ -40,7 +40,7 @@ const EditImageButton = ({ image }: { image: ImageType }) => {
 
     fetcher.submit(
       { intent: "image-edit-image-data", body: JSON.stringify(formValues) },
-      { method: "PATCH", action: `api/image/${image.id}?index` }
+      { method: "PATCH", action: `/api/image/${image.id}?index` }
     );
   };
 

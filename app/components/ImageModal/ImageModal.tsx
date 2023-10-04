@@ -23,6 +23,7 @@ import {
   CopyToClipboardButton,
   LikeImageButton,
   CommentCard,
+  AddImageToCollectionButton,
 } from "~/components";
 import { useRemixFetcher } from "~/hooks";
 import { UserContext } from "~/context";
@@ -54,7 +55,7 @@ const ImageModal = ({
   const handleCommentFormSubmit = (formValues: { comment: string }) => {
     fetcher.submit(
       { intent: "image-add-comment", body: JSON.stringify(formValues) },
-      { method: "post", action: `api/image/${imageData.id}/comment?index` }
+      { method: "post", action: `/api/image/${imageData.id}/comment?index` }
     );
   };
 
@@ -159,7 +160,10 @@ const ImageModal = ({
             <Typography.Text strong style={{ fontSize: 16 }}>
               {imageData.title || "Untitled"}
             </Typography.Text>
-            <LikeImageButton imageData={imageData} />
+            <Space size='small'>
+              <LikeImageButton imageData={imageData} />
+              <AddImageToCollectionButton imageData={imageData} />
+            </Space>
           </Space>
 
           <Tabs

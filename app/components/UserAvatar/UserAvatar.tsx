@@ -54,7 +54,7 @@ const UserAvatar = () => {
     handleToggleModal();
     fetcher.submit(
       { intent: "user-update-user-data", body: JSON.stringify(values) },
-      { method: "patch", action: "api/user?index" }
+      { method: "patch", action: "/api/user?index" }
     );
 
     console.log("Fetcher");

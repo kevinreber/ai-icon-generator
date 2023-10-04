@@ -20,6 +20,26 @@ type UserGoogleData = {
 export const getLoggedInUserData = async (userGoogleData: UserGoogleData) => {
   let userData = await prisma.user.findUnique({
     where: { id: userGoogleData.id },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      email: true,
+      image: true,
+      createdAt: true,
+      collections: {
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          images: {
+            select: {
+              imageId: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   if (!userData?.id) {
@@ -33,6 +53,8 @@ export const getLoggedInUserData = async (userGoogleData: UserGoogleData) => {
       image: picture,
     };
 
+    // If new user is created, no collections will exist
+    // @ts-ignore
     userData = await prisma.user.create({ data: newUser });
   }
 

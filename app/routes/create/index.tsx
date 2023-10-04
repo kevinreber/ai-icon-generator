@@ -1,7 +1,6 @@
 import { type LoaderArgs, json, type ActionArgs } from "@remix-run/node";
 import { CreateImagePage } from "~/pages";
 import { authenticator } from "~/services/auth.server";
-import { createImageFromDallEAPI } from "~/server";
 import { updateUserCredits } from "~/server/updateUserCredits";
 import { createNewImages } from "~/server/createNewImages";
 
@@ -31,7 +30,7 @@ export async function action({ request }: ActionArgs) {
         await updateUserCredits(user.id, formattedPayload.numberOfImages);
       } catch (error: any) {
         console.error(error);
-        return { image: "", message: "Error", error: error.message };
+        return { images: "", message: "Error", error: error.message };
       }
 
       const data = await createNewImages(formattedPayload, user.id);

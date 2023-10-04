@@ -5,3 +5,4 @@ export * from "./LikeCommentButton";
 export * from "./ImageModal";
 export * from "./CommentCard/";
 export * from "./NavigationSidebar";
+export * from "./AddImageToCollectionButton";
