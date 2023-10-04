@@ -45,7 +45,7 @@ model Session {
 model User {
   id           String        @id @default(cuid())
   name         String?
-  username     String?
+  username     String?       @unique
   email        String?       @unique
   image        String?
   credits      Int           @default(5)
@@ -61,17 +61,19 @@ model User {
 }
 
 model Icon {
-  id          String       @id @default(cuid())
-  title       String?      @default("Untitled")
+  id          String               @id @default(cuid())
+  title       String?              @default("Untitled")
   prompt      String?
-  model       String?      @default("dall-e")
-  stylePreset String?      @default("none")
-  user        User?        @relation(fields: [userId], references: [id])
+  model       String?              @default("dall-e")
+  stylePreset String?              @default("none")
+  user        User?                @relation(fields: [userId], references: [id])
   userId      String?
-  createdAt   DateTime     @default(now())
+  createdAt   DateTime             @default(now())
   comments    Comment[]
   likes       ImageLike[]
-  collections Collection[]
+  collections CollectionHasImage[]
+
+  @@index([userId])
 }
 
 model ImageLike {
@@ -108,14 +110,28 @@ model CommentLike {
 }
 
 model Collection {
-  id          String   @id @default(cuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String               @id @default(cuid())
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
   title       String
   description String?
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
-  images      Icon[]
+  images      CollectionHasImage[]
+
+  @@index([userId])
+}
+
+model CollectionHasImage {
+  id           String      @id @default(cuid())
+  collectionId String
+  imageId      String
+  collection   Collection? @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  image        Icon?       @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  @@index([collectionId, imageId])
+  @@index([collectionId])
+  @@index([imageId])
 }
 
 model VerificationToken {
