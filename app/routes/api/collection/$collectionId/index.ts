@@ -1,4 +1,4 @@
-import { type ActionArgs } from "@remix-run/node";
+import { redirect, type ActionArgs } from "@remix-run/node";
 import { deleteCollection, updateCollection } from "~/server";
 import { getSession } from "~/services";
 
@@ -15,8 +15,9 @@ export async function action({ request, params }: ActionArgs) {
   switch (request.method.toUpperCase()) {
     case "DELETE": {
       const response = await deleteCollection(collectionId);
+      console.log(response);
 
-      return response;
+      return redirect("/collections");
     }
     case "PATCH": {
       const formData = await request.formData();

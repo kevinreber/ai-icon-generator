@@ -18,3 +18,6 @@ export * from "./getUserCollections";
 export * from "./createNewCollection";
 export * from "./deleteCollection";
 export * from "./updateCollection";
+export * from "./getCollectionData";
+export * from "./addImageToCollection";
+export * from "./removeImageFromCollection";
