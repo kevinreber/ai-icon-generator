@@ -35,6 +35,7 @@ export const getCollectionData = async (collectionId: string) => {
                     username: true,
                   },
                 },
+                likes: true,
               },
             },
           },
