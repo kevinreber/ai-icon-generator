@@ -18,7 +18,27 @@ export const getCollectionData = async (collectionId: string) => {
         },
         createdAt: true,
         updatedAt: true,
-        images: true,
+        images: {
+          select: {
+            image: {
+              select: {
+                id: true,
+                prompt: true,
+                model: true,
+                stylePreset: true,
+                title: true,
+                createdAt: true,
+                comments: true,
+                user: {
+                  select: {
+                    id: true,
+                    username: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
