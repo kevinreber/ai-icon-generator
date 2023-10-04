@@ -23,6 +23,7 @@ import {
   CopyToClipboardButton,
   LikeImageButton,
   CommentCard,
+  AddImageToCollectionButton,
 } from "~/components";
 import { useRemixFetcher } from "~/hooks";
 import { UserContext } from "~/context";
@@ -159,7 +160,10 @@ const ImageModal = ({
             <Typography.Text strong style={{ fontSize: 16 }}>
               {imageData.title || "Untitled"}
             </Typography.Text>
-            <LikeImageButton imageData={imageData} />
+            <Space size='small'>
+              <LikeImageButton imageData={imageData} />
+              <AddImageToCollectionButton imageData={imageData} />
+            </Space>
           </Space>
 
           <Tabs

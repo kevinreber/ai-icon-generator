@@ -1,4 +1,6 @@
 import { createContext } from "react";
+import { type Collection } from "~/types";
+
 type User = {
   id: string;
   name: string;
@@ -8,6 +10,7 @@ type User = {
   credits: number;
   createdAt: Date;
   updateddAt: Date;
+  collections: Collection[];
 };
 
 // @ts-ignore
