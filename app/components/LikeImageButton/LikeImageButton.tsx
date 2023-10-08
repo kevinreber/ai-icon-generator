@@ -21,7 +21,7 @@ const LikeImageButton = ({ imageData }: { imageData: ImageType }) => {
       {
         method: "post",
         action: `/api/image/${imageData.id}/like?index`,
-      }
+      },
     );
   };
 
@@ -35,7 +35,7 @@ const LikeImageButton = ({ imageData }: { imageData: ImageType }) => {
 
   return (
     <Button
-      size='small'
+      size="small"
       style={{ border: "none", boxShadow: "none" }}
       icon={buttonIcon}
       onClick={handleLikeImage}

@@ -12,24 +12,24 @@ const DeleteCollectionButton = ({ collectionId }: { collectionId: string }) => {
     // },
   });
 
-  const handleDeleteComment = (collectionId: string) => {
+  const handleDeleteComment = () => {
     fetcher.submit(
       { intent: "_delete_collection" },
       {
         method: "DELETE",
         action: `/api/collection/${collectionId}`,
-      }
+      },
     );
   };
 
   return (
     <Button
-      size='small'
+      size="small"
       style={{ border: "none" }}
       icon={<DeleteOutlined />}
       danger
       loading={isLoadingFetcher}
-      onClick={() => handleDeleteComment(collectionId)}
+      onClick={handleDeleteComment}
     >
       Delete
     </Button>

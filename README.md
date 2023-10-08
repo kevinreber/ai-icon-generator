@@ -4,6 +4,7 @@
 - [Netlify Functions](https://www.netlify.com/products/functions/)
 
 ## To Run app locally
+
 Must have `node` installed
 
 ```sh

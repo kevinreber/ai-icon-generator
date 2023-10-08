@@ -2,7 +2,7 @@ import { getCurrentLocaleDateAsString } from "~/utils";
 
 export const downloadBase64Image = async (
   base64Image: any,
-  imageName: string
+  imageName: string,
 ) => {
   console.log("downloading image .....");
   const nowDate = getCurrentLocaleDateAsString();

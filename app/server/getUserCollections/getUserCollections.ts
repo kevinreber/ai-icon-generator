@@ -6,7 +6,7 @@ const DEFAULT_PAGE_SIZE = 50;
 export const getUserCollections = async (
   userId: string,
   page = DEFAULT_CURRENT_PAGE,
-  pageSize = DEFAULT_PAGE_SIZE
+  pageSize = DEFAULT_PAGE_SIZE,
 ) => {
   const count = await prisma.collection.count({
     where: {

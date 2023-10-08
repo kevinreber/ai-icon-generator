@@ -31,14 +31,14 @@ const EditCollectionButton = ({ collection }: { collection: Collection }) => {
 
     fetcher.submit(
       { intent: "_edit_collection", body: JSON.stringify(formValues) },
-      { method: "PATCH", action: `/api/collection/${collection.id}` }
+      { method: "PATCH", action: `/api/collection/${collection.id}` },
     );
   };
 
   return (
     <>
       <Button
-        size='small'
+        size="small"
         icon={<EditOutlined />}
         style={{ border: "none", textAlign: "left" }}
         loading={isLoadingData}
@@ -54,7 +54,7 @@ const EditCollectionButton = ({ collection }: { collection: Collection }) => {
         <div>
           <Form
             form={formInstance}
-            layout='vertical'
+            layout="vertical"
             colon={false}
             initialValues={{
               title: collection.title,
@@ -62,17 +62,17 @@ const EditCollectionButton = ({ collection }: { collection: Collection }) => {
             }}
             onFinish={handleSubmitForm}
           >
-            <Form.Item label='Title' name='title'>
-              <Input placeholder='Enter title of image' />
+            <Form.Item label="Title" name="title">
+              <Input placeholder="Enter title of image" />
             </Form.Item>
-            <Form.Item label='Description' name='description'>
-              <Input placeholder='Enter collection description' />
+            <Form.Item label="Description" name="description">
+              <Input placeholder="Enter collection description" />
             </Form.Item>
           </Form>
           <footer style={{ display: "flex", justifyContent: "flex-end" }}>
             <Space>
               <Button onClick={toggleEditImageModal}>Cancel</Button>
-              <Button onClick={handleSubmitEditImageData} type='primary'>
+              <Button onClick={handleSubmitEditImageData} type="primary">
                 OK
               </Button>
             </Space>

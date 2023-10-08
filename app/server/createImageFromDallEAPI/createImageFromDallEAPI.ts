@@ -27,7 +27,7 @@ const DEFAULT_PAYLOAD = {
  */
 const createDallEImages = async (
   prompt: string,
-  numberOfImages = DEFAULT_NUMBER_OF_IMAGES_CREATED
+  numberOfImages = DEFAULT_NUMBER_OF_IMAGES_CREATED,
 ) => {
   const promptMessage = prompt;
   const numberOfImagesToGenerate = Math.round(numberOfImages);
@@ -40,7 +40,7 @@ const createDallEImages = async (
   });
 
   const base64EncodedImages = response.data.data.map(
-    (result) => result.b64_json
+    (result) => result.b64_json,
   );
 
   return base64EncodedImages;
@@ -55,14 +55,14 @@ const createDallEImages = async (
  */
 export const createImageFromDallEAPI = async (
   formData = DEFAULT_PAYLOAD,
-  userId: string
+  userId: string,
 ) => {
   const { prompt, numberOfImages, model } = formData;
 
   try {
     if (process.env.USE_MOCK_DALLE === "true") {
       console.log(
-        "\x1b[33m ⚠️ Warning – Using Mock Data ************************* \x1b[0m"
+        "\x1b[33m ⚠️ Warning – Using Mock Data ************************* \x1b[0m",
       );
       const mockData = getMockDataResponse(numberOfImages);
       await setTimeout(THREE_SECONDS_IN_MS);
@@ -73,7 +73,7 @@ export const createImageFromDallEAPI = async (
     // Generate Images
     const imagesImages = await createDallEImages(prompt, numberOfImages);
 
-    const formattedImageData = await Promise.all(
+    const formattedImagesData = await Promise.all(
       imagesImages.map(async (imageImage) => {
         // Store Image into DB
         const imageData = await addNewImageToDB(prompt, userId, model);
@@ -92,11 +92,11 @@ export const createImageFromDallEAPI = async (
         };
 
         return formattedImageData;
-      })
+      }),
     );
 
     // 'https://ai-icon-generator.s3.us-east-2.amazonaws.com/clgueu0pg0001r2fbyg3do2ra'
-    return { images: formattedImageData };
+    return { images: formattedImagesData };
   } catch (error) {
     console.error(error);
 

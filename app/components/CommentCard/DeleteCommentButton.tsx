@@ -25,13 +25,13 @@ const DeleteCommentButton = ({
       {
         method: "delete",
         action: `/api/image/${imageData.id}/comment/${commentId}`,
-      }
+      },
     );
   };
 
   return (
     <Button
-      size='small'
+      size="small"
       style={{ border: "none" }}
       icon={<DeleteOutlined />}
       danger

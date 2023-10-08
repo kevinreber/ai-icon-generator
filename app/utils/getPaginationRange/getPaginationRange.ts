@@ -13,7 +13,11 @@
 
   Reference: https://stackoverflow.com/questions/70999882/pagination-calculation-result-per-page-calculation-after-sorting
  */
-export const getPaginationRange = (currentPage = 0, pageSize = 0, totalItems = 0) => {
+export const getPaginationRange = (
+  currentPage = 0,
+  pageSize = 0,
+  totalItems = 0,
+) => {
   const startRange = (currentPage - 1) * pageSize + 1;
   const endRange = Math.min(currentPage * pageSize, totalItems);
 

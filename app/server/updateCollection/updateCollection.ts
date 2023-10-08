@@ -6,7 +6,7 @@ import { prisma } from "~/services/prisma.server";
  */
 export const updateCollection = async (
   collectionId: string,
-  payload: { title: string; description: string }
+  payload: { title: string; description: string },
 ) => {
   try {
     const message = `Success updating Collection Data for collectionId: ${collectionId}`;

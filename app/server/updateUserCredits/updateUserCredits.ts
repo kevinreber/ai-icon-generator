@@ -8,7 +8,7 @@ import { prisma } from "~/services/prisma.server";
  */
 export const updateUserCredits = async (
   userId: string,
-  numberOfCreditsToDecrement = 1
+  numberOfCreditsToDecrement = 1,
 ) => {
   const userData = await prisma.user.updateMany({
     where: {

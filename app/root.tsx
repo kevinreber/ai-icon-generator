@@ -27,7 +27,7 @@ export function links() {
   ];
 }
 
-export let loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const user = await authenticator.isAuthenticated(request);
   if (!user) {
     return json({ data: undefined });
@@ -43,7 +43,7 @@ export default function App() {
   const userData = loaderData.data;
 
   return (
-    <html lang='en'>
+    <html lang="en">
       <head>
         <Meta />
         <Links />

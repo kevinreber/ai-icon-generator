@@ -65,7 +65,7 @@ const CollectionDetailsPage = () => {
   const navigation = useNavigation();
   const isLoadingData = navigation.state !== "idle";
 
-  const isCurrentUsersCollection = collectionData.user.id == userData.id;
+  const isCurrentUsersCollection = collectionData.user.id === userData.id;
 
   // const handlePaginationChange = (page: number, pageSize: number) => {
   //   setSearchParams((prevParams: any) => ({
@@ -91,7 +91,7 @@ const CollectionDetailsPage = () => {
           marginBottom: "1rem",
         }}
       >
-        <Space direction='vertical' size='small'>
+        <Space direction="vertical" size="small">
           <Typography.Title level={3}>{collectionData.title}</Typography.Title>
           <Typography.Text>{collectionData.description}</Typography.Text>
           <Space>
@@ -99,7 +99,7 @@ const CollectionDetailsPage = () => {
             <Typography.Link italic href={`/profile/${collectionData.user.id}`}>
               {collectionData.user.username}
             </Typography.Link>
-            <Typography.Text italic type='secondary'>
+            <Typography.Text italic type="secondary">
               {totalCollections} total images
             </Typography.Text>
           </Space>
@@ -108,11 +108,11 @@ const CollectionDetailsPage = () => {
         {isCurrentUsersCollection && (
           <Space style={{ marginLeft: "auto" }}>
             <EditCollectionButton
-              key='edit-collection'
+              key="edit-collection"
               collection={collectionData}
             />
             <DeleteCollectionButton
-              key='delete-collection'
+              key="delete-collection"
               collectionId={collectionData.id}
             />
           </Space>
@@ -166,8 +166,8 @@ const CollectionDetailsPage = () => {
                     </Tooltip>
                     <Popover
                       content={
-                        <Space size='small'>
-                          <Space.Compact direction='vertical'>
+                        <Space size="small">
+                          <Space.Compact direction="vertical">
                             <EditImageButton image={image} />
                             <DownloadImageButton image={image} />
                             <DeleteImageButton image={image} />

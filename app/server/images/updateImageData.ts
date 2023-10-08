@@ -2,7 +2,7 @@ import { prisma } from "~/services/prisma.server";
 
 export const updateImageData = async (
   imageId: string,
-  payload: { title: string }
+  payload: { title: string },
 ) => {
   try {
     const message = `Success updating Image Data for imageID: ${imageId}`;

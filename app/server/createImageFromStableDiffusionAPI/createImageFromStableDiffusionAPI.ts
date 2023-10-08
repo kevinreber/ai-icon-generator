@@ -37,7 +37,7 @@ const createStableDiffusionImages = async (
   prompt: string,
   numberOfImages = DEFAULT_NUMBER_OF_IMAGES_CREATED,
   model = DEFAULT_AI_IMAGE_LANGUAGE_MODEL,
-  stylePreset = DEFAULT_IMAGE_STYLE_PRESET
+  stylePreset = DEFAULT_IMAGE_STYLE_PRESET,
 ) => {
   const promptMessage = prompt;
   const numberOfImagesToGenerate = Math.round(numberOfImages);
@@ -71,7 +71,7 @@ const createStableDiffusionImages = async (
         Authorization: `Bearer ${process.env.STABLE_DIFFUSION_API_KEY}`,
       },
       body: JSON.stringify(body),
-    }
+    },
   );
 
   if (!response.ok) {
@@ -92,14 +92,14 @@ const createStableDiffusionImages = async (
  */
 export const createImageFromStableDiffusionAPI = async (
   formData = DEFAULT_PAYLOAD,
-  userId: string
+  userId: string,
 ) => {
   const { prompt, numberOfImages, model, stylePreset } = formData;
 
   try {
     if (process.env.USE_MOCK_DALLE === "true") {
       console.log(
-        "\x1b[33m ⚠️ Warning – Using Mock Data ************************* \x1b[0m"
+        "\x1b[33m ⚠️ Warning – Using Mock Data ************************* \x1b[0m",
       );
       const mockData = getMockDataResponse(numberOfImages);
       await setTimeout(THREE_SECONDS_IN_MS);
@@ -112,10 +112,10 @@ export const createImageFromStableDiffusionAPI = async (
       prompt,
       numberOfImages,
       model,
-      stylePreset
+      stylePreset,
     );
 
-    const formattedImageData = await Promise.all(
+    const formattedImagesData = await Promise.all(
       images.artifacts.map(async (image) => {
         if (image.finishReason !== "ERROR") {
           // Store Image into DB
@@ -123,7 +123,7 @@ export const createImageFromStableDiffusionAPI = async (
             prompt,
             userId,
             model,
-            stylePreset
+            stylePreset,
           );
           console.log("Stored Image Data in DB: ", imageData.id);
 
@@ -142,11 +142,11 @@ export const createImageFromStableDiffusionAPI = async (
 
           return formattedImageData;
         }
-      })
+      }),
     );
 
     // 'https://ai-icon-generator.s3.us-east-2.amazonaws.com/clgueu0pg0001r2fbyg3do2ra'
-    return { images: formattedImageData };
+    return { images: formattedImagesData };
   } catch (error) {
     console.error(error);
 

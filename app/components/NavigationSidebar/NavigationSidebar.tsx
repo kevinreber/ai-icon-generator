@@ -18,7 +18,7 @@ const NavigationSidebar = () => {
   const handleLogIn = () => {
     fetcher.submit(
       { intent: "user-log-in" },
-      { method: "post", action: `/api/auth/${SocialsProvider.GOOGLE}` }
+      { method: "post", action: `/api/auth/${SocialsProvider.GOOGLE}` },
     );
   };
 
@@ -46,7 +46,7 @@ const NavigationSidebar = () => {
         }}
       >
         <Typography.Link
-          href='/'
+          href="/"
           style={{
             color: "#e6f1ff",
             height: 64,
@@ -56,10 +56,10 @@ const NavigationSidebar = () => {
         >
           AI Image Generator
         </Typography.Link>
-        <Space direction='vertical' style={{ alignItems: "flex-start" }}>
+        <Space direction="vertical" style={{ alignItems: "flex-start" }}>
           <Button
-            type='link'
-            href='/explore'
+            type="link"
+            href="/explore"
             icon={<SearchOutlined />}
             style={{ color: "#fff" }}
           >
@@ -68,16 +68,16 @@ const NavigationSidebar = () => {
           {isLoggedIn && (
             <>
               <Button
-                type='link'
-                href='/collections'
+                type="link"
+                href="/collections"
                 icon={<BookOutlined />}
                 style={{ color: "#fff" }}
               >
                 Collections
               </Button>
               <Button
-                href='/create'
-                type='link'
+                href="/create"
+                type="link"
                 style={{ color: "#fff" }}
                 icon={<PlusCircleOutlined />}
               >

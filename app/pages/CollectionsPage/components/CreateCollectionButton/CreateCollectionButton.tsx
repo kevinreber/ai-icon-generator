@@ -43,7 +43,7 @@ const CreateCollectionButton = () => {
 
     fetcher.submit(
       { intent: "_create_collection", body: JSON.stringify(formValues) },
-      { method: "POST", action: `/api/collection` }
+      { method: "POST", action: `/api/collection` },
     );
   };
 
@@ -57,24 +57,24 @@ const CreateCollectionButton = () => {
         Create Collection
       </Button>
       <Modal
-        title='Create New Collection'
+        title="Create New Collection"
         open={showCreateCollectionModal}
         onCancel={toggleCreateCollectionModal}
         onOk={handleSubmitNewCollection}
-        okText='Create'
+        okText="Create"
       >
         <Form
           form={formInstance}
           onFinish={handleSubmitForm}
           colon={false}
-          layout='vertical'
+          layout="vertical"
           disabled={isLoadingData}
           initialValues={{ label: undefined, description: undefined }}
         >
-          <Form.Item label='Title' name='title' required>
+          <Form.Item label="Title" name="title" required>
             <Input placeholder='Ex: "My Favorites, Inspiration"' />
           </Form.Item>
-          <Form.Item label='Description' name='description'>
+          <Form.Item label="Description" name="description">
             <Input placeholder='Ex: "My Favorites AI generated images"' />
           </Form.Item>
         </Form>

@@ -13,19 +13,19 @@ async function main() {
 
   if (!doesEnvFileExist) {
     console.log(
-      chalk.red(`❌ .env file not found inside of project directory`)
+      chalk.red(`❌ .env file not found inside of project directory`),
     );
     await Shell`cp .env.example .env`;
     console.log(
       chalk.green(
-        "✅ Created .env file at the following location `~/ai-icon-generator`"
-      )
+        "✅ Created .env file at the following location `~/ai-icon-generator`",
+      ),
     );
   } else {
     console.log(chalk.green`✅ .env exists`);
   }
   console.log(
-    `Please check the .env file to ensure the environment variables are filled before launching the server.`
+    `Please check the .env file to ensure the environment variables are filled before launching the server.`,
   );
 
   console.log(`\n`);

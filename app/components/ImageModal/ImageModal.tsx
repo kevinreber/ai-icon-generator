@@ -55,7 +55,7 @@ const ImageModal = ({
   const handleCommentFormSubmit = (formValues: { comment: string }) => {
     fetcher.submit(
       { intent: "image-add-comment", body: JSON.stringify(formValues) },
-      { method: "post", action: `/api/image/${imageData.id}/comment?index` }
+      { method: "post", action: `/api/image/${imageData.id}/comment?index` },
     );
   };
 
@@ -83,7 +83,7 @@ const ImageModal = ({
         open={showImageModal}
         destroyOnClose
         onCancel={() => setShowImageModal(false)}
-        width='90%'
+        width="90%"
         footer={null}
         bodyStyle={{ display: "flex", padding: 0, height: "100%" }}
         style={{ top: "5%", padding: 0, height: "90%" }}
@@ -151,7 +151,7 @@ const ImageModal = ({
               <Typography.Link strong href={`/profile/${imageData.user.id}`}>
                 {imageData.user.username}
               </Typography.Link>
-              <Typography.Text type='secondary' style={{ fontSize: 12 }}>
+              <Typography.Text type="secondary" style={{ fontSize: 12 }}>
                 {convertUtcDateToLocalDateString(imageData.createdAt)}
               </Typography.Text>
             </div>
@@ -160,7 +160,7 @@ const ImageModal = ({
             <Typography.Text strong style={{ fontSize: 16 }}>
               {imageData.title || "Untitled"}
             </Typography.Text>
-            <Space size='small'>
+            <Space size="small">
               <LikeImageButton imageData={imageData} />
               <AddImageToCollectionButton imageData={imageData} />
             </Space>
@@ -168,7 +168,7 @@ const ImageModal = ({
 
           <Tabs
             style={{ height: "100%" }}
-            defaultActiveKey='comments'
+            defaultActiveKey="comments"
             items={[
               {
                 label: (
@@ -201,15 +201,15 @@ const ImageModal = ({
                           form={formInstance}
                         >
                           <Form.Item
-                            name='comment'
+                            name="comment"
                             style={{
                               margin: 0,
                             }}
                           >
                             <Space.Compact style={{ width: "100%" }}>
-                              <Input placeholder='Leave a comment' allowClear />
+                              <Input placeholder="Leave a comment" allowClear />
                               <Button
-                                type='primary'
+                                type="primary"
                                 ghost
                                 icon={<SendOutlined />}
                                 onClick={() => formInstance.submit()}
@@ -230,7 +230,7 @@ const ImageModal = ({
                       ))
                     ) : (
                       <Typography.Text
-                        type='secondary'
+                        type="secondary"
                         italic
                         style={{ alignSelf: "center" }}
                       >
@@ -251,16 +251,16 @@ const ImageModal = ({
                 children: (
                   <div>
                     <Descriptions
-                      layout='vertical'
+                      layout="vertical"
                       labelStyle={{ fontWeight: 600 }}
                       colon={false}
                     >
-                      <Descriptions.Item label='Engine Model'>
+                      <Descriptions.Item label="Engine Model">
                         <Typography.Text italic>
                           {imageData.model}
                         </Typography.Text>
                       </Descriptions.Item>
-                      <Descriptions.Item label='Prompt'>
+                      <Descriptions.Item label="Prompt">
                         <Typography.Text italic>
                           {imageData.prompt}
                         </Typography.Text>

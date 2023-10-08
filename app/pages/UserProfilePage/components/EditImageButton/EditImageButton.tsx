@@ -40,14 +40,14 @@ const EditImageButton = ({ image }: { image: ImageType }) => {
 
     fetcher.submit(
       { intent: "image-edit-image-data", body: JSON.stringify(formValues) },
-      { method: "PATCH", action: `/api/image/${image.id}?index` }
+      { method: "PATCH", action: `/api/image/${image.id}?index` },
     );
   };
 
   return (
     <>
       <Button
-        size='small'
+        size="small"
         icon={<EditOutlined />}
         style={{ border: "none", textAlign: "left" }}
         loading={isLoadingData}
@@ -82,22 +82,22 @@ const EditImageButton = ({ image }: { image: ImageType }) => {
             </div>
             <Form
               form={formInstance}
-              layout='vertical'
+              layout="vertical"
               colon={false}
               initialValues={{ title: image.title || undefined }}
               onFinish={handleSubmitForm}
             >
-              <Form.Item label='Title' name='title'>
-                <Input placeholder='Enter title of image' />
+              <Form.Item label="Title" name="title">
+                <Input placeholder="Enter title of image" />
               </Form.Item>
-              <Form.Item label='Prompt'>
+              <Form.Item label="Prompt">
                 <Typography.Text italic>{image.prompt}</Typography.Text>
               </Form.Item>
             </Form>
             <footer style={{ display: "flex", justifyContent: "flex-end" }}>
               <Space>
                 <Button onClick={toggleEditImageModal}>Cancel</Button>
-                <Button onClick={handleSubmitEditImageData} type='primary'>
+                <Button onClick={handleSubmitEditImageData} type="primary">
                   OK
                 </Button>
               </Space>

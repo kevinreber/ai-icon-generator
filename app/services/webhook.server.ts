@@ -4,7 +4,7 @@ import { prisma } from "./prisma.server";
 export const handleStripeEvent = async (
   type: string,
   data: Stripe.Event.Data,
-  id: string
+  id: string,
 ) => {
   try {
     const isTestEvent = id === "evt_00000000000000";

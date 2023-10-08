@@ -2,7 +2,7 @@ import { prisma } from "~/services/prisma.server";
 
 export const updateUserData = async (
   userId: string,
-  payload: { username: string }
+  payload: { username: string },
 ) => {
   try {
     const message = `Success updating User Data for userID: ${userId}`;

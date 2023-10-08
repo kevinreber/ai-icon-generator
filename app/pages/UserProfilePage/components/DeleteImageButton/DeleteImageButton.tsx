@@ -27,14 +27,15 @@ const DeleteImageButton = ({ image }: { image: ImageType }) => {
         intent: "_delete_image",
         body: JSON.stringify({ imageId: image.id }),
       },
-      { method: "DELETE" }
+      { method: "DELETE" },
     );
   };
 
   return (
     <>
       <Popconfirm
-        title='Delete this image'
+        title="Delete this image"
+        // @ts-ignore
         description={
           <>
             Are you sure to delete the image:
@@ -50,11 +51,11 @@ const DeleteImageButton = ({ image }: { image: ImageType }) => {
         popupVisible={showPopConfirm}
         onConfirm={handleDeleteImage}
         onCancel={togglePopConfirm}
-        okText='Yes'
-        cancelText='No'
+        okText="Yes"
+        cancelText="No"
       >
         <Button
-          size='small'
+          size="small"
           icon={<DeleteOutlined />}
           danger
           style={{ border: "none", textAlign: "left" }}

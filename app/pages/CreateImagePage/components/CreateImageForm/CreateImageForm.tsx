@@ -6,7 +6,7 @@ import {
   Input,
   Radio,
   Row,
-  ColorPicker,
+  // ColorPicker,
   InputNumber,
   Select,
 } from "antd";
@@ -56,7 +56,7 @@ const CreateImageForm = () => {
         intent: "_generate_image",
         body: JSON.stringify(formValues),
       },
-      { method: "POST" }
+      { method: "POST" },
     );
   };
 
@@ -65,23 +65,23 @@ const CreateImageForm = () => {
       form={formInstance}
       onFinish={handleFormSubmit}
       colon={false}
-      layout='vertical'
+      layout="vertical"
       disabled={isLoadingData}
       initialValues={DEFAULT_FORM_VALUES}
     >
-      <Form.Item name='prompt' label='Describe your image' required>
+      <Form.Item name="prompt" label="Describe your image" required>
         <Input.TextArea
           placeholder='Ex: "A happy panda"'
           style={{ height: 120 }}
         />
       </Form.Item>
       <Form.Item
-        name='model'
-        label='Select which language model to use'
+        name="model"
+        label="Select which language model to use"
         required
       >
         <Select
-          placeholder='Ex: Stable Diffusion XL'
+          placeholder="Ex: Stable Diffusion XL"
           options={LANGUAGE_MODEL_OPTIONS}
         />
       </Form.Item>
@@ -114,15 +114,15 @@ const CreateImageForm = () => {
       </Form.Item> */}
 
       <Form.Item
-        label='How many images do you want to generate?'
-        name='numberOfImages'
-        tooltip='Enter a number 1-10'
+        label="How many images do you want to generate?"
+        name="numberOfImages"
+        tooltip="Enter a number 1-10"
         required
       >
         <InputNumber
           style={{ width: "100%" }}
-          type='number'
-          placeholder='Enter a number 1-10'
+          type="number"
+          placeholder="Enter a number 1-10"
           min={1}
           max={10}
         />
@@ -135,7 +135,7 @@ const CreateImageForm = () => {
       >
         <Form.Item>
           <Button
-            aria-label='reset'
+            aria-label="reset"
             style={{ marginRight: "1rem", width: 160 }}
             disabled={isLoadingData}
             onClick={() => formInstance.resetFields()}
@@ -145,9 +145,9 @@ const CreateImageForm = () => {
         </Form.Item>
         <Form.Item>
           <Button
-            aria-label='submit'
+            aria-label="submit"
             style={{ width: 160 }}
-            type='primary'
+            type="primary"
             ghost
             onClick={() => formInstance.submit()}
             loading={isLoadingData}

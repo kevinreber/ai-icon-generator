@@ -8,7 +8,7 @@ export const addNewImageToDB = async (
   prompt: string,
   userId: string,
   model: string,
-  preset = "none"
+  preset = "none",
 ) => {
   const image = await prisma.icon.create({
     data: {

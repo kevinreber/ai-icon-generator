@@ -7,7 +7,7 @@ import moment, { type Moment } from "moment";
  */
 
 export const convertUtcDateToLocalMomentObject = (
-  UTCDateString: string | Date
+  UTCDateString: string | Date,
 ): Moment => {
   const utcDate = moment.utc(UTCDateString).toDate();
 

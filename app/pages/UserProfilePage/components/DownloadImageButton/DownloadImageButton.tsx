@@ -45,9 +45,9 @@ const DownloadImageButton = ({ image }: { image: ImageType }) => {
 
   return (
     <>
-      <Tooltip title='Download image'>
+      <Tooltip title="Download image">
         <Button
-          size='small'
+          size="small"
           icon={<DownloadOutlined />}
           style={{ border: "none", textAlign: "left" }}
           onClick={handleDownloadImage}

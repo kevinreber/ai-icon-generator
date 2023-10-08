@@ -13,7 +13,7 @@ export const stripeCheckout = async ({ userId }: { userId: string }) => {
       line_items: [{ price: process.env.STRIPE_CREDITS_PRICE_ID, quantity: 1 }],
       mode: "payment",
       metadata: {
-        userId: userId,
+        userId,
       },
       payment_method_types: ["card", "us_bank_account"],
     });
