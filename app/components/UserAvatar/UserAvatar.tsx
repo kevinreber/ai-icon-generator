@@ -40,7 +40,7 @@ const UserAvatar = () => {
   const handleLogOut = () => {
     fetcher.submit(
       { intent: "user-log-out" },
-      { method: "post", action: "/logout" }
+      { method: "post", action: "/logout" },
     );
     notification.success({ message: "Successfully logged out" });
   };
@@ -54,7 +54,7 @@ const UserAvatar = () => {
     handleToggleModal();
     fetcher.submit(
       { intent: "user-update-user-data", body: JSON.stringify(values) },
-      { method: "patch", action: "/api/user?index" }
+      { method: "patch", action: "/api/user?index" },
     );
 
     console.log("Fetcher");
@@ -68,7 +68,7 @@ const UserAvatar = () => {
   return (
     <>
       <Popover
-        placement='bottomRight'
+        placement="bottomRight"
         title={
           <Space>
             <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
@@ -82,13 +82,13 @@ const UserAvatar = () => {
           </Space>
         }
         content={
-          <Space align='center' direction='vertical' style={{ width: "100%" }}>
+          <Space align="center" direction="vertical" style={{ width: "100%" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <Typography.Text>
                 <DollarOutlined style={{ marginRight: 4 }} />
                 {userData.credits} Credits
               </Typography.Text>
-              <Button size='small' href='/checkout' type='link'>
+              <Button size="small" href="/checkout" type="link">
                 Buy Credits
               </Button>
             </div>
@@ -101,14 +101,14 @@ const UserAvatar = () => {
             </Button>
             <Button
               style={{ width: 130 }}
-              icon={<IconFont type='icon-tuichu' />}
+              icon={<IconFont type="icon-tuichu" />}
               onClick={handleLogOut}
             >
               Logout
             </Button>
           </Space>
         }
-        trigger='click'
+        trigger="click"
       >
         <Avatar
           style={{ cursor: isLoadingFetcher ? "wait" : "pointer" }}
@@ -116,24 +116,24 @@ const UserAvatar = () => {
         />
       </Popover>
       <Modal
-        title='Edit Profile'
+        title="Edit Profile"
         open={showEditProfileModal}
         onOk={handleSubmitEditUserData}
         onCancel={handleToggleModal}
       >
         <Form
           form={formInstance}
-          layout='vertical'
+          layout="vertical"
           colon={false}
           initialValues={{ username: userData.username || undefined }}
           onFinish={handleSubmitForm}
         >
-          <Avatar size='large' icon={<UserOutlined />} />
+          <Avatar size="large" icon={<UserOutlined />} />
           {/* TODO */}
           {/* <Form.Item label='Avatar' name='avatar'> */}
           {/* </Form.Item> */}
-          <Form.Item label='Username' name='username'>
-            <Input placeholder='Enter username' />
+          <Form.Item label="Username" name="username">
+            <Input placeholder="Enter username" />
           </Form.Item>
         </Form>
       </Modal>

@@ -9,7 +9,7 @@ const DATE_FORMAT = "MM/DD/YYYY HH:mm:ss";
  */
 
 export const convertUtcDateToLocalDateString = (
-  date: string | Date
+  date: string | Date,
 ): string => {
   // const momentObject = convertUtcDateToLocalMomentObject(UTCDateString);
   // return momentObject.toLocaleString();

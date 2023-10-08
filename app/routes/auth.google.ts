@@ -6,7 +6,7 @@ export const action = async ({ request }: ActionArgs) => {
   // initiating authentication using Google Strategy
   // on success --> redirect to dasboard
   // on failure --> back to homepage/login
-  return await authenticator.authenticate(SocialsProvider.GOOGLE, request, {
+  return authenticator.authenticate(SocialsProvider.GOOGLE, request, {
     successRedirect: "/create",
     failureRedirect: "/",
   });

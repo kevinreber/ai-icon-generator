@@ -22,7 +22,7 @@ const CollectionsPage = () => {
   const collections = loaderData.data.collections || [];
 
   const currentPage = Number(searchParams.get("page")) || 1;
-  const pageSize = Number(searchParams.get("page_size")) || 50;
+  const currentPageSize = Number(searchParams.get("page_size")) || 50;
 
   const navigation = useNavigation();
   const isLoadingData = navigation.state !== "idle";
@@ -39,8 +39,8 @@ const CollectionsPage = () => {
 
   const paginationRange = getPaginationRange(
     currentPage,
-    pageSize,
-    totalCollections
+    currentPageSize,
+    totalCollections,
   );
 
   return (
@@ -71,7 +71,7 @@ const CollectionsPage = () => {
                   {convertNumberToLocaleString(totalCollections)} collections
                 </>
               ) : (
-                <Typography.Text italic type='secondary'>
+                <Typography.Text italic type="secondary">
                   No collections created yet
                 </Typography.Text>
               )}
@@ -88,18 +88,18 @@ const CollectionsPage = () => {
         }}
       >
         <List
-          itemLayout='horizontal'
+          itemLayout="horizontal"
           dataSource={collections}
           renderItem={(collection) => (
             <List.Item
               key={collection.id}
               actions={[
                 <EditCollectionButton
-                  key='edit=collection'
+                  key="edit=collection"
                   collection={collection}
                 />,
                 <DeleteCollectionButton
-                  key='delete-collection'
+                  key="delete-collection"
                   collectionId={collection.id}
                 />,
               ]}
@@ -112,7 +112,7 @@ const CollectionsPage = () => {
                 }
                 description={collection.description}
               />
-              <Typography.Text type='secondary'>
+              <Typography.Text type="secondary">
                 {convertNumberToLocaleString(collection.images.length)} images
               </Typography.Text>
             </List.Item>
@@ -121,11 +121,11 @@ const CollectionsPage = () => {
       </Card>
       <Pagination
         style={{ padding: 16 }}
-        size='small'
+        size="small"
         showSizeChanger
         total={totalCollections}
         current={currentPage}
-        pageSize={pageSize}
+        pageSize={currentPageSize}
         pageSizeOptions={[50, 100, 150, 200]}
         onChange={handlePaginationChange}
       />

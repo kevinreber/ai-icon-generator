@@ -60,13 +60,13 @@ const AddImageToCollectionButton = ({
       {
         method: "POST",
         action: `/api/collection/${collectionId}/images/${imageData.id}`,
-      }
+      },
     );
     toggleUserCollectionsModal();
   };
 
   const userAddedImageToCollection = userCollectionImages.some(
-    (image) => image === imageData.id
+    (image) => image === imageData.id,
   );
 
   const buttonIcon = userAddedImageToCollection ? (
@@ -78,7 +78,7 @@ const AddImageToCollectionButton = ({
   return (
     <>
       <Button
-        size='small'
+        size="small"
         style={{ border: "none", boxShadow: "none" }}
         icon={buttonIcon}
         onClick={toggleUserCollectionsModal}
@@ -86,17 +86,17 @@ const AddImageToCollectionButton = ({
         disabled={!userId}
       />
       <Modal
-        title='Add Image to Collection'
+        title="Add Image to Collection"
         footer={null}
         open={showUserCollectionsModal}
         onCancel={toggleUserCollectionsModal}
       >
         {userCollections.length ? (
-          <Space direction='vertical'>
+          <Space direction="vertical">
             {userCollections.map((collection) => {
               const isCollectionChecked = collection.images.some(
                 // @ts-ignore
-                (image: { imageId: string }) => image.imageId === imageData.id
+                (image: { imageId: string }) => image.imageId === imageData.id,
               );
 
               return (
@@ -112,7 +112,7 @@ const AddImageToCollectionButton = ({
             })}
           </Space>
         ) : (
-          <Typography.Text italic type='secondary'>
+          <Typography.Text italic type="secondary">
             No Collections
           </Typography.Text>
         )}

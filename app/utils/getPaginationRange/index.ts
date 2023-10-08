@@ -1,1 +1,1 @@
-export * from './getPaginationRange';
+export * from "./getPaginationRange";

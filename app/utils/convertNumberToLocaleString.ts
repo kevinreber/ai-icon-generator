@@ -10,5 +10,5 @@
  *  Output:  100
  */
 export const convertNumberToLocaleString = (value = 0) => {
-  return value.toLocaleString('en-US');
+  return value.toLocaleString("en-US");
 };

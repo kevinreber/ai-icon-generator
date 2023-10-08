@@ -22,7 +22,7 @@ const DEFAULT_PAYLOAD = {
  */
 export const createNewImages = async (
   formData = DEFAULT_PAYLOAD,
-  userId: string
+  userId: string,
 ) => {
   const AILanguageModelToUse = formData.model;
 

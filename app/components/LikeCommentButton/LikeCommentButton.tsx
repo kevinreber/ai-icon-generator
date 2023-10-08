@@ -28,21 +28,21 @@ const LikeCommentButton = ({
       {
         method: "post",
         action: `/api/image/${imageData.id}/comment/${comment.id}/like?index`,
-      }
+      },
     );
   };
 
   const userLikesComment = comment.likes.some((like) => like.userId === userId);
 
   const buttonIcon = userLikesComment ? (
-    <HeartTwoTone twoToneColor='#eb2f96' />
+    <HeartTwoTone twoToneColor="#eb2f96" />
   ) : (
     <HeartOutlined style={{ color: "#eb2f96" }} />
   );
 
   return (
     <Button
-      size='small'
+      size="small"
       style={{ border: "none" }}
       icon={buttonIcon}
       onClick={handleLikeComment}

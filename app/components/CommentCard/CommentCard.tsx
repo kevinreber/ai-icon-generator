@@ -46,7 +46,7 @@ const CommentCard = ({
   // };
 
   return (
-    <Card size='small' style={{ marginBottom: 12 }}>
+    <Card size="small" style={{ marginBottom: 12 }}>
       <header
         style={{
           display: "flex",
@@ -59,14 +59,14 @@ const CommentCard = ({
             <Avatar
               style={{ cursor: "pointer" }}
               icon={<UserOutlined />}
-              size='small'
+              size="small"
             />
             <Typography.Link strong href={`/profile/${comment.user.id}`}>
               {comment.user.username}
             </Typography.Link>
           </Space>
         </div>
-        <Typography.Text type='secondary' style={{ fontSize: 12 }}>
+        <Typography.Text type="secondary" style={{ fontSize: 12 }}>
           {convertUtcDateToLocalDateString(comment.createdAt)}
         </Typography.Text>
       </header>

@@ -67,13 +67,13 @@ const ExplorePage = () => {
             <Radio.Group
               onChange={handleImageDisplayChange}
               // defaultValue='list'
-              size='small'
+              size="small"
               value={displayImagesStyle}
             >
-              <Radio.Button value='list'>
+              <Radio.Button value="list">
                 <UnorderedListOutlined />
               </Radio.Button>
-              <Radio.Button value='grid'>
+              <Radio.Button value="grid">
                 <TableOutlined />
               </Radio.Button>
             </Radio.Group>
@@ -132,11 +132,11 @@ const ExplorePage = () => {
                     <Popover
                       style={{ display: "block" }}
                       content={
-                        <Space size='small' align='center'>
-                          <Space.Compact direction='vertical'>
+                        <Space size="small" align="center">
+                          <Space.Compact direction="vertical">
                             <LikeImageButton imageData={image} />
                             <Button
-                              size='small'
+                              size="small"
                               style={{
                                 border: "none",
                                 boxShadow: "none",
@@ -165,8 +165,8 @@ const ExplorePage = () => {
           </Row>
         ) : (
           <List
-            itemLayout='vertical'
-            size='small'
+            itemLayout="vertical"
+            size="small"
             // size='large'
             // pagination={{
             //   onChange: (page) => {
@@ -216,7 +216,7 @@ const ExplorePage = () => {
                         <Space>
                           <LikeImageButton imageData={image} />
                           <Button
-                            size='small'
+                            size="small"
                             style={{
                               border: "none",
                               boxShadow: "none",

@@ -1,4 +1,5 @@
 import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
+
 const s3Client = new S3Client({
   credentials: {
     accessKeyId: process.env.ACCESS_KEY_ID_AWS!,

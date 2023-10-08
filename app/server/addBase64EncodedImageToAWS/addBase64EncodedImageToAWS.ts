@@ -1,4 +1,5 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+
 const s3Client = new S3Client({
   credentials: {
     accessKeyId: process.env.ACCESS_KEY_ID_AWS!,
@@ -17,7 +18,7 @@ const s3Client = new S3Client({
  */
 export const addBase64EncodedImageToAWS = async (
   base64EncodedImage: string,
-  iconId: string
+  iconId: string,
 ) => {
   const putObjectCommand = new PutObjectCommand({
     Key: iconId,
@@ -34,5 +35,6 @@ export const addBase64EncodedImageToAWS = async (
   } catch (error) {
     console.warn("Error Saving image to AWS S3 Bucket");
     console.error(error);
+    throw new Error("Error Saving image to AWS S3 Bucket");
   }
 };

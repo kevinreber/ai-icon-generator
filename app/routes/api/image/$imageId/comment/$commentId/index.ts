@@ -24,6 +24,7 @@ export async function action({ request, params }: ActionArgs) {
       // const { comment } = payload;
       // const response = await createComment({ imageId, userId, comment });
       // return response;
+      return {};
     }
     default: {
       return {};

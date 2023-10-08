@@ -43,7 +43,7 @@ const UserProfilePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentPage = Number(searchParams.get("page")) || 1;
-  const pageSize = Number(searchParams.get("page_size")) || 50;
+  const currentPageSize = Number(searchParams.get("page_size")) || 50;
 
   const navigation = useNavigation();
   const isLoadingData = navigation.state !== "idle";
@@ -90,13 +90,13 @@ const UserProfilePage = () => {
         <Radio.Group
           onChange={handleImageDisplayChange}
           // defaultValue='list'
-          size='small'
+          size="small"
           value={displayImagesStyle}
         >
-          <Radio.Button value='list'>
+          <Radio.Button value="list">
             <UnorderedListOutlined />
           </Radio.Button>
-          <Radio.Button value='grid'>
+          <Radio.Button value="grid">
             <TableOutlined />
           </Radio.Button>
         </Radio.Group>
@@ -158,8 +158,8 @@ const UserProfilePage = () => {
                     </Tooltip>
                     <Popover
                       content={
-                        <Space size='small'>
-                          <Space.Compact direction='vertical'>
+                        <Space size="small">
+                          <Space.Compact direction="vertical">
                             <EditImageButton image={image} />
                             <DownloadImageButton image={image} />
                             <DeleteImageButton image={image} />
@@ -180,8 +180,8 @@ const UserProfilePage = () => {
         ) : // </Image.PreviewGroup>
         currentImagesShown && displayImagesStyle === "list" ? (
           <List
-            itemLayout='vertical'
-            size='small'
+            itemLayout="vertical"
+            size="small"
             loading={isLoadingData}
             // size='large'
             // pagination={{
@@ -254,11 +254,11 @@ const UserProfilePage = () => {
       </Card>
       <Pagination
         style={{ padding: 16 }}
-        size='small'
+        size="small"
         showSizeChanger
         total={totalImages}
         current={currentPage}
-        pageSize={pageSize}
+        pageSize={currentPageSize}
         showTotal={(total, range) =>
           `Showing ${range[0]}-${range[1]} of ${total} images`
         }

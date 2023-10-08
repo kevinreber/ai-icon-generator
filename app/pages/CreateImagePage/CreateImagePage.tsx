@@ -11,7 +11,7 @@ const CreateImagePage = () => {
 
   console.log(actionData);
 
-  const imagesGenerated = actionData && actionData.images ? true : false;
+  const imagesGenerated = Boolean(actionData && actionData.images);
 
   return (
     <Row gutter={[16, 16]}>

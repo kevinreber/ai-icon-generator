@@ -6,7 +6,7 @@ const DEFAULT_PAGE_SIZE = 50;
 
 export const getImages = async (
   page = DEFAULT_CURRENT_PAGE,
-  pageSize = DEFAULT_PAGE_SIZE
+  pageSize = DEFAULT_PAGE_SIZE,
 ) => {
   const images = await prisma.icon.findMany({
     take: pageSize,

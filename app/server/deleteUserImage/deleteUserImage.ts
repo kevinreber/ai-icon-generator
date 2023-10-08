@@ -9,9 +9,8 @@ export const deleteUserImage = async (imageId: string) => {
     const deleteImageResponse = await deleteImageFromDB(imageId);
     console.log("Delete from DB -------------");
     console.log(deleteImageResponse);
-    const deleteImageFromS3BucketResponse = await deleteImageFromS3Bucket(
-      imageId
-    );
+    const deleteImageFromS3BucketResponse =
+      await deleteImageFromS3Bucket(imageId);
 
     console.log("Delete from S3 -------------");
     console.log(deleteImageFromS3BucketResponse);

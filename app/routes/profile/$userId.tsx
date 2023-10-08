@@ -62,16 +62,16 @@ export function ErrorBoundary() {
       <Alert
         message={`${error.status} ${error.statusText}`}
         description={error.data}
-        type='error'
+        type="error"
         showIcon
       />
     );
   } else if (error instanceof Error) {
     return (
       <Alert
-        message='Error'
+        message="Error"
         description={error.message}
-        type='error'
+        type="error"
         showIcon
       />
     );
@@ -85,9 +85,9 @@ export function ErrorBoundary() {
   } else {
     return (
       <Alert
-        message='Error'
-        description='User Profile is currently unavailable'
-        type='error'
+        message="Error"
+        description="User Profile is currently unavailable"
+        type="error"
         showIcon
       />
     );
