@@ -1,6 +1,6 @@
 import React from "react";
 import { BookOutlined, BookFilled } from "@ant-design/icons";
-import { Button, Checkbox, Modal, Space, Typography, notification } from "antd";
+import { Button, Checkbox, Modal, Space, Typography } from "antd";
 import type { ImageType } from "~/types";
 import { useRemixFetcher } from "~/hooks";
 import { UserContext } from "~/context";
