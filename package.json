@@ -8,7 +8,9 @@
     "typecheck": "tsc",
     "check-env-file": "node ./scripts/check-env-file.mjs",
     "postinstall": "prisma generate",
-    "stripe:listen": "stripe listen --forward-to localhost:3000/webhook"
+    "stripe:listen": "stripe listen --forward-to localhost:3000/webhook",
+    "format": "prettier --write .",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint ."
   },
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
@@ -35,9 +37,13 @@
     "@remix-run/dev": "^1.16.0",
     "@remix-run/eslint-config": "^1.16.0",
     "@remix-run/serve": "^1.16.0",
+    "@types/eslint": "^8.44.3",
     "@types/react": "^18.0.35",
     "@types/react-dom": "^18.0.11",
     "eslint": "^8.38.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.3",
     "prisma": "^4.13.0",
     "typescript": "^4.9.5",
     "zx": "7.0.8"
