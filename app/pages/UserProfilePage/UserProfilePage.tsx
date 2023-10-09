@@ -35,6 +35,7 @@ import {
 } from "./components";
 import { ImageModal, LikeImageButton } from "~/components";
 import { convertUtcDateToLocalDateString } from "~/utils";
+import { ToggleIsImagePrivateButton } from "./components/ToggleIsImagePrivateButton";
 
 const UserProfilePage = () => {
   const data = useLoaderData();
@@ -160,6 +161,10 @@ const UserProfilePage = () => {
                       content={
                         <Space size="small">
                           <Space.Compact direction="vertical">
+                            {/* Align Private Button in center of Popover */}
+                            <div style={{ margin: "auto" }}>
+                              <ToggleIsImagePrivateButton image={image} />
+                            </div>
                             <EditImageButton image={image} />
                             <DownloadImageButton image={image} />
                             <DeleteImageButton image={image} />
@@ -195,10 +200,17 @@ const UserProfilePage = () => {
               <List.Item
                 key={image.id}
                 extra={
-                  <Space>
-                    <EditImageButton image={image} />
-                    <DownloadImageButton image={image} />
-                    <DeleteImageButton image={image} />
+                  <Space direction="vertical" size="small">
+                    <div
+                      style={{ display: "flex", flexDirection: "row-reverse" }}
+                    >
+                      <ToggleIsImagePrivateButton image={image} />
+                    </div>
+                    <Space>
+                      <EditImageButton image={image} />
+                      <DownloadImageButton image={image} />
+                      <DeleteImageButton image={image} />
+                    </Space>
                   </Space>
                 }
               >
