@@ -15,7 +15,6 @@ import {
   Tabs,
   Form,
   Input,
-  Descriptions,
 } from "antd";
 import { convertUtcDateToLocalDateString, fallbackImageSource } from "~/utils";
 import type { ImageType, Comment } from "~/types";
@@ -249,27 +248,30 @@ const ImageModal = ({
                 ),
                 key: "info",
                 children: (
-                  <div>
-                    <Descriptions
-                      layout="vertical"
-                      labelStyle={{ fontWeight: 600 }}
-                      colon={false}
-                    >
-                      <Descriptions.Item label="Engine Model">
-                        <Typography.Text italic>
-                          {imageData.model}
-                        </Typography.Text>
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Prompt">
+                  <Space direction="vertical">
+                    <Space direction="vertical" size="small">
+                      <Typography.Text style={{ fontWeight: 600 }}>
+                        Engine Model
+                      </Typography.Text>
+                      <Typography.Text italic>
+                        {imageData.model}
+                      </Typography.Text>
+                    </Space>
+
+                    <Space direction="vertical" size="small">
+                      <Typography.Text style={{ fontWeight: 600 }}>
+                        Prompt
+                      </Typography.Text>
+                      <div>
                         <Typography.Text italic>
                           {imageData.prompt}
                         </Typography.Text>
                         <CopyToClipboardButton
                           stringToCopy={imageData.prompt}
                         />
-                      </Descriptions.Item>
-                    </Descriptions>
-                  </div>
+                      </div>
+                    </Space>
+                  </Space>
                 ),
               },
             ]}
