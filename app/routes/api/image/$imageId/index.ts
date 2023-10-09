@@ -1,5 +1,5 @@
 import { type LoaderArgs, type ActionArgs, json } from "@remix-run/node";
-import { getImageBase64, updateImageData } from "~/server";
+import { deleteUserImage, getImageBase64, updateImageData } from "~/server";
 import { getSession } from "~/services";
 
 export const loader = async ({ request, params }: LoaderArgs) => {
@@ -24,6 +24,12 @@ export async function action({ request, params }: ActionArgs) {
       const formData = await request.formData();
       const payload = JSON.parse(formData.get("body") as string);
       const response = await updateImageData(imageId, payload);
+
+      return response;
+    }
+    case "DELETE": {
+      const imageId = params?.imageId || "";
+      const response = await deleteUserImage(imageId);
 
       return response;
     }

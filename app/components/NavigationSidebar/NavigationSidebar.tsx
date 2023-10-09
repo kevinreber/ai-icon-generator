@@ -5,6 +5,7 @@ import {
   BookOutlined,
   PlusCircleOutlined,
   SearchOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { useFetcher } from "@remix-run/react";
 import { UserAvatar } from "~/components";
@@ -57,6 +58,16 @@ const NavigationSidebar = () => {
           AI Image Generator
         </Typography.Link>
         <Space direction="vertical" style={{ alignItems: "flex-start" }}>
+          {isLoggedIn && (
+            <Button
+              type="link"
+              href={`/profile/${userData.id}`}
+              icon={<UserOutlined />}
+              style={{ color: "#fff" }}
+            >
+              My Profile
+            </Button>
+          )}
           <Button
             type="link"
             href="/explore"

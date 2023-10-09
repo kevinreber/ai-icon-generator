@@ -9,6 +9,7 @@ export const getImages = async (
   pageSize = DEFAULT_PAGE_SIZE,
 ) => {
   const images = await prisma.icon.findMany({
+    where: { private: false },
     take: pageSize,
     skip: (page - 1) * pageSize,
     orderBy: {

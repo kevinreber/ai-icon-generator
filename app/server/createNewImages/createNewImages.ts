@@ -8,12 +8,14 @@ import {
 const DEFAULT_NUMBER_OF_IMAGES_CREATED = 1;
 const DEFAULT_AI_IMAGE_LANGUAGE_MODEL = "stable-diffusion-xl";
 const DEFAULT_IMAGE_STYLE_PRESET = "enhance";
+const DEFAULT_IS_IMAGE_PRIVATE = false;
 
 const DEFAULT_PAYLOAD = {
   prompt: "",
   numberOfImages: DEFAULT_NUMBER_OF_IMAGES_CREATED,
   model: DEFAULT_AI_IMAGE_LANGUAGE_MODEL,
   stylePreset: DEFAULT_IMAGE_STYLE_PRESET,
+  private: DEFAULT_IS_IMAGE_PRIVATE,
 };
 
 /**

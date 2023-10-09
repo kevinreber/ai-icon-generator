@@ -8,3 +8,4 @@ export * from "./convertUtcDateToLocalDateString";
 export * from "./getPaginationRange";
 export * from "./convertNumberToLocaleString";
 export * from "./getS3BucketThumbnailURL";
+export * from "./removeEmptyValuesFromObject";

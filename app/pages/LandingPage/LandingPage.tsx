@@ -2,7 +2,15 @@ import { Button, Col, Row, Typography, Image } from "antd";
 
 const LandingPage = () => {
   return (
-    <section className="mt-12 mb-24 grid grid-cols-1 gap-12 px-8 sm:mt-24 sm:grid-cols-2">
+    <section
+      style={{
+        display: "flex",
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+      }}
+    >
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <div style={{ marginBottom: 16 }}>
@@ -30,21 +38,6 @@ const LandingPage = () => {
           />
         </Col>
       </Row>
-      {/* <Row>
-        <Col>
-          <Button href='/checkout' type='primary' ghost>
-            Generate your Images
-          </Button>
-        </Col>
-      </Row> */}
-
-      {/* <Image
-        src="/banner.png"
-        alt="an image of a bunch of nice looking images"
-        width="400"
-        height="300"
-        className="order-first sm:-order-none"
-      /> */}
     </section>
   );
 };
