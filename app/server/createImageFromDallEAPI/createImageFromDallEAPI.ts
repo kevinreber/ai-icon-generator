@@ -12,6 +12,7 @@ const openai = new OpenAIApi(configuration);
 const DEFAULT_NUMBER_OF_IMAGES_CREATED = 1;
 const IMAGE_SIZE = "1024x1024";
 const DEFAULT_AI_IMAGE_LANGUAGE_MODEL = "dall-e";
+const DEFAULT_IS_IMAGE_PRIVATE = false;
 
 const THREE_SECONDS_IN_MS = 1000 * 3;
 const BASE_64_FORMAT = "b64_json";
@@ -19,6 +20,7 @@ const DEFAULT_PAYLOAD = {
   prompt: "",
   numberOfImages: DEFAULT_NUMBER_OF_IMAGES_CREATED,
   model: DEFAULT_AI_IMAGE_LANGUAGE_MODEL,
+  private: DEFAULT_IS_IMAGE_PRIVATE,
 };
 
 /**
@@ -57,10 +59,10 @@ export const createImageFromDallEAPI = async (
   formData = DEFAULT_PAYLOAD,
   userId: string,
 ) => {
-  const { prompt, numberOfImages, model } = formData;
+  const { prompt, numberOfImages, model, private: isImagePrivate } = formData;
 
   try {
-    if (process.env.USE_MOCK_DALLE === "true") {
+    if (process.env.USE_MOCK_DALLE === "tru") {
       console.log(
         "\x1b[33m ⚠️ Warning – Using Mock Data ************************* \x1b[0m",
       );
@@ -76,7 +78,13 @@ export const createImageFromDallEAPI = async (
     const formattedImagesData = await Promise.all(
       imagesImages.map(async (imageImage) => {
         // Store Image into DB
-        const imageData = await addNewImageToDB(prompt, userId, model);
+        const imageData = await addNewImageToDB({
+          prompt,
+          userId,
+          model,
+          preset: "",
+          isImagePrivate,
+        });
         console.log("Stored Image Data in DB: ", imageData.id);
 
         // Store Image blob in S3

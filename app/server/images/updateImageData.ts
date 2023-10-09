@@ -1,19 +1,20 @@
 import { prisma } from "~/services/prisma.server";
+import { removeEmptyValuesFromObject } from "~/utils";
 
 export const updateImageData = async (
   imageId: string,
-  payload: { title: string },
+  payload: { title?: string; private?: boolean },
 ) => {
   try {
     const message = `Success updating Image Data for imageID: ${imageId}`;
-    const { title } = payload;
+    const formattedPayload = removeEmptyValuesFromObject(payload);
 
     const data = await prisma.icon.update({
       where: {
         id: imageId,
       },
       data: {
-        title,
+        ...formattedPayload,
       },
     });
 

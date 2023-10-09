@@ -4,6 +4,7 @@ import { getS3BucketThumbnailURL, getS3BucketURL } from "~/utils";
 const DEFAULT_CURRENT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 50;
 
+// TODO: May be able to delete this file 🤔
 export const getUserImages = async (
   userId: string,
   page = DEFAULT_CURRENT_PAGE,
@@ -29,6 +30,7 @@ export const getUserImages = async (
       prompt: true,
       model: true,
       stylePreset: true,
+      private: true,
       user: {
         select: {
           id: true,

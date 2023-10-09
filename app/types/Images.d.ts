@@ -31,4 +31,5 @@ export type ImageType = {
   };
   comments: Comment[];
   likes: { userId: string }[];
+  private: boolean;
 };

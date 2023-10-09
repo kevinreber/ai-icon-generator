@@ -10,12 +10,14 @@ const THREE_SECONDS_IN_MS = 1000 * 3;
 const DEFAULT_NUMBER_OF_IMAGES_CREATED = 1;
 const DEFAULT_AI_IMAGE_LANGUAGE_MODEL = "stable-diffusion-xl";
 const DEFAULT_IMAGE_STYLE_PRESET = "enhance";
+const DEFAULT_IS_IMAGE_PRIVATE = false;
 
 const DEFAULT_PAYLOAD = {
   prompt: "",
   numberOfImages: DEFAULT_NUMBER_OF_IMAGES_CREATED,
   model: DEFAULT_AI_IMAGE_LANGUAGE_MODEL,
   stylePreset: DEFAULT_IMAGE_STYLE_PRESET,
+  private: DEFAULT_IS_IMAGE_PRIVATE,
 };
 
 interface GenerationResponse {
@@ -94,10 +96,16 @@ export const createImageFromStableDiffusionAPI = async (
   formData = DEFAULT_PAYLOAD,
   userId: string,
 ) => {
-  const { prompt, numberOfImages, model, stylePreset } = formData;
+  const {
+    prompt,
+    numberOfImages,
+    model,
+    stylePreset,
+    private: isImagePrivate,
+  } = formData;
 
   try {
-    if (process.env.USE_MOCK_DALLE === "true") {
+    if (process.env.USE_MOCK_DALLE === "tru") {
       console.log(
         "\x1b[33m ⚠️ Warning – Using Mock Data ************************* \x1b[0m",
       );
@@ -119,12 +127,13 @@ export const createImageFromStableDiffusionAPI = async (
       images.artifacts.map(async (image) => {
         if (image.finishReason !== "ERROR") {
           // Store Image into DB
-          const imageData = await addNewImageToDB(
+          const imageData = await addNewImageToDB({
             prompt,
             userId,
             model,
-            stylePreset,
-          );
+            preset: stylePreset,
+            isImagePrivate,
+          });
           console.log("Stored Image Data in DB: ", imageData.id);
 
           // Store Image blob in S3
