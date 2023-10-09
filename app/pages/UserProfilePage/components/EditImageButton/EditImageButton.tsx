@@ -90,6 +90,9 @@ const EditImageButton = ({ image }: { image: ImageType }) => {
               <Form.Item label="Title" name="title">
                 <Input placeholder="Enter title of image" />
               </Form.Item>
+              <Form.Item label="Engine Model">
+                <Typography.Text italic>{image.model}</Typography.Text>
+              </Form.Item>
               <Form.Item label="Prompt">
                 <Typography.Text italic>{image.prompt}</Typography.Text>
               </Form.Item>
