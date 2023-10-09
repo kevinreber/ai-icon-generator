@@ -36,9 +36,13 @@ import {
 import { ImageModal, LikeImageButton } from "~/components";
 import { convertUtcDateToLocalDateString } from "~/utils";
 import { ToggleIsImagePrivateButton } from "./components/ToggleIsImagePrivateButton";
+import { UserContext } from "~/context";
+import { type UserProfilePageLoader } from "~/routes/profile/$userId";
 
 const UserProfilePage = () => {
-  const data = useLoaderData();
+  const data = useLoaderData() as UserProfilePageLoader;
+  const currentLoggedInUserData = React.useContext(UserContext);
+
   const userData = data.user;
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -66,6 +70,7 @@ const UserProfilePage = () => {
     }));
   };
 
+  const showEditTools = currentLoggedInUserData.id === userData?.id;
   return (
     <>
       <Space style={{ marginBottom: "1rem", alignItems: "inherit" }}>
@@ -76,7 +81,7 @@ const UserProfilePage = () => {
         />
         <div>
           <Typography.Title level={3} style={{ marginBottom: 0 }}>
-            {userData.username}
+            {userData?.username || ""}
           </Typography.Title>
           <Typography.Text>{totalImages} images</Typography.Text>
         </div>
@@ -120,6 +125,7 @@ const UserProfilePage = () => {
           //   }}
           // >
           <Row gutter={16}>
+            {/* @ts-ignore */}
             {images.map((image: ImageType) => {
               return (
                 <Col key={image.id}>
@@ -157,26 +163,28 @@ const UserProfilePage = () => {
                         {image.title || "Untitled"}
                       </Typography.Text>
                     </Tooltip>
-                    <Popover
-                      content={
-                        <Space size="small">
-                          <Space.Compact direction="vertical">
-                            {/* Align Private Button in center of Popover */}
-                            <div style={{ margin: "auto" }}>
-                              <ToggleIsImagePrivateButton image={image} />
-                            </div>
-                            <EditImageButton image={image} />
-                            <DownloadImageButton image={image} />
-                            <DeleteImageButton image={image} />
-                          </Space.Compact>
-                        </Space>
-                      }
-                    >
-                      <Button
-                        icon={<MoreOutlined rotate={90} />}
-                        style={{ border: "none" }}
-                      />
-                    </Popover>
+                    {showEditTools && (
+                      <Popover
+                        content={
+                          <Space size="small">
+                            <Space.Compact direction="vertical">
+                              {/* Align Private Button in center of Popover */}
+                              <div style={{ margin: "auto" }}>
+                                <ToggleIsImagePrivateButton image={image} />
+                              </div>
+                              <EditImageButton image={image} />
+                              <DownloadImageButton image={image} />
+                              <DeleteImageButton image={image} />
+                            </Space.Compact>
+                          </Space>
+                        }
+                      >
+                        <Button
+                          icon={<MoreOutlined rotate={90} />}
+                          style={{ border: "none" }}
+                        />
+                      </Popover>
+                    )}
                   </div>
                 </Col>
               );
@@ -200,18 +208,23 @@ const UserProfilePage = () => {
               <List.Item
                 key={image.id}
                 extra={
-                  <Space direction="vertical" size="small">
-                    <div
-                      style={{ display: "flex", flexDirection: "row-reverse" }}
-                    >
-                      <ToggleIsImagePrivateButton image={image} />
-                    </div>
-                    <Space>
-                      <EditImageButton image={image} />
-                      <DownloadImageButton image={image} />
-                      <DeleteImageButton image={image} />
+                  showEditTools && (
+                    <Space direction="vertical" size="small">
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row-reverse",
+                        }}
+                      >
+                        <ToggleIsImagePrivateButton image={image} />
+                      </div>
+                      <Space>
+                        <EditImageButton image={image} />
+                        <DownloadImageButton image={image} />
+                        <DeleteImageButton image={image} />
+                      </Space>
                     </Space>
-                  </Space>
+                  )
                 }
               >
                 <List.Item.Meta
