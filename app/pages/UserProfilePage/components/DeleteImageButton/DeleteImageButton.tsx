@@ -23,11 +23,8 @@ const DeleteImageButton = ({ image }: { image: ImageType }) => {
   const handleDeleteImage = () => {
     togglePopConfirm();
     fetcher.submit(
-      {
-        intent: "_delete_image",
-        body: JSON.stringify({ imageId: image.id }),
-      },
-      { method: "DELETE" },
+      { intent: "_delete_image" },
+      { method: "DELETE", action: `/api/image/${image.id}?index` },
     );
   };
 
