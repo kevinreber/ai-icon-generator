@@ -14,7 +14,7 @@ export const updateUserCredits = async (
     where: {
       id: userId,
       credits: {
-        gte: 1,
+        gte: numberOfCreditsToDecrement,
       },
     },
     data: {

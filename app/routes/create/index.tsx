@@ -3,6 +3,7 @@ import { CreateImagePage } from "~/pages";
 import { authenticator } from "~/services/auth.server";
 import { updateUserCredits } from "~/server/updateUserCredits";
 import { createNewImages } from "~/server/createNewImages";
+import { getSession } from "~/services";
 
 export const loader = async ({ request }: LoaderArgs) => {
   await authenticator.isAuthenticated(request, {
@@ -13,9 +14,9 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export async function action({ request }: ActionArgs) {
-  const user = (await authenticator.isAuthenticated(request, {
-    failureRedirect: "/",
-  })) as { id: string; displayName: string };
+  const session = await getSession(request.headers.get("Cookie"));
+  const googleSessionData = (await session.get("_session")) || undefined;
+  const userId = googleSessionData.id;
 
   const formData = await request.formData();
   const intent = formData.get("intent");
@@ -27,13 +28,13 @@ export async function action({ request }: ActionArgs) {
 
       // Verify user has enough credits
       try {
-        await updateUserCredits(user.id, formattedPayload.numberOfImages);
+        await updateUserCredits(userId, formattedPayload.numberOfImages);
       } catch (error: any) {
         console.error(error);
         return { images: "", message: "Error", error: error.message };
       }
 
-      const data = await createNewImages(formattedPayload, user.id);
+      const data = await createNewImages(formattedPayload, userId);
 
       console.log("Data -----------------------");
       console.log(data);
