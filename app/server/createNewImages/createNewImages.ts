@@ -28,6 +28,10 @@ export const createNewImages = async (
 ) => {
   const AILanguageModelToUse = formData.model;
 
+  if (!AILanguageModelToUse) {
+    throw new Error("Must select a language model");
+  }
+
   try {
     if (AILanguageModelToUse === "dall-e") {
       const data = await createImageFromDallEAPI(formData, userId);
