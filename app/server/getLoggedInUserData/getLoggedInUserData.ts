@@ -27,6 +27,7 @@ export const getLoggedInUserData = async (userGoogleData: UserGoogleData) => {
       email: true,
       image: true,
       createdAt: true,
+      credits: true,
       collections: {
         select: {
           id: true,
