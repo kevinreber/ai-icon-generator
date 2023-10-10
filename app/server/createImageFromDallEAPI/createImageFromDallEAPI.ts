@@ -62,7 +62,7 @@ export const createImageFromDallEAPI = async (
   const { prompt, numberOfImages, model, private: isImagePrivate } = formData;
 
   try {
-    if (process.env.USE_MOCK_DALLE === "tru") {
+    if (process.env.USE_MOCK_DALLE === "true") {
       console.log(
         "\x1b[33m ⚠️ Warning – Using Mock Data ************************* \x1b[0m",
       );
