@@ -6,14 +6,14 @@ import { useRemixFetcher } from "~/hooks";
 
 const EditCollectionButton = ({ collection }: { collection: Collection }) => {
   const { fetcher, isLoadingFetcher } = useRemixFetcher({
-    onSuccess: (response) => {
-      const message =
-        response.data.message || "Successfully updated collection";
-      notification.success({ message });
-    },
+    // onSuccess: (response) => {
+    // const message =
+    //   response.data.message || "Successfully updated collection";
+    // notification.success({ message });
+    // },
     onError: (error) => {
       console.error(error);
-      notification.error({ message: error.message });
+      // notification.error({ message: error.message });
     },
   });
   const [formInstance] = Form.useForm();

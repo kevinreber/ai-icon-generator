@@ -7,12 +7,12 @@ import {
 } from "@remix-run/react";
 import { Typography, Card, List, Space, Pagination } from "antd";
 import type { GetUserCollectionsAPIResponse } from "~/types";
+import { convertNumberToLocaleString, getPaginationRange } from "~/utils";
 import {
   CreateCollectionButton,
   DeleteCollectionButton,
   EditCollectionButton,
-} from "./components";
-import { convertNumberToLocaleString, getPaginationRange } from "~/utils";
+} from "~/components";
 
 const CollectionsPage = () => {
   const loaderData = useLoaderData() as unknown as {

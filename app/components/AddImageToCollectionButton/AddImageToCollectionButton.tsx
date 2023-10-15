@@ -4,7 +4,7 @@ import { Button, Checkbox, Space, Tooltip, Typography } from "antd";
 import type { ImageType } from "~/types";
 import { useRemixFetcher } from "~/hooks";
 import { UserContext } from "~/context";
-import { CreateCollectionButton } from "~/pages/CollectionsPage/components";
+import { CreateCollectionButton } from "~/components";
 
 const getImageIds = (collections: any[]) => {
   const imageIds: string[] = [];
