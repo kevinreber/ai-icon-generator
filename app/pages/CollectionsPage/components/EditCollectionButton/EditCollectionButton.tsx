@@ -30,7 +30,7 @@ const EditCollectionButton = ({ collection }: { collection: Collection }) => {
 
     fetcher.submit(
       { intent: "_edit_collection", body: JSON.stringify(formValues) },
-      { method: "PATCH", action: `/api/collection/${collection.id}` },
+      { method: "PATCH", action: `/api/collections/${collection.id}` },
     );
   };
 

@@ -1,9 +1,10 @@
 import React from "react";
 import { BookOutlined, BookFilled } from "@ant-design/icons";
-import { Button, Checkbox, Modal, Space, Typography } from "antd";
+import { Button, Checkbox, Space, Tooltip, Typography } from "antd";
 import type { ImageType } from "~/types";
 import { useRemixFetcher } from "~/hooks";
 import { UserContext } from "~/context";
+import { CreateCollectionButton } from "~/pages/CollectionsPage/components";
 
 const getImageIds = (collections: any[]) => {
   const imageIds: string[] = [];
@@ -50,16 +51,16 @@ const AddImageToCollectionButton = ({
 
   const handleAddImageToCollection = (event: any) => {
     const collectionId = event.target.value;
-    // User must be logged in to Like an Image
+    // User must be logged in to add an Image to a Collection
     if (!userId) {
       return;
     }
 
     fetcher.submit(
-      { intent: "image-toggle-like" },
+      { intent: "_add-image-to-collection" },
       {
         method: "POST",
-        action: `/api/collection/${collectionId}/images/${imageData.id}`,
+        action: `/api/collections/${collectionId}/images/${imageData.id}`,
       },
     );
     toggleUserCollectionsModal();
@@ -77,46 +78,49 @@ const AddImageToCollectionButton = ({
 
   return (
     <>
-      <Button
-        size="small"
-        style={{ border: "none", boxShadow: "none" }}
-        icon={buttonIcon}
-        onClick={toggleUserCollectionsModal}
-        loading={isLoadingFetcher}
-        disabled={!userId}
-      />
-      <Modal
-        title="Add Image to Collection"
-        footer={null}
-        open={showUserCollectionsModal}
-        onCancel={toggleUserCollectionsModal}
-      >
-        {userCollections.length ? (
-          <Space direction="vertical">
-            {userCollections.map((collection) => {
-              const isCollectionChecked = collection.images.some(
-                // @ts-ignore
-                (image: { imageId: string }) => image.imageId === imageData.id,
-              );
+      <Tooltip
+        title={
+          <>
+            {userCollections.length ? (
+              <Space direction="vertical">
+                <CreateCollectionButton />
+                {userCollections.map((collection) => {
+                  const isCollectionChecked = collection.images.some(
+                    // @ts-ignore
+                    (image: { imageId: string }) =>
+                      image.imageId === imageData.id,
+                  );
 
-              return (
-                <Checkbox
-                  key={collection.id}
-                  value={collection.id}
-                  onClick={handleAddImageToCollection}
-                  checked={isCollectionChecked}
-                >
-                  {collection.title}
-                </Checkbox>
-              );
-            })}
-          </Space>
-        ) : (
-          <Typography.Text italic type="secondary">
-            No Collections
-          </Typography.Text>
-        )}
-      </Modal>
+                  return (
+                    <Checkbox
+                      key={collection.id}
+                      value={collection.id}
+                      onClick={handleAddImageToCollection}
+                      checked={isCollectionChecked}
+                      style={{ padding: 4 }}
+                    >
+                      {collection.title}
+                    </Checkbox>
+                  );
+                })}
+              </Space>
+            ) : (
+              <Typography.Text italic type="secondary">
+                No Collections
+              </Typography.Text>
+            )}
+          </>
+        }
+      >
+        <Button
+          size="small"
+          style={{ border: "none", boxShadow: "none" }}
+          icon={buttonIcon}
+          onClick={toggleUserCollectionsModal}
+          loading={isLoadingFetcher}
+          disabled={!userId}
+        />
+      </Tooltip>
     </>
   );
 };
