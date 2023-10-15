@@ -20,16 +20,15 @@ import {
 } from "antd";
 import type { GetCollectionDataAPIResponse, ImageType } from "~/types";
 import {
-  // CreateCollectionButton,
-  DeleteCollectionButton,
-  EditCollectionButton,
-} from "./components";
-import {
   // convertNumberToLocaleString,
   convertUtcDateToLocalDateString,
   // getPaginationRange,
 } from "~/utils";
-import { ImageModal } from "~/components";
+import {
+  DeleteCollectionButton,
+  EditCollectionButton,
+  ImageModal,
+} from "~/components";
 import { MoreOutlined } from "@ant-design/icons";
 import {
   DeleteImageButton,

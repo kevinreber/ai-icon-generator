@@ -43,7 +43,7 @@ const CreateCollectionButton = () => {
 
     fetcher.submit(
       { intent: "_create_collection", body: JSON.stringify(formValues) },
-      { method: "POST", action: `/api/collection` },
+      { method: "POST", action: `/api/collections` },
     );
   };
 

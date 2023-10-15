@@ -1,18 +1,15 @@
 import { DeleteOutlined } from "@ant-design/icons";
-import { Button, notification } from "antd";
+import { Button } from "antd";
 import { useRemixFetcher } from "~/hooks";
 
 const DeleteCollectionButton = ({ collectionId }: { collectionId: string }) => {
   const { fetcher, isLoadingFetcher } = useRemixFetcher({
-    onSuccess: (response) => {
-      const message =
-        response.data.message || "Successfully deleted collection";
-      notification.success({ message });
-    },
-    onError: (error) => {
-      console.error(error);
-      notification.error({ message: error.message });
-    },
+    // onSuccess: (response) => {
+    //   notification.success({ message: response.message });
+    // },
+    // onError: (response) => {
+    //   notification.error({ message: response.message });
+    // },
   });
 
   const handleDeleteComment = () => {
@@ -20,7 +17,7 @@ const DeleteCollectionButton = ({ collectionId }: { collectionId: string }) => {
       { intent: "_delete_collection" },
       {
         method: "DELETE",
-        action: `/api/collection/${collectionId}`,
+        action: `/api/collections/${collectionId}`,
       },
     );
   };

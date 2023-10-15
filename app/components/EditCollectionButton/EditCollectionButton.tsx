@@ -7,12 +7,14 @@ import { useRemixFetcher } from "~/hooks";
 const EditCollectionButton = ({ collection }: { collection: Collection }) => {
   const { fetcher, isLoadingFetcher } = useRemixFetcher({
     // onSuccess: (response) => {
-    //   notification.success({ message: response.data.message });
+    // const message =
+    //   response.data.message || "Successfully updated collection";
+    // notification.success({ message });
     // },
-    // onError: (error) => {
-    //   console.error(error);
-    //   notification.error({ message: error.data.message });
-    // },
+    onError: (error) => {
+      console.error(error);
+      // notification.error({ message: error.message });
+    },
   });
   const [formInstance] = Form.useForm();
   const [showEditImageModal, setShowEditImageModal] = React.useState(false);
@@ -25,12 +27,11 @@ const EditCollectionButton = ({ collection }: { collection: Collection }) => {
   };
 
   const handleSubmitForm = (formValues: { title: string }) => {
-    console.log(formValues);
     toggleEditImageModal();
 
     fetcher.submit(
       { intent: "_edit_collection", body: JSON.stringify(formValues) },
-      { method: "PATCH", action: `/api/collection/${collection.id}` },
+      { method: "PATCH", action: `/api/collections/${collection.id}` },
     );
   };
 

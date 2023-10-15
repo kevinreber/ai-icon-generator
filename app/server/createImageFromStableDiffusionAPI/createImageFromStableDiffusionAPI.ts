@@ -105,7 +105,7 @@ export const createImageFromStableDiffusionAPI = async (
   } = formData;
 
   try {
-    if (process.env.USE_MOCK_DALLE === "true") {
+    if (process.env.USE_MOCK_DALLE === "tru") {
       console.log(
         "\x1b[33m ⚠️ Warning – Using Mock Data ************************* \x1b[0m",
       );

@@ -6,3 +6,6 @@ export * from "./ImageModal";
 export * from "./CommentCard";
 export * from "./NavigationSidebar";
 export * from "./AddImageToCollectionButton";
+export * from "./DeleteCollectionButton";
+export * from "./EditCollectionButton";
+export * from "./CreateCollectionButton";
