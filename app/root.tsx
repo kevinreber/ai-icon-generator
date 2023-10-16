@@ -8,7 +8,7 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { Layout } from "antd";
-import { type LoaderArgs, json } from "@remix-run/node";
+import { type LoaderArgs, json, type LinksFunction } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 import { getLoggedInUserData } from "~/server";
 import { NavigationSidebar } from "./components";
@@ -16,16 +16,16 @@ import { UserContext } from "~/context";
 
 // CSS
 import antdStyles from "antd/dist/antd.css";
-import darkStyle from "~/css/antd.dark.css";
-import globalStyles from "~/css/global.css";
+import darkStyle from "~/styles/antd.dark.css";
+import globalStyles from "~/styles/global.css";
+import tailwindStyles from "./styles/tailwind.css";
 
-export function links() {
-  return [
-    { rel: "stylesheet", href: antdStyles },
-    { rel: "stylesheet", href: darkStyle },
-    { rel: "stylesheet", href: globalStyles },
-  ];
-}
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: antdStyles },
+  { rel: "stylesheet", href: darkStyle },
+  { rel: "stylesheet", href: globalStyles },
+  { rel: "stylesheet", href: tailwindStyles },
+];
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await authenticator.isAuthenticated(request);

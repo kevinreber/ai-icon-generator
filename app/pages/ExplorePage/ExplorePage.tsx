@@ -80,6 +80,42 @@ const ExplorePage = () => {
           </div>
         </div>
       </div>
+      {/* <div> */}
+      <div className="container pt-8 max-w-5xl">
+        <main className="bg-zinc-50">
+          <div className="grid grid-cols-3 gap-1 lg:gap-4">
+            <div className="relative overflow-hidden w-full pt-[100%]">
+              <img
+                src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-1-800x800.jpg"
+                className="absolute inset-0 object-cover w-full h-full"
+                alt="..."
+              />
+            </div>
+            <div className="relative overflow-hidden w-full pt-[100%]">
+              <img
+                src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-1-800x800.jpg"
+                className="absolute inset-0 object-cover w-full h-full"
+                alt="..."
+              />
+            </div>
+            <div className="relative overflow-hidden w-full pt-[100%]">
+              <img
+                src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-1-800x800.jpg"
+                className="absolute inset-0 object-cover w-full h-full"
+                alt="..."
+              />
+            </div>
+            <div className="relative overflow-hidden w-full pt-[100%]">
+              <img
+                src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-1-800x800.jpg"
+                className="absolute inset-0 object-cover w-full h-full"
+                alt="..."
+              />
+            </div>
+          </div>
+        </main>
+      </div>
+
       <Card
         loading={isLoadingData}
         style={{
