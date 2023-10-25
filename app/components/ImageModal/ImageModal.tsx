@@ -15,6 +15,7 @@ import {
   Tabs,
   Form,
   Input,
+  Tooltip,
 } from "antd";
 import { convertUtcDateToLocalDateString, fallbackImageSource } from "~/utils";
 import type { ImageType, Comment } from "~/types";
@@ -39,8 +40,6 @@ const ImageModal = ({
 
   const [showImageModal, setShowImageModal] = React.useState(false);
   const [formInstance] = Form.useForm();
-  // `imagePreviewHeight` will be same as width so we have a cube
-  const imagePreviewHeight = width;
 
   const { fetcher, isLoadingFetcher } = useRemixFetcher({
     // onSuccess: (response) => {
@@ -59,25 +58,52 @@ const ImageModal = ({
   };
 
   return (
-    <>
-      <Image
-        width={width}
-        src={imageData.thumbnailURL}
-        alt={imageData.prompt}
-        fallback={fallbackImageSource}
-        style={{ borderRadius: 8, cursor: "pointer" }}
-        onClick={() => setShowImageModal(true)}
-        preview={false}
-        placeholder={
-          <div
-            style={{
-              width,
-              height: imagePreviewHeight,
-              backgroundColor: "#d9d9d9",
-            }}
-          />
+    <div>
+      <Tooltip
+        placement="top"
+        title={
+          <Typography.Text style={{ color: "#fff" }}>
+            {imageData.title}
+            <br />
+            <Typography.Text italic style={{ color: "#fff" }}>
+              {imageData.prompt}
+              <br />
+              <br />
+              <Typography.Link strong href={`/profile/${imageData.user.id}`}>
+                {imageData.user.username}
+              </Typography.Link>
+              <br />
+              {convertUtcDateToLocalDateString(imageData.createdAt)}
+            </Typography.Text>
+          </Typography.Text>
         }
-      />
+      >
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+        <div
+          className="relative overflow-hidden w-full pt-[100%]"
+          onClick={() => setShowImageModal(true)}
+        >
+          <img
+            className="absolute inset-0 object-cover w-full h-full "
+            // alt="..."
+            src={imageData.thumbnailURL}
+            alt={imageData.prompt}
+            // fallback={fallbackImageSource}
+            style={{ cursor: "pointer" }}
+            // placeholder={
+            //   <div
+            //     style={{
+            //       width,
+            //       height: imagePreviewHeight,
+            //       backgroundColor: "#d9d9d9",
+            //     }}
+            //   />
+            // }
+            // }
+          />
+        </div>
+      </Tooltip>
+
       <Modal
         open={showImageModal}
         destroyOnClose
@@ -278,7 +304,7 @@ const ImageModal = ({
           />
         </div>
       </Modal>
-    </>
+    </div>
   );
 };
 
