@@ -28,13 +28,7 @@ import {
 import { useRemixFetcher } from "~/hooks";
 import { UserContext } from "~/context";
 
-const ImageModal = ({
-  imageData,
-  width = 100,
-}: {
-  imageData: ImageType;
-  width?: number;
-}) => {
+const ImageModal = ({ imageData }: { imageData: ImageType }) => {
   const userData = React.useContext(UserContext);
   const isUserLoggedIn = Boolean(userData);
 
