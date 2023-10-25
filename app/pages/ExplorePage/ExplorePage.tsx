@@ -25,32 +25,6 @@ const ExplorePage = () => {
         <Typography.Title level={3}>
           Explore AI Generated Images
         </Typography.Title>
-        {/* <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            maxWidth: 180,
-            width: "100%",
-            alignItems: "baseline",
-          }}
-        >
-          <Typography.Text>Total Images: {totalImages}</Typography.Text>
-          <div>
-            <Radio.Group
-              onChange={handleImageDisplayChange}
-              // defaultValue='list'
-              size="small"
-              value={displayImagesStyle}
-            >
-              <Radio.Button value="list">
-                <UnorderedListOutlined />
-              </Radio.Button>
-              <Radio.Button value="grid">
-                <TableOutlined />
-              </Radio.Button>
-            </Radio.Group>
-          </div> */}
-        {/* </div> */}
       </div>
       <div className="container pt-8 max-w-5xl">
         <ul className="grid grid-cols-3 gap-1 lg:gap-4 [&:hover>li]:opacity-50">
