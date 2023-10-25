@@ -27,6 +27,7 @@ const ExplorePage = () => {
         </Typography.Title>
       </div>
       <div className="container pt-8 max-w-5xl">
+        {/* highlight on hover reference: https://www.hyperui.dev/blog/highlight-hover-effect-with-tailwindcss */}
         <ul className="grid grid-cols-3 gap-1 lg:gap-4 [&:hover>li]:opacity-50">
           {images.map((image: ImageType) => {
             return (
