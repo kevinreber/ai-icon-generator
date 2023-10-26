@@ -32,10 +32,10 @@ const NavigationSidebar = () => {
         left: 0,
         top: 0,
         bottom: 0,
-        display: "flex",
-        flexDirection: "column",
         textAlign: "center",
         padding: 16,
+        borderRight: "rgb(38, 38, 38) 1px solid",
+        background: "#000",
       }}
     >
       <div
@@ -58,16 +58,6 @@ const NavigationSidebar = () => {
           AI Image Generator
         </Typography.Link>
         <Space direction="vertical" style={{ alignItems: "flex-start" }}>
-          {isLoggedIn && (
-            <Button
-              type="link"
-              href={`/profile/${userData.id}`}
-              icon={<UserOutlined />}
-              style={{ color: "#fff" }}
-            >
-              My Profile
-            </Button>
-          )}
           <Button
             type="link"
             href="/explore"
@@ -93,6 +83,14 @@ const NavigationSidebar = () => {
                 icon={<PlusCircleOutlined />}
               >
                 Create
+              </Button>
+              <Button
+                type="link"
+                href={`/profile/${userData.id}`}
+                icon={<UserOutlined />}
+                style={{ color: "#fff" }}
+              >
+                Profile
               </Button>
             </>
           )}
