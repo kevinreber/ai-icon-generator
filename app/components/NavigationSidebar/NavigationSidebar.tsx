@@ -32,10 +32,10 @@ const NavigationSidebar = () => {
         left: 0,
         top: 0,
         bottom: 0,
-        display: "flex",
-        flexDirection: "column",
         textAlign: "center",
         padding: 16,
+        borderRight: "rgb(38, 38, 38) 1px solid",
+        background: "#000",
       }}
     >
       <div
@@ -51,28 +51,20 @@ const NavigationSidebar = () => {
           style={{
             color: "#e6f1ff",
             height: 64,
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: 600,
+            textAlign: "left",
+            padding: "0 8px",
           }}
         >
           AI Image Generator
         </Typography.Link>
         <Space direction="vertical" style={{ alignItems: "flex-start" }}>
-          {isLoggedIn && (
-            <Button
-              type="link"
-              href={`/profile/${userData.id}`}
-              icon={<UserOutlined />}
-              style={{ color: "#fff" }}
-            >
-              My Profile
-            </Button>
-          )}
           <Button
             type="link"
             href="/explore"
             icon={<SearchOutlined />}
-            style={{ color: "#fff" }}
+            style={{ color: "#fff", fontSize: 16 }}
           >
             Explore
           </Button>
@@ -82,17 +74,25 @@ const NavigationSidebar = () => {
                 type="link"
                 href="/collections"
                 icon={<BookOutlined />}
-                style={{ color: "#fff" }}
+                style={{ color: "#fff", fontSize: 16 }}
               >
                 Collections
               </Button>
               <Button
                 href="/create"
                 type="link"
-                style={{ color: "#fff" }}
+                style={{ color: "#fff", fontSize: 16 }}
                 icon={<PlusCircleOutlined />}
               >
                 Create
+              </Button>
+              <Button
+                type="link"
+                href={`/profile/${userData.id}`}
+                icon={<UserOutlined />}
+                style={{ color: "#fff", fontSize: 16 }}
+              >
+                Profile
               </Button>
             </>
           )}

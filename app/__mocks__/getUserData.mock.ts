@@ -9,6 +9,7 @@ export const MOCK_GET_USER_DATA = [
     createdAt: "2023-07-03 11:25:40.666",
     username: "Narinder Maurya",
     updatedAt: "2023-07-03 18:25:40",
+    collections: [],
   },
   {
     id: 101004161584919920000,
@@ -20,6 +21,7 @@ export const MOCK_GET_USER_DATA = [
     createdAt: "2023-08-01 16:18:07.454",
     username: "sobhan sajjadi",
     updatedAt: "2023-08-01 16:19:18.945",
+    collections: [],
   },
   {
     id: 100468795116526200000,
@@ -31,6 +33,7 @@ export const MOCK_GET_USER_DATA = [
     createdAt: "2023-04-19 03:28:42",
     username: "reebeezie",
     updatedAt: "2023-08-01 17:28:28.376",
+    collections: [],
   },
   {
     id: 115925789600352650000,
@@ -42,5 +45,6 @@ export const MOCK_GET_USER_DATA = [
     createdAt: "2023-07-01 04:09:35.199",
     username: "RBRFVR1",
     updatedAt: "2023-07-10 04:42:30.079",
+    collections: [],
   },
 ];

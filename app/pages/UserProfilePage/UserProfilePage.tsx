@@ -125,12 +125,11 @@ const UserProfilePage = () => {
           //   }}
           // >
           <Row gutter={16}>
-            {/* @ts-ignore */}
             {images.map((image: ImageType) => {
               return (
                 <Col key={image.id}>
                   <div style={{ marginBottom: 10 }}>
-                    <ImageModal imageData={image} width={200} />
+                    <ImageModal imageData={image} />
                   </div>
                   <div
                     style={{
