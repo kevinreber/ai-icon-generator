@@ -68,7 +68,7 @@ const UserAvatar = () => {
   return (
     <>
       <Popover
-        placement="bottomRight"
+        // placement="bottomRight"
         title={
           <Space>
             <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
