@@ -1,5 +1,5 @@
 import React from "react";
-import { HeartOutlined, HeartTwoTone } from "@ant-design/icons";
+import { HeartFilled, HeartOutlined, HeartTwoTone } from "@ant-design/icons";
 import { Button } from "antd";
 import type { Comment, ImageType } from "~/types";
 import { useRemixFetcher } from "~/hooks";
@@ -35,8 +35,9 @@ const LikeCommentButton = ({
   const userLikesComment = comment.likes.some((like) => like.userId === userId);
 
   const buttonIcon = userLikesComment ? (
-    <HeartTwoTone twoToneColor="#eb2f96" />
+    <HeartFilled style={{ color: "#eb2f96" }} />
   ) : (
+    // <HeartTwoTone twoToneColor="#eb2f96" />
     <HeartOutlined style={{ color: "#eb2f96" }} />
   );
 
