@@ -1,15 +1,19 @@
-import { type LoaderArgs, type ActionArgs, json } from "@remix-run/node";
+import {
+  type LoaderFunctionArgs,
+  type ActionFunctionArgs,
+  json,
+} from "@remix-run/node";
 import { deleteUserImage, getImageBase64, updateImageData } from "~/server";
 import { getSession } from "~/services";
 
-export const loader = async ({ request, params }: LoaderArgs) => {
+export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const imageId = params?.imageId || "";
   const data = await getImageBase64(imageId);
 
   return json({ data });
 };
 
-export async function action({ request, params }: ActionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const googleSessionData = (await session.get("_session")) || undefined;
   const userId = googleSessionData.id;

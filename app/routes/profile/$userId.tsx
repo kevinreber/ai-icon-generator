@@ -1,7 +1,7 @@
 import {
-  type LoaderArgs,
+  type LoaderFunctionArgs,
   json,
-  type ActionArgs,
+  type ActionFunctionArgs,
   SerializeFrom,
 } from "@remix-run/node";
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
@@ -11,7 +11,7 @@ import { getUserData } from "~/server";
 import { getSession } from "~/services";
 import { authenticator } from "~/services/auth.server";
 
-export const loader = async ({ request, params }: LoaderArgs) => {
+export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const userId = params.userId || "";
   if (!userId) {
     throw new Error("User does not exist");
@@ -49,7 +49,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 
 export type UserProfilePageLoader = SerializeFrom<typeof loader>;
 
-// export async function action({ request }: ActionArgs) {
+// export async function action({ request }: ActionFunctionArgs) {
 //   const formData = await request.formData();
 //   const intent = formData.get("intent");
 

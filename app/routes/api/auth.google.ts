@@ -1,8 +1,8 @@
 import { authenticator } from "~/services/auth.server";
 import { SocialsProvider } from "remix-auth-socials";
-import { type ActionArgs } from "@remix-run/node";
+import { type ActionFunctionArgs } from "@remix-run/node";
 
-export const action = async ({ request }: ActionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   // initiating authentication using Google Strategy
   // on success --> redirect to dasboard
   // on failure --> back to homepage/login

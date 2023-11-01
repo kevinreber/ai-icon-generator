@@ -3,9 +3,10 @@ import { CreateImageForm } from "./components";
 import { useActionData, useNavigation } from "@remix-run/react";
 import { fallbackImageSource } from "~/utils";
 import type { ImageType } from "~/types";
+import { type CreateImagePageActionData } from "~/routes/create";
 
 const CreateImagePage = () => {
-  const actionData = useActionData();
+  const actionData = useActionData() as CreateImagePageActionData;
   const navigation = useNavigation();
   const isLoadingData = navigation.state !== "idle";
 

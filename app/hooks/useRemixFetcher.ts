@@ -47,8 +47,10 @@ export const useRemixFetcher = ({ onError, onSuccess }: Options = {}) => {
    */
   React.useEffect(() => {
     // Handle calling onSuccess onError callcbacks
+    // @ts-ignore
     if (onSuccess && fetcher?.data?.success === true) {
       onSuccess(fetcher.data);
+      // @ts-ignore
     } else if (onError && fetcher?.data?.success === false) {
       onError(fetcher.data);
     }

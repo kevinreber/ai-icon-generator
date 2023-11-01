@@ -1,9 +1,13 @@
-import { type LoaderArgs, json } from "@remix-run/node";
+import {
+  type LoaderFunctionArgs,
+  json,
+  type SerializeFrom,
+} from "@remix-run/node";
 import { ExplorePage } from "~/pages";
 import { getImages } from "~/server";
 import { getSession } from "~/services";
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const searchParams = new URL(request.url).searchParams;
   const currentPage = Math.max(Number(searchParams.get("page") || 1), 1);
 
@@ -14,6 +18,8 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   return json({ data: images, user: googleSessionData });
 };
+
+export type ExplorePageLoader = SerializeFrom<typeof loader>;
 
 export default function Index() {
   return <ExplorePage />;

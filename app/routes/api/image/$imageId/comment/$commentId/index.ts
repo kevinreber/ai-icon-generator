@@ -1,8 +1,8 @@
-import { type ActionArgs } from "@remix-run/node";
+import { type ActionFunctionArgs } from "@remix-run/node";
 import { deleteComment } from "~/server";
 import { getSession } from "~/services";
 
-export async function action({ request, params }: ActionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const googleSessionData = (await session.get("_session")) || undefined;
   const userId = googleSessionData.id;

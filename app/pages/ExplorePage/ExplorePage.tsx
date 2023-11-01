@@ -1,8 +1,8 @@
 import React from "react";
 import { useLoaderData } from "@remix-run/react";
 import { Typography } from "antd";
-import type { ImageType } from "~/types";
 import { ImageModal } from "~/components";
+import { type ExplorePageLoader } from "~/routes/explore";
 
 /**
  *
@@ -10,7 +10,7 @@ import { ImageModal } from "~/components";
  */
 
 const ExplorePage = () => {
-  const loaderData = useLoaderData();
+  const loaderData = useLoaderData<ExplorePageLoader>();
   const images = loaderData.data || [];
 
   return (
@@ -29,9 +29,10 @@ const ExplorePage = () => {
       <div className="container pt-8 max-w-5xl">
         {/* highlight on hover reference: https://www.hyperui.dev/blog/highlight-hover-effect-with-tailwindcss */}
         <ul className="grid grid-cols-3 gap-1 lg:gap-4 [&:hover>li]:opacity-50">
-          {images.map((image: ImageType) => {
+          {images.map((image) => {
             return (
               <li key={image.id} className="hover:!opacity-100">
+                {/* @ts-ignore */}
                 <ImageModal imageData={image} />
               </li>
             );
