@@ -15,7 +15,7 @@ import {
   type SerializeFrom,
 } from "@remix-run/node";
 // TODO: setup in Remix v2
-// import { cssBundleHref } from '@remix-run/css-bundle';
+import { cssBundleHref } from "@remix-run/css-bundle";
 import { authenticator } from "~/services/auth.server";
 import { getLoggedInUserData } from "~/server";
 import { NavigationSidebar } from "./components";
@@ -25,17 +25,18 @@ import { UserContext } from "~/context";
 import antdStyles from "antd/dist/antd.css";
 import darkStyle from "~/styles/antd.dark.css";
 import globalStyles from "~/styles/global.css";
-import tailwindStyles from "./styles/tailwind.css";
+import tailwindStyles from "~/styles/tailwind.css";
 
-export const links: LinksFunction = () =>
-  [
+// @ts-ignore
+export const links: LinksFunction = () => {
+  return [
     { rel: "stylesheet", href: antdStyles },
     { rel: "stylesheet", href: darkStyle },
     { rel: "stylesheet", href: globalStyles },
     { rel: "stylesheet", href: tailwindStyles },
-    // TODO: setup in Remix v2
-    // cssBundleHref ? { rel: 'stylesheet', href: cssBundleHref } : null,
+    cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
   ].filter(Boolean);
+};
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request);
