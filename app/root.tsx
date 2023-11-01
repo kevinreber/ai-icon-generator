@@ -9,6 +9,8 @@ import {
 } from "@remix-run/react";
 import { Layout } from "antd";
 import { type LoaderArgs, json, type LinksFunction } from "@remix-run/node";
+// TODO: setup in Remix v2
+// import { cssBundleHref } from '@remix-run/css-bundle';
 import { authenticator } from "~/services/auth.server";
 import { getLoggedInUserData } from "~/server";
 import { NavigationSidebar } from "./components";
@@ -20,12 +22,15 @@ import darkStyle from "~/styles/antd.dark.css";
 import globalStyles from "~/styles/global.css";
 import tailwindStyles from "./styles/tailwind.css";
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: antdStyles },
-  { rel: "stylesheet", href: darkStyle },
-  { rel: "stylesheet", href: globalStyles },
-  { rel: "stylesheet", href: tailwindStyles },
-];
+export const links: LinksFunction = () =>
+  [
+    { rel: "stylesheet", href: antdStyles },
+    { rel: "stylesheet", href: darkStyle },
+    { rel: "stylesheet", href: globalStyles },
+    { rel: "stylesheet", href: tailwindStyles },
+    // TODO: setup in Remix v2
+    // cssBundleHref ? { rel: 'stylesheet', href: cssBundleHref } : null,
+  ].filter(Boolean);
 
 export const loader = async ({ request }: LoaderArgs) => {
   const user = await authenticator.isAuthenticated(request);
