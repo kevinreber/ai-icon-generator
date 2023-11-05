@@ -25,8 +25,8 @@ const AddImagesToCollectionButton = ({ images }: { images: ImageType[] }) => {
   const userId = userData?.id || undefined;
 
   const actionData = useActionData() as CreateImagePageActionData;
-  // const navigation = useNavigation();
-  // const isLoadingData = navigation.state !== "idle";
+  const navigation = useNavigation();
+  const isLoadingData = navigation.state !== "idle";
 
   console.log(actionData);
 
@@ -115,7 +115,7 @@ const AddImagesToCollectionButton = ({ images }: { images: ImageType[] }) => {
           icon={<BookOutlined />}
           onClick={toggleUserCollectionsPopover}
           loading={isLoadingFetcher}
-          disabled={!userId || !imagesGenerated}
+          disabled={!userId || !imagesGenerated || isLoadingData}
         >
           Add images to Collection
         </Button>
