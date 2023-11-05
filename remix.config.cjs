@@ -1,5 +1,8 @@
 /** @type {import('@remix-run/dev').AppConfig} */
+import { config } from "@netlify/remix-adapter";
+
 module.exports = {
+  ...config,
   ignoredRouteFiles: ["**/.*"],
   server:
     process.env.NETLIFY || process.env.NETLIFY_LOCAL
