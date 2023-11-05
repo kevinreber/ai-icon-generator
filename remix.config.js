@@ -3,13 +3,13 @@ import { config } from "@netlify/remix-adapter";
 
 module.exports = {
   ...config,
-  ignoredRouteFiles: ["**/.*"],
-  server:
-    process.env.NETLIFY || process.env.NETLIFY_LOCAL
-      ? "./server.ts"
-      : undefined,
-  serverBuildPath: ".netlify/functions-internal/server.js",
-  v2_routeConvention: false,
+  // ignoredRouteFiles: ["**/.*"],
+  // server:
+  //   process.env.NETLIFY || process.env.NETLIFY_LOCAL
+  //     ? "./server.ts"
+  //     : undefined,
+  // serverBuildPath: ".netlify/functions-internal/server.js",
+  // v2_routeConvention: false,
   // TODO: Setting postcss = false temporarily....
   postcss: false,
   // For below, reference: https://github.com/ant-design/ant-design-icons/issues/605
