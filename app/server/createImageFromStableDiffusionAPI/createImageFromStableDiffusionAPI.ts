@@ -9,7 +9,7 @@ const THREE_SECONDS_IN_MS = 1000 * 3;
 
 const DEFAULT_NUMBER_OF_IMAGES_CREATED = 1;
 const DEFAULT_AI_IMAGE_LANGUAGE_MODEL = "stable-diffusion-xl";
-const DEFAULT_IMAGE_STYLE_PRESET = "enhance";
+const DEFAULT_IMAGE_STYLE_PRESET = undefined;
 const DEFAULT_IS_IMAGE_PRIVATE = false;
 
 const DEFAULT_PAYLOAD = {
@@ -53,12 +53,13 @@ const createStableDiffusionImages = async (
     cfg_scale: 7,
     height: IMAGE_HEIGHT,
     width: IMAGE_WIDTH,
-    steps: 30,
+    steps: 40,
     style_preset: stylePreset,
     samples: numberOfImagesToGenerate,
     text_prompts: [
       {
         text: promptMessage,
+        weight: 1,
       },
     ],
   };

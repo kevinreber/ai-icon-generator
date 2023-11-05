@@ -7,7 +7,7 @@ import {
 
 const DEFAULT_NUMBER_OF_IMAGES_CREATED = 1;
 const DEFAULT_AI_IMAGE_LANGUAGE_MODEL = "stable-diffusion-xl";
-const DEFAULT_IMAGE_STYLE_PRESET = "enhance";
+const DEFAULT_IMAGE_STYLE_PRESET = undefined;
 const DEFAULT_IS_IMAGE_PRIVATE = false;
 
 const DEFAULT_PAYLOAD = {

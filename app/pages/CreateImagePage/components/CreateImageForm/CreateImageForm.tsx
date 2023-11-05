@@ -11,7 +11,11 @@ import {
   Select,
 } from "antd";
 import { COLOR_PICKER_PRESET_OPTIONS } from "app/utils";
-import { ICON_SHAPE_OPTIONS, ICON_STYLE_OPTIONS } from "./constants";
+import {
+  ICON_SHAPE_OPTIONS,
+  ICON_STYLE_OPTIONS,
+  STABLE_DIFFUSION_IMAGE_PRESETS,
+} from "./constants";
 
 const DEFAULT_FORM_VALUES = {
   prompt: undefined,
@@ -100,13 +104,14 @@ const CreateImageForm = () => {
         />
       </Form.Item> */}
 
-      {/* TODO */}
-      {/* <Form.Item label='Select a style for your Image' name='style'>
-        <Radio.Group
-          options={ICON_STYLE_OPTIONS}
-          // optionType="button"
+      <Form.Item label="Select a style for your Image" name="style">
+        <Select
+          options={STABLE_DIFFUSION_IMAGE_PRESETS}
+          placeholder="Ex: anime"
+          allowClear
+          showSearch
         />
-      </Form.Item> */}
+      </Form.Item>
 
       {/* TODO */}
       {/* <Form.Item label='Select shape of Image' name='shape'>
