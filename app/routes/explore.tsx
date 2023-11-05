@@ -2,10 +2,15 @@ import {
   type LoaderFunctionArgs,
   json,
   type SerializeFrom,
+  MetaFunction,
 } from "@remix-run/node";
 import { ExplorePage } from "~/pages";
 import { getImages } from "~/server";
 import { getSession } from "~/services";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "Explore AI Generated Images" }];
+};
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const searchParams = new URL(request.url).searchParams;

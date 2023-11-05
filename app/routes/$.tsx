@@ -5,8 +5,13 @@
 // ensure the user gets the right status code and we can display a nicer error
 // message for them than the Remix and/or browser default.
 
+import { MetaFunction } from "@remix-run/node";
 import { Button, Result } from "antd";
 import { GeneralErrorBoundary } from "~/components/GeneralErrorBoundary";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "Page does not Exist" }];
+};
 
 export async function loader() {
   throw new Response("Not found", { status: 404 });

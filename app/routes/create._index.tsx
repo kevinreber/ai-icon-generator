@@ -3,12 +3,17 @@ import {
   json,
   type ActionFunctionArgs,
   type SerializeFrom,
+  MetaFunction,
 } from "@remix-run/node";
 import { CreateImagePage } from "~/pages";
 import { authenticator } from "~/services/auth.server";
 import { updateUserCredits } from "~/server/updateUserCredits";
 import { createNewImages } from "~/server/createNewImages";
 import { getSession } from "~/services";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "Create AI Images" }];
+};
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await authenticator.isAuthenticated(request, {
