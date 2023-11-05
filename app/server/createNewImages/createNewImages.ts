@@ -4,6 +4,7 @@ import {
   // addNewImageToDB,
   createImageFromDallEAPI,
 } from "~/server";
+import { invariantResponse } from "~/utils/invariantResponse";
 
 const DEFAULT_NUMBER_OF_IMAGES_CREATED = 1;
 const DEFAULT_AI_IMAGE_LANGUAGE_MODEL = "stable-diffusion-xl";
@@ -28,9 +29,7 @@ export const createNewImages = async (
 ) => {
   const AILanguageModelToUse = formData.model;
 
-  if (!AILanguageModelToUse) {
-    throw new Error("Must select a language model");
-  }
+  invariantResponse(!AILanguageModelToUse, "Must select a language model");
 
   try {
     if (AILanguageModelToUse === "dall-e") {

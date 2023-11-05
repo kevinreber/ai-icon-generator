@@ -12,6 +12,7 @@ import {
 import { getSession } from "~/services";
 import { authenticator } from "~/services/auth.server";
 import { prisma } from "~/services/prisma.server";
+import { invariantResponse } from "~/utils/invariantResponse";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await authenticator.isAuthenticated(request, {
@@ -21,7 +22,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const collectionData = await getCollectionData(collectionId);
 
   if (!collectionData.collection) {
-    return redirect("/collections");
+    throw redirect("/collections");
   }
 
   return json({ data: collectionData });
@@ -33,9 +34,10 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const userId = googleSessionData.id;
   const collectionId = params.collectionId || "";
 
-  if (!userId) {
-    throw new Error("Missing User ID: Must be logged in to Delete Collection");
-  }
+  invariantResponse(
+    !userId,
+    "Missing User ID: Must be logged in to View Collection",
+  );
 
   switch (request.method.toUpperCase()) {
     case "POST": {

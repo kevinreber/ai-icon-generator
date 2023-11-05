@@ -1,4 +1,5 @@
 import { prisma } from "~/services/prisma.server";
+import { invariantResponse } from "~/utils/invariantResponse";
 
 /**
  *
@@ -24,7 +25,5 @@ export const updateUserCredits = async (
     },
   });
 
-  if (userData.count <= 0) {
-    throw new Error("Not enough credits");
-  }
+  invariantResponse(userData.count <= 0, "Not enough credits");
 };

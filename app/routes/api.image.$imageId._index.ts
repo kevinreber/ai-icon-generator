@@ -5,6 +5,7 @@ import {
 } from "@remix-run/node";
 import { deleteUserImage, getImageBase64, updateImageData } from "~/server";
 import { getSession } from "~/services";
+import { invariantResponse } from "~/utils/invariantResponse";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const imageId = params?.imageId || "";
@@ -19,9 +20,10 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const userId = googleSessionData.id;
   const imageId = params?.imageId || "";
 
-  if (!userId) {
-    throw new Error("Missing User ID: Must be logged in to Edit an Image");
-  }
+  invariantResponse(
+    !userId,
+    "Missing User ID: Must be logged in to Edit an Image",
+  );
 
   switch (request.method.toUpperCase()) {
     case "PATCH": {
