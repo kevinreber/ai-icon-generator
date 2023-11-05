@@ -3,6 +3,7 @@ import {
   json,
   type ActionFunctionArgs,
   SerializeFrom,
+  MetaFunction,
 } from "@remix-run/node";
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { Alert } from "antd";
@@ -10,6 +11,28 @@ import { UserProfilePage } from "~/pages";
 import { getUserData } from "~/server";
 import { getSession } from "~/services";
 import { authenticator } from "~/services/auth.server";
+import { loader as UserLoaderData } from "../root";
+
+export const meta: MetaFunction<
+  typeof loader,
+  { root: typeof UserLoaderData }
+> = ({ data, params, matches }) => {
+  // TODO: Use user's username instead of userId so we can dynamically store it in our meta tag
+  const userId = params.userId;
+
+  // Incase our Profile loader ever fails, we can get logged in user data from root
+  const userMatch = matches.find((match) => match.id === "root");
+  const username =
+    userMatch?.data.data?.username || userMatch?.data.data?.name || userId;
+
+  return [
+    { title: `${username} | Profile` },
+    {
+      name: "description",
+      content: `Checkout ${username}'s AI generated images`,
+    },
+  ];
+};
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const userId = params.userId || "";

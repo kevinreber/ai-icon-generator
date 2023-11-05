@@ -1,7 +1,11 @@
-import type { ActionFunction } from "@remix-run/node";
+import type { ActionFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { stripe } from "~/services/stripe.server";
 import { handleStripeEvent } from "~/services/webhook.server";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "Stripe Webhook" }];
+};
 
 // [credit @kiliman to get this webhook working](https://github.com/remix-run/remix/discussions/1978)
 // To have this webhook working locally, in another server we must run `stripe listen --forward-to localhost:3000/webhook` (yarn run stripe:listen)

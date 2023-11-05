@@ -1,5 +1,9 @@
-import { type ActionFunctionArgs } from "@remix-run/node";
+import { MetaFunction, type ActionFunctionArgs } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "User Logout" }];
+};
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   try {

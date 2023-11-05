@@ -1,5 +1,9 @@
 import { LandingPage } from "~/pages";
-import { json } from "@remix-run/node";
+import { MetaFunction, json } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [{ title: "AI Image Generator" }];
+};
 
 export const loader = async () => {
   return json({});
