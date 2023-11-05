@@ -9,3 +9,5 @@ export * from "./AddImageToCollectionButton";
 export * from "./DeleteCollectionButton";
 export * from "./EditCollectionButton";
 export * from "./CreateCollectionButton";
+export * from "./AddImagesToCollectionButton";
+export * from "./GeneralErrorBoundary";

@@ -1,9 +1,10 @@
-import { Typography, Image, Card, Row, Col } from "antd";
+import { Typography, Image, Card, Row, Col, Space } from "antd";
 import { CreateImageForm } from "./components";
 import { useActionData, useNavigation } from "@remix-run/react";
 import { fallbackImageSource } from "~/utils";
 import type { ImageType } from "~/types";
-import { type CreateImagePageActionData } from "~/routes/create";
+import { type CreateImagePageActionData } from "~/routes/create._index";
+import { AddImagesToCollectionButton } from "~/components";
 
 const CreateImagePage = () => {
   const actionData = useActionData() as CreateImagePageActionData;
@@ -21,7 +22,11 @@ const CreateImagePage = () => {
         <CreateImageForm />
       </Col>
       <Col span={12}>
-        <Typography.Title level={3}>Images Generated</Typography.Title>
+        <Space style={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography.Title level={3}>Images Generated</Typography.Title>
+          <AddImagesToCollectionButton images={actionData?.images || []} />
+        </Space>
+
         <Card
           loading={isLoadingData}
           style={{ minHeight: 400 }}

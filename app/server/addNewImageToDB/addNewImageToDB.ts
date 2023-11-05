@@ -14,7 +14,7 @@ export const addNewImageToDB = async ({
   prompt: string;
   userId: string;
   model: string;
-  preset: string;
+  preset?: string;
   isImagePrivate: boolean;
 }) => {
   const image = await prisma.icon.create({

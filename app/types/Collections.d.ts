@@ -7,7 +7,7 @@ export type Collection = {
   user: { id: string; username: string };
   createdAt: Date | string;
   updatedAt: Date | string;
-  images: Pick<ImageType, "id">[];
+  images: string[];
 };
 
 export type GetUserCollectionsAPIResponse = {
