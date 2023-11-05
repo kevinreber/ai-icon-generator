@@ -18,7 +18,6 @@ module.exports = {
     /^@ant-design\/icons-svg.*/,
     /^rc-util.*/,
   ],
-  serverModuleFormat: "cjs",
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
