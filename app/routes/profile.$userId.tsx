@@ -12,6 +12,7 @@ import { getUserData } from "~/server";
 import { getSession } from "~/services";
 import { authenticator } from "~/services/auth.server";
 import { loader as UserLoaderData } from "../root";
+import { invariantResponse } from "~/utils/invariantResponse";
 
 export const meta: MetaFunction<
   typeof loader,
@@ -36,9 +37,7 @@ export const meta: MetaFunction<
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const userId = params.userId || "";
-  if (!userId) {
-    throw new Error("User does not exist");
-  }
+  invariantResponse(!userId, "User does not exist");
 
   const session = await getSession(request.headers.get("Cookie"));
   const googleSessionData = (await session.get("_session")) || undefined;
@@ -63,9 +62,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   );
   // console.log(data);
 
-  if (!data.user) {
-    throw new Error("User does not exist");
-  }
+  invariantResponse(!data.user, "User does not exist");
 
   return json(data);
 };

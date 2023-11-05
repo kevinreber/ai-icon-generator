@@ -2,6 +2,7 @@ import { setTimeout } from "timers/promises";
 import { addBase64EncodedImageToAWS, addNewImageToDB } from "~/server";
 import { getS3BucketThumbnailURL, getS3BucketURL } from "~/utils";
 import { getEngineId, getMockDataResponse } from "./utils";
+import { invariantResponse } from "~/utils/invariantResponse";
 
 const IMAGE_HEIGHT = 1024;
 const IMAGE_WIDTH = 1024;
@@ -77,9 +78,7 @@ const createStableDiffusionImages = async (
     },
   );
 
-  if (!response.ok) {
-    throw new Error(`Non-200 response: ${await response.text()}`);
-  }
+  invariantResponse(!response.ok, `Non-200 response: ${await response.text()}`);
 
   const responseJSON = (await response.json()) as GenerationResponse;
 

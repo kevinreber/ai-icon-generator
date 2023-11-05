@@ -1,6 +1,7 @@
 import { type ActionFunctionArgs } from "@remix-run/node";
 import { toggleImageLikes } from "~/server";
 import { getSession } from "~/services";
+import { invariantResponse } from "~/utils/invariantResponse";
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -8,9 +9,10 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const imageId = params?.imageId || "";
   const userId = googleSessionData.id;
 
-  if (!userId) {
-    throw new Error("Missing User ID: Must be logged in to Like an Image");
-  }
+  invariantResponse(
+    !userId,
+    "Missing User ID: Must be logged in to Like an Image",
+  );
 
   switch (request.method.toUpperCase()) {
     case "POST": {

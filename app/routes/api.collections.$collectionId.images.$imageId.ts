@@ -2,6 +2,7 @@ import { type ActionFunctionArgs } from "@remix-run/node";
 import { addImageToCollection, removeImageFromCollection } from "~/server";
 import { getSession } from "~/services";
 import { prisma } from "~/services/prisma.server";
+import { invariantResponse } from "~/utils/invariantResponse";
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -10,9 +11,10 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const collectionId = params.collectionId || "";
   const imageId = params.imageId || "";
 
-  if (!userId) {
-    throw new Error("Missing User ID: Must be logged in to Delete Collection");
-  }
+  invariantResponse(
+    !userId,
+    "Missing User ID: Must be logged in to add/remove Image from Collection",
+  );
 
   switch (request.method.toUpperCase()) {
     case "POST": {
