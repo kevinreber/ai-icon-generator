@@ -1,7 +1,7 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 import { config } from "@netlify/remix-adapter";
 
-module.exports = {
+export default {
   ...config,
   // ignoredRouteFiles: ["**/.*"],
   // server:
