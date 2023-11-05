@@ -1,20 +1,20 @@
-import { type ActionArgs } from "@remix-run/node";
-import { toggleImageLikes } from "~/server";
+import { type ActionFunctionArgs } from "@remix-run/node";
+import { toggleCommentLikes } from "~/server";
 import { getSession } from "~/services";
 
-export async function action({ request, params }: ActionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const googleSessionData = (await session.get("_session")) || undefined;
-  const imageId = params?.imageId || "";
   const userId = googleSessionData.id;
+  const commentId = params?.commentId || "";
 
   if (!userId) {
-    throw new Error("Missing User ID: Must be logged in to Like an Image");
+    throw new Error("Missing User ID: Must be logged in to Like a Comment");
   }
 
   switch (request.method.toUpperCase()) {
     case "POST": {
-      const response = await toggleImageLikes({ imageId, userId });
+      const response = await toggleCommentLikes({ commentId, userId });
 
       return response;
     }

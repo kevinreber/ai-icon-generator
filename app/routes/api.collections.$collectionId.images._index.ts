@@ -1,8 +1,8 @@
-import { type LoaderArgs, json, redirect } from "@remix-run/node";
+import { type LoaderFunctionArgs, json, redirect } from "@remix-run/node";
 import { getCollectionData } from "~/server";
 import { authenticator } from "~/services/auth.server";
 
-export const loader = async ({ request, params }: LoaderArgs) => {
+export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   await authenticator.isAuthenticated(request, {
     failureRedirect: "/",
   });

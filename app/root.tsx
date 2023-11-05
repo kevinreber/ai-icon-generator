@@ -8,9 +8,14 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { Layout } from "antd";
-import { type LoaderArgs, json, type LinksFunction } from "@remix-run/node";
+import {
+  type LoaderFunctionArgs,
+  json,
+  type LinksFunction,
+  type SerializeFrom,
+} from "@remix-run/node";
 // TODO: setup in Remix v2
-// import { cssBundleHref } from '@remix-run/css-bundle';
+import { cssBundleHref } from "@remix-run/css-bundle";
 import { authenticator } from "~/services/auth.server";
 import { getLoggedInUserData } from "~/server";
 import { NavigationSidebar } from "./components";
@@ -20,22 +25,23 @@ import { UserContext } from "~/context";
 import antdStyles from "antd/dist/antd.css";
 import darkStyle from "~/styles/antd.dark.css";
 import globalStyles from "~/styles/global.css";
-import tailwindStyles from "./styles/tailwind.css";
+import tailwindStyles from "~/styles/tailwind.css";
 
-export const links: LinksFunction = () =>
-  [
+// @ts-ignore
+export const links: LinksFunction = () => {
+  return [
     { rel: "stylesheet", href: antdStyles },
     { rel: "stylesheet", href: darkStyle },
     { rel: "stylesheet", href: globalStyles },
     { rel: "stylesheet", href: tailwindStyles },
-    // TODO: setup in Remix v2
-    // cssBundleHref ? { rel: 'stylesheet', href: cssBundleHref } : null,
+    cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
   ].filter(Boolean);
+};
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request);
   if (!user) {
-    return json({ data: undefined });
+    throw json({ data: undefined });
   }
 
   const userData = await getLoggedInUserData(user as any);
@@ -43,8 +49,10 @@ export const loader = async ({ request }: LoaderArgs) => {
   return json({ data: userData });
 };
 
+type LoaderData = SerializeFrom<typeof loader>;
+
 export default function App() {
-  const loaderData = useLoaderData();
+  const loaderData = useLoaderData<LoaderData>();
   const userData = loaderData.data;
 
   return (
@@ -66,6 +74,7 @@ export default function App() {
         ></script> */}
       </head>
       <body style={{ margin: 0 }}>
+        {/* @ts-ignore */}
         <UserContext.Provider value={userData}>
           {/* <ConfigProvider
           theme={{

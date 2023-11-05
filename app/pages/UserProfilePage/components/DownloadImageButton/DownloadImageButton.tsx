@@ -7,7 +7,7 @@ import { getImageBlob } from "~/client";
 import React from "react";
 
 // TODO: Explore using action function
-// export async function action({ request }: ActionArgs) {
+// export async function action({ request }: ActionFunctionArgs) {
 //   console.log("Action function!!!!!!!!!!");
 //   const formData = await request.formData();
 
