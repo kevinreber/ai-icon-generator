@@ -29,7 +29,7 @@ export const createNewImages = async (
 ) => {
   const AILanguageModelToUse = formData.model;
 
-  invariantResponse(!AILanguageModelToUse, "Must select a language model");
+  invariantResponse(AILanguageModelToUse, "Must select a language model");
 
   try {
     if (AILanguageModelToUse === "dall-e") {

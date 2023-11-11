@@ -78,7 +78,7 @@ const createStableDiffusionImages = async (
     },
   );
 
-  invariantResponse(!response.ok, `Non-200 response: ${await response.text()}`);
+  invariantResponse(response.ok, `Non-200 response: ${await response.text()}`);
 
   const responseJSON = (await response.json()) as GenerationResponse;
 

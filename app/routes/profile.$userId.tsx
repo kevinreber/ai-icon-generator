@@ -37,7 +37,7 @@ export const meta: MetaFunction<
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const userId = params.userId || "";
-  invariantResponse(!userId, "User does not exist");
+  invariantResponse(userId, "User does not exist");
 
   const session = await getSession(request.headers.get("Cookie"));
   const googleSessionData = (await session.get("_session")) || undefined;
@@ -60,9 +60,8 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     pageSize,
     shouldGetUsersPrivateImages,
   );
-  // console.log(data);
 
-  invariantResponse(!data.user, "User does not exist");
+  invariantResponse(data.user, "User does not exist");
 
   return json(data);
 };

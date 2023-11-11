@@ -37,11 +37,12 @@ import { ImageModal, LikeImageButton } from "~/components";
 import { convertUtcDateToLocalDateString } from "~/utils";
 import { ToggleIsImagePrivateButton } from "./components/ToggleIsImagePrivateButton";
 import { UserContext } from "~/context";
-import { type UserProfilePageLoader } from "~/routes/profile/$userId";
+import { type UserProfilePageLoader } from "~/routes/profile.$userId";
 
 const UserProfilePage = () => {
   const data = useLoaderData() as UserProfilePageLoader;
   const currentLoggedInUserData = React.useContext(UserContext);
+  console.log(data);
 
   const userData = data.user;
 
