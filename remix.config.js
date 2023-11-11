@@ -3,12 +3,12 @@ import { config } from "@netlify/remix-adapter";
 
 export default {
   ...config,
-  // ignoredRouteFiles: ["**/.*"],
-  // server:
-  //   process.env.NETLIFY || process.env.NETLIFY_LOCAL
-  //     ? "./server.ts"
-  //     : undefined,
-  // serverBuildPath: ".netlify/functions-internal/server.js",
+  ignoredRouteFiles: ["**/.*"],
+  server:
+    process.env.NETLIFY || process.env.NETLIFY_LOCAL
+      ? "./server.ts"
+      : undefined,
+  serverBuildPath: ".netlify/functions-internal/server.js",
   // v2_routeConvention: false,
   // TODO: Setting postcss = false temporarily....
   postcss: false,
@@ -18,7 +18,7 @@ export default {
     /^@ant-design\/icons-svg.*/,
     /^rc-util.*/,
   ],
-  serverModuleFormat: "cjs",
+  // serverModuleFormat: "cjs",
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
