@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "remix build",
-    "dev": "yarn run check-env-file && remix dev",
+    "dev": "yarn run check-env-file && remix dev --manual",
     "start": "netlify dev",
     "typecheck": "tsc",
     "check-env-file": "node ./scripts/check-env-file.mjs",
