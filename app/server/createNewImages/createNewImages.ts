@@ -19,12 +19,20 @@ const DEFAULT_PAYLOAD = {
   private: DEFAULT_IS_IMAGE_PRIVATE,
 };
 
+type FormDataPayload = {
+  prompt: string;
+  numberOfImages: number;
+  model: string;
+  stylePreset?: string;
+  private?: boolean;
+};
+
 /**
  * @description
  * This function determines which AI Image language model the user wants to use
  */
 export const createNewImages = async (
-  formData = DEFAULT_PAYLOAD,
+  formData: FormDataPayload = DEFAULT_PAYLOAD,
   userId: string,
 ) => {
   const AILanguageModelToUse = formData.model;
