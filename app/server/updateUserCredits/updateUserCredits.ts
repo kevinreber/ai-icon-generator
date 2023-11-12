@@ -25,5 +25,5 @@ export const updateUserCredits = async (
     },
   });
 
-  invariantResponse(userData.count <= 0, "Not enough credits");
+  invariantResponse(userData.count > 0, "Not enough credits");
 };

@@ -10,7 +10,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const collectionId = params.collectionId || "";
 
   invariantResponse(
-    !userId,
+    userId,
     "Missing User ID: Must be logged in to Delete Collection",
   );
 

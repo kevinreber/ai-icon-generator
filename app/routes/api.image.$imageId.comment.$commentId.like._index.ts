@@ -10,7 +10,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const commentId = params?.commentId || "";
 
   invariantResponse(
-    !userId,
+    userId,
     "Missing User ID: Must be logged in to Like a Comment",
   );
 

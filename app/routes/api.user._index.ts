@@ -9,7 +9,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const userId = googleSessionData.id;
 
   invariantResponse(
-    !userId,
+    userId,
     "Missing User ID: Must be logged in to Edit user data",
   );
 
