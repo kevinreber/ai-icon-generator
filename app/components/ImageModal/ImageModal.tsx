@@ -78,12 +78,13 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
           onClick={() => setShowImageModal(true)}
         >
           <img
-            className="absolute inset-0 object-cover w-full h-full "
-            // alt="..."
+            className="inset-0 object-cover cursor-pointer 
+            absolute w-full h-full 
+            "
             src={imageData.thumbnailURL}
             alt={imageData.prompt}
             // fallback={fallbackImageSource}
-            style={{ cursor: "pointer" }}
+            // style={{ cursor: "pointer", maxWidth: 150, height: 'auto' }}
             // placeholder={
             //   <div
             //     style={{
