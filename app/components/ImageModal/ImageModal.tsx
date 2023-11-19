@@ -278,7 +278,14 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
                         {imageData.model}
                       </Typography.Text>
                     </Space>
-
+                    <Space direction="vertical" size="small">
+                      <Typography.Text style={{ fontWeight: 600 }}>
+                        Style Preset
+                      </Typography.Text>
+                      <Typography.Text italic>
+                        {imageData.stylePreset}
+                      </Typography.Text>
+                    </Space>
                     <Space direction="vertical" size="small">
                       <Typography.Text style={{ fontWeight: 600 }}>
                         Prompt
