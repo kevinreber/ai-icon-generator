@@ -44,12 +44,17 @@ interface GenerationResponse {
  * @reference
  * https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/textToImage
  */
-const createStableDiffusionImages = async (
-  prompt: string,
+const createStableDiffusionImages = async ({
+  prompt,
   numberOfImages = DEFAULT_NUMBER_OF_IMAGES_CREATED,
   model = DEFAULT_AI_IMAGE_LANGUAGE_MODEL,
   stylePreset = DEFAULT_IMAGE_STYLE_PRESET,
-) => {
+}: {
+  prompt: string;
+  numberOfImages: number;
+  model: string;
+  stylePreset?: string;
+}) => {
   const promptMessage = prompt;
   const numberOfImagesToGenerate = Math.round(numberOfImages);
   const engineId = getEngineId(model);
@@ -137,13 +142,12 @@ export const createImageFromStableDiffusionAPI = async (
     }
 
     // Generate Images
-    const images = await createStableDiffusionImages(
+    const images = await createStableDiffusionImages({
       prompt,
       numberOfImages,
       model,
-      // @ts-ignore
       stylePreset,
-    );
+    });
 
     const formattedImagesData = await Promise.all(
       images.artifacts.map(async (image) => {
