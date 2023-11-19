@@ -1,14 +1,14 @@
 /** @type {import('@remix-run/dev').AppConfig} */
-import { config } from "@netlify/remix-adapter";
+// import { config } from "@netlify/remix-adapter";
 
 export default {
-  ...config,
+  // ...config,
   ignoredRouteFiles: ["**/.*"],
-  server:
-    process.env.NETLIFY || process.env.NETLIFY_LOCAL
-      ? "./server.ts"
-      : undefined,
-  serverBuildPath: ".netlify/functions-internal/server.js",
+  // server:
+  //   process.env.NETLIFY || process.env.NETLIFY_LOCAL
+  //     ? "./server.ts"
+  //     : undefined,
+  // serverBuildPath: ".netlify/functions-internal/server.js",
   // v2_routeConvention: false,
   // TODO: Setting postcss = false temporarily....
   postcss: false,

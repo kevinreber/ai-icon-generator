@@ -5,7 +5,7 @@
   "scripts": {
     "build": "remix build",
     "dev": "yarn run check-env-file && remix dev --manual",
-    "start": "netlify dev",
+    "start": "remix-serve ./build/index.js",
     "typecheck": "tsc",
     "check-env-file": "node ./scripts/check-env-file.mjs",
     "postinstall": "prisma generate",
