@@ -37,7 +37,7 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: globalStyles },
     { rel: "stylesheet", href: tailwindStyles },
     { rel: "stylesheet", href: radixUIStyles },
-    cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
+    // cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
   ].filter(Boolean);
 };
 
@@ -76,7 +76,8 @@ export default function App() {
           data-y_margin='18'
         ></script> */}
       </head>
-      <body style={{ margin: 0 }}>
+      {/* Adding className="dark" ensures our app will always use dark mode via radix-ui – @reference: https://stackoverflow.com/a/77276471*/}
+      <body style={{ margin: 0 }} className="dark">
         <Theme>
           {/* @ts-ignore */}
           <UserContext.Provider value={userData}>
