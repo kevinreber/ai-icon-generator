@@ -37,7 +37,7 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: globalStyles },
     { rel: "stylesheet", href: tailwindStyles },
     { rel: "stylesheet", href: radixUIStyles },
-    // cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
+    cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
   ].filter(Boolean);
 };
 
