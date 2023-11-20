@@ -63,7 +63,10 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
               {imageData.prompt}
               <br />
               <br />
-              <Typography.Link strong href={`/profile/${imageData.user.id}`}>
+              <Typography.Link
+                strong
+                href={`/profile/${imageData.user.username}`}
+              >
                 {imageData.user.username}
               </Typography.Link>
               <br />
@@ -168,7 +171,10 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
             <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
 
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <Typography.Link strong href={`/profile/${imageData.user.id}`}>
+              <Typography.Link
+                strong
+                href={`/profile/${imageData.user.username}`}
+              >
                 {imageData.user.username}
               </Typography.Link>
               <Typography.Text type="secondary" style={{ fontSize: 12 }}>

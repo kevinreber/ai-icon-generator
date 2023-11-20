@@ -34,7 +34,7 @@ import {
   DeleteImageButton,
   DownloadImageButton,
   EditImageButton,
-} from "../UserProfilePage/components";
+} from "../ManageImagesPage/components";
 import { UserContext } from "~/context";
 
 const DEFAULT_COLLECTION_DATA = {
@@ -54,8 +54,8 @@ const CollectionDetailsPage = () => {
   // const [searchParams, setSearchParams] = useSearchParams();
   const collectionData = loaderData.data.collection || DEFAULT_COLLECTION_DATA;
 
-  const collections = collectionData.images || [];
-  const totalCollections = collections.length || 0;
+  const images = collectionData.images || [];
+  const totalImages = images.length || 0;
   const userData = React.useContext(UserContext);
 
   // const currentPage = Number(searchParams.get("page")) || 1;
@@ -95,11 +95,14 @@ const CollectionDetailsPage = () => {
           <Typography.Text>{collectionData.description}</Typography.Text>
           <Space>
             <Typography.Text italic>Created by</Typography.Text>
-            <Typography.Link italic href={`/profile/${collectionData.user.id}`}>
+            <Typography.Link
+              italic
+              href={`/profile/${collectionData.user.username}`}
+            >
               {collectionData.user.username}
             </Typography.Link>
             <Typography.Text italic type="secondary">
-              {totalCollections} total images
+              {totalImages} total images
             </Typography.Text>
           </Space>
         </Space>
@@ -108,6 +111,7 @@ const CollectionDetailsPage = () => {
           <Space style={{ marginLeft: "auto" }}>
             <EditCollectionButton
               key="edit-collection"
+              // @ts-ignore
               collection={collectionData}
             />
             <DeleteCollectionButton
@@ -117,87 +121,22 @@ const CollectionDetailsPage = () => {
           </Space>
         )}
       </div>
-      <Card
-        loading={isLoadingData}
-        style={{
-          height: "calc(100vh - 210px)",
-          overflow: "auto",
-        }}
-      >
-        {collectionData.images.length > 0 ? (
-          <Row gutter={16}>
-            {collectionData.images.map((image: ImageType) => {
+      <div className="container pt-8 max-w-5xl">
+        {images.length > 0 ? (
+          // {/* highlight on hover reference: https://www.hyperui.dev/blog/highlight-hover-effect-with-tailwindcss */}
+          <ul className="grid grid-cols-3 gap-1 lg:gap-4 [&:hover>li]:opacity-50">
+            {images.map((image: any) => {
               return (
-                <Col key={image.id}>
-                  <div style={{ marginBottom: 10 }}>
-                    <ImageModal imageData={image} />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Tooltip
-                      title={
-                        <Typography.Text style={{ color: "#fff" }}>
-                          {image.title}
-                          <br />
-                          <Typography.Text italic style={{ color: "#fff" }}>
-                            {image.prompt}
-                            <br />
-                            <br />
-                            <Typography.Link
-                              strong
-                              href={`/profile/${image.user.id}`}
-                            >
-                              {image.user.username}
-                            </Typography.Link>
-                            <br />
-                            {convertUtcDateToLocalDateString(image.createdAt)}
-                          </Typography.Text>
-                        </Typography.Text>
-                      }
-                    >
-                      <Typography.Text ellipsis style={{ maxWidth: 160 }}>
-                        {image.title || "Untitled"}
-                      </Typography.Text>
-                    </Tooltip>
-                    <Popover
-                      content={
-                        <Space size="small">
-                          <Space.Compact direction="vertical">
-                            <EditImageButton image={image} />
-                            <DownloadImageButton image={image} />
-                            <DeleteImageButton image={image} />
-                          </Space.Compact>
-                        </Space>
-                      }
-                    >
-                      <Button
-                        icon={<MoreOutlined rotate={90} />}
-                        style={{ border: "none" }}
-                      />
-                    </Popover>
-                  </div>
-                </Col>
+                <li key={image.id} className="hover:!opacity-100">
+                  <ImageModal imageData={image} />
+                </li>
               );
             })}
-          </Row>
+          </ul>
         ) : (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         )}
-      </Card>
-      {/* <Pagination
-        style={{ padding: 16 }}
-        size='small'
-        showSizeChanger
-        total={totalCollections}
-        current={currentPage}
-        pageSize={pageSize}
-        pageSizeOptions={[50, 100, 150, 200]}
-        onChange={handlePaginationChange}
-      /> */}
+      </div>
     </>
   );
 };

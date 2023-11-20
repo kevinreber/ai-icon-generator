@@ -7,8 +7,8 @@ import {
 } from "@remix-run/node";
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { Alert } from "antd";
-import { UserProfilePage } from "~/pages";
-import { getUserDataByUsername } from "~/server";
+import { ManageImagesPage } from "~/pages";
+import { getUserData } from "~/server";
 import { getSession } from "~/services";
 import { authenticator } from "~/services/auth.server";
 import { loader as UserLoaderData } from "../root";
@@ -27,17 +27,21 @@ export const meta: MetaFunction<
     userMatch?.data.data?.username || userMatch?.data.data?.name || userId;
 
   return [
-    { title: `${username} | Profile` },
+    { title: `${username} | Manage Images` },
     {
-      name: "description",
-      content: `Checkout ${username}'s AI generated images`,
+      name: "Manage AI generated images",
+      content: "Manage AI generated images",
     },
   ];
 };
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const username = params.userId || "";
-  invariantResponse(username, "Username does not exist");
+  const session = await getSession(request.headers.get("Cookie"));
+  const googleSessionData = (await session.get("_session")) || undefined;
+  const currentLoggedInUserData = googleSessionData;
+  const currentLoggedInUserID = currentLoggedInUserData.id || "";
+
+  invariantResponse(currentLoggedInUserID, "User does not exist");
 
   await authenticator.isAuthenticated(request, {
     failureRedirect: "/",
@@ -45,16 +49,16 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
   const searchParams = new URL(request.url).searchParams;
   const currentPage = Math.max(Number(searchParams.get("page") || 1), 1);
-  const pageSize = Number(searchParams.get("page_size")) || 250;
+  const pageSize = Number(searchParams.get("page_size")) || 50;
 
-  const data = await getUserDataByUsername(username, currentPage, pageSize);
+  const data = await getUserData(currentLoggedInUserID, currentPage, pageSize);
 
   invariantResponse(data.user, "User does not exist");
 
   return json(data);
 };
 
-export type UserProfilePageLoader = SerializeFrom<typeof loader>;
+export type ManageImagesPageLoader = SerializeFrom<typeof loader>;
 
 // export async function action({ request }: ActionFunctionArgs) {
 //   const formData = await request.formData();
@@ -78,7 +82,7 @@ export type UserProfilePageLoader = SerializeFrom<typeof loader>;
 // }
 
 export default function Index() {
-  return <UserProfilePage />;
+  return <ManageImagesPage />;
 }
 
 export function ErrorBoundary() {

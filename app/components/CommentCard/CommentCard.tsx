@@ -61,7 +61,7 @@ const CommentCard = ({
               icon={<UserOutlined />}
               size="small"
             />
-            <Typography.Link strong href={`/profile/${comment.user.id}`}>
+            <Typography.Link strong href={`/profile/${comment.user.username}`}>
               {comment.user.username}
             </Typography.Link>
           </Space>
