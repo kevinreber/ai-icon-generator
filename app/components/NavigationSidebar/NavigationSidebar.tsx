@@ -5,6 +5,7 @@ import {
   BookOutlined,
   PlusCircleOutlined,
   SearchOutlined,
+  ToolOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { useFetcher } from "@remix-run/react";
@@ -93,6 +94,14 @@ const NavigationSidebar = () => {
                 style={{ color: "#fff", fontSize: 16 }}
               >
                 Profile
+              </Button>
+              <Button
+                type="link"
+                href={`/manage`}
+                icon={<ToolOutlined />}
+                style={{ color: "#fff", fontSize: 16 }}
+              >
+                Manage
               </Button>
             </>
           )}

@@ -34,7 +34,7 @@ import {
   DeleteImageButton,
   DownloadImageButton,
   EditImageButton,
-} from "../UserProfilePage/components";
+} from "../ManageImagesPage/components";
 import { UserContext } from "~/context";
 
 const DEFAULT_COLLECTION_DATA = {
@@ -108,6 +108,7 @@ const CollectionDetailsPage = () => {
           <Space style={{ marginLeft: "auto" }}>
             <EditCollectionButton
               key="edit-collection"
+              // @ts-ignore
               collection={collectionData}
             />
             <DeleteCollectionButton
