@@ -8,7 +8,7 @@ import {
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { Alert } from "antd";
 import { UserProfilePage } from "~/pages";
-import { getUserData } from "~/server";
+import { getUserDataByUsername } from "~/server";
 import { getSession } from "~/services";
 import { authenticator } from "~/services/auth.server";
 import { loader as UserLoaderData } from "../root";
@@ -36,13 +36,8 @@ export const meta: MetaFunction<
 };
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const userId = params.userId || "";
-  invariantResponse(userId, "User does not exist");
-
-  const session = await getSession(request.headers.get("Cookie"));
-  const googleSessionData = (await session.get("_session")) || undefined;
-  const currentLoggedInUserData = googleSessionData;
-  const currentLoggedInUserID = currentLoggedInUserData.id || "";
+  const username = params.userId || "";
+  invariantResponse(username, "Username does not exist");
 
   await authenticator.isAuthenticated(request, {
     failureRedirect: "/",
@@ -52,14 +47,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const currentPage = Math.max(Number(searchParams.get("page") || 1), 1);
   const pageSize = Number(searchParams.get("page_size")) || 250;
 
-  // If UserA is visiting UserB's profile, we do not want to show UserB's Private images to UserA
-  const shouldGetUsersPrivateImages = userId === currentLoggedInUserID;
-  const data = await getUserData(
-    userId,
-    currentPage,
-    pageSize,
-    shouldGetUsersPrivateImages,
-  );
+  const data = await getUserDataByUsername(username, currentPage, pageSize);
 
   invariantResponse(data.user, "User does not exist");
 

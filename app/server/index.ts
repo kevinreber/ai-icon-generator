@@ -21,3 +21,4 @@ export * from "./updateCollection";
 export * from "./getCollectionData";
 export * from "./addImageToCollection";
 export * from "./removeImageFromCollection";
+export * from "./getUserDataByUsername";

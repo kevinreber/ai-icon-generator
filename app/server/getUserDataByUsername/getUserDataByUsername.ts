@@ -6,6 +6,8 @@ const DEFAULT_PAGE_SIZE = 50;
 
 const createImageSelectQuery = () => {
   return {
+    // Make sure we aren't returning private images to logged in user
+    where: { private: false },
     select: {
       id: true,
       title: true,
@@ -49,21 +51,24 @@ const createImageSelectQuery = () => {
   };
 };
 
-export const getUserData = async (
-  userId: string,
+export const getUserDataByUsername = async (
+  username: string,
   page = DEFAULT_CURRENT_PAGE,
   pageSize = DEFAULT_PAGE_SIZE,
 ) => {
+  // If UserA is visiting UserB's profile, we do not want to show UserB's Private images to UserA
   const selectImageQuery = createImageSelectQuery();
 
   const count = await prisma.icon.count({
     where: {
-      userId,
+      user: {
+        username,
+      },
     },
   });
   const userData = await prisma.user.findUnique({
     where: {
-      id: userId,
+      username,
     },
     select: {
       id: true,

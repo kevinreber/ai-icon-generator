@@ -51,14 +51,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const currentPage = Math.max(Number(searchParams.get("page") || 1), 1);
   const pageSize = Number(searchParams.get("page_size")) || 50;
 
-  // If UserA is visiting UserB's profile, we do not want to show UserB's Private images to UserA
-  const shouldGetUsersPrivateImages = true;
-  const data = await getUserData(
-    currentLoggedInUserID,
-    currentPage,
-    pageSize,
-    shouldGetUsersPrivateImages,
-  );
+  const data = await getUserData(currentLoggedInUserID, currentPage, pageSize);
 
   invariantResponse(data.user, "User does not exist");
 
