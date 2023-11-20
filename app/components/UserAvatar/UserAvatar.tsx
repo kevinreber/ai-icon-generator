@@ -1,18 +1,8 @@
 import React from "react";
-import {
-  Popover,
-  Button,
-  Avatar,
-  Space,
-  Modal,
-  Form,
-  Input,
-  notification,
-  Typography,
-} from "antd";
+import { Popover, Button, Avatar, Space, notification, Typography } from "antd";
 import {
   DollarOutlined,
-  EditOutlined,
+  SettingOutlined,
   UserOutlined,
   createFromIconfontCN,
 } from "@ant-design/icons";
@@ -34,8 +24,6 @@ const UserAvatar = () => {
     //   notification.error({ message: response.message });
     // },
   });
-  const [formInstance] = Form.useForm();
-  const [showEditProfileModal, setShowEditProfileModal] = React.useState(false);
 
   const handleLogOut = () => {
     fetcher.submit(
@@ -43,26 +31,6 @@ const UserAvatar = () => {
       { method: "post", action: "/logout" },
     );
     notification.success({ message: "Successfully logged out" });
-  };
-
-  const handleSubmitEditUserData = () => {
-    formInstance.submit();
-  };
-
-  const handleSubmitForm = (values: { username: string }) => {
-    console.log(values);
-    handleToggleModal();
-    fetcher.submit(
-      { intent: "user-update-user-data", body: JSON.stringify(values) },
-      { method: "patch", action: "/api/user?index" },
-    );
-
-    console.log("Fetcher");
-    console.log(fetcher);
-  };
-
-  const handleToggleModal = () => {
-    setShowEditProfileModal(!showEditProfileModal);
   };
 
   return (
@@ -94,10 +62,10 @@ const UserAvatar = () => {
             </div>
             <Button
               style={{ width: 130 }}
-              icon={<EditOutlined />}
-              onClick={handleToggleModal}
+              icon={<SettingOutlined />}
+              href="/settings"
             >
-              Edit Profile
+              Settings
             </Button>
             <Button
               style={{ width: 130 }}
@@ -115,28 +83,6 @@ const UserAvatar = () => {
           icon={<UserOutlined />}
         />
       </Popover>
-      <Modal
-        title="Edit Profile"
-        open={showEditProfileModal}
-        onOk={handleSubmitEditUserData}
-        onCancel={handleToggleModal}
-      >
-        <Form
-          form={formInstance}
-          layout="vertical"
-          colon={false}
-          initialValues={{ username: userData.username || undefined }}
-          onFinish={handleSubmitForm}
-        >
-          <Avatar size="large" icon={<UserOutlined />} />
-          {/* TODO */}
-          {/* <Form.Item label='Avatar' name='avatar'> */}
-          {/* </Form.Item> */}
-          <Form.Item label="Username" name="username">
-            <Input placeholder="Enter username" />
-          </Form.Item>
-        </Form>
-      </Modal>
     </>
   );
 };

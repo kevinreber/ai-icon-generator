@@ -11,3 +11,6 @@ export * from "./EditCollectionButton";
 export * from "./CreateCollectionButton";
 export * from "./AddImagesToCollectionButton";
 export * from "./GeneralErrorBoundary";
+export * from "./Input";
+export * from "./Label";
+export * from "./EditUserForm";

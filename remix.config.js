@@ -2,8 +2,10 @@
 import { config } from "@netlify/remix-adapter";
 
 export default {
+  serverModuleFormat: "esm",
   ...config,
   ignoredRouteFiles: ["**/.*"],
+  serverPlatform: "node",
   server:
     process.env.NETLIFY || process.env.NETLIFY_LOCAL
       ? "./server.ts"
@@ -12,8 +14,10 @@ export default {
   // v2_routeConvention: false,
   // TODO: Setting postcss = false temporarily....
   postcss: false,
+  tailwind: true,
   // For below, reference: https://github.com/ant-design/ant-design-icons/issues/605
   serverDependenciesToBundle: [
+    "@radix-ui/themes",
     "@ant-design/icons",
     /^@ant-design\/icons-svg.*/,
     /^rc-util.*/,

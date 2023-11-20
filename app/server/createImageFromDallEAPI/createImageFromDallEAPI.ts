@@ -23,6 +23,14 @@ const DEFAULT_PAYLOAD = {
   private: DEFAULT_IS_IMAGE_PRIVATE,
 };
 
+type FormDataPayload = {
+  prompt: string;
+  numberOfImages: number;
+  model: string;
+  stylePreset?: string;
+  private?: boolean;
+};
+
 /**
  * @description
  * This function makes a request to Open AI's Dall-E API to fetch images generated using the prompt
@@ -56,10 +64,15 @@ const createDallEImages = async (
  *   3. Stores the image Blob from "Step 1" into our AWS S3 bucket
  */
 export const createImageFromDallEAPI = async (
-  formData = DEFAULT_PAYLOAD,
+  formData: FormDataPayload = DEFAULT_PAYLOAD,
   userId: string,
 ) => {
-  const { prompt, numberOfImages, model, private: isImagePrivate } = formData;
+  const {
+    prompt,
+    numberOfImages,
+    model,
+    private: isImagePrivate = false,
+  } = formData;
 
   try {
     if (process.env.USE_MOCK_DALLE === "true") {

@@ -10,12 +10,12 @@ import {
   InputNumber,
   Select,
 } from "antd";
-import { COLOR_PICKER_PRESET_OPTIONS } from "app/utils";
 import {
-  ICON_SHAPE_OPTIONS,
-  ICON_STYLE_OPTIONS,
+  COLOR_PICKER_PRESET_OPTIONS,
+  LANGUAGE_MODEL_OPTIONS,
   STABLE_DIFFUSION_IMAGE_PRESETS,
-} from "./constants";
+} from "app/utils";
+import { ICON_SHAPE_OPTIONS, ICON_STYLE_OPTIONS } from "./constants";
 
 const DEFAULT_FORM_VALUES = {
   prompt: undefined,
@@ -24,25 +24,6 @@ const DEFAULT_FORM_VALUES = {
   numberOfImages: 1,
   model: undefined,
 };
-
-const LANGUAGE_MODEL_OPTIONS = [
-  {
-    label: "Dall-E",
-    value: "dall-e",
-  },
-  {
-    label: "Stable Diffusion XL",
-    value: "stable-diffusion-xl",
-  },
-  {
-    label: "Stable Diffusion 1.5",
-    value: "stable-diffusion-1-5",
-  },
-  {
-    label: "Stable Diffusion 2.1",
-    value: "stable-diffusion-2-1",
-  },
-];
 
 const CreateImageForm = () => {
   const [formInstance] = Form.useForm();
@@ -77,6 +58,8 @@ const CreateImageForm = () => {
         <Input.TextArea
           placeholder='Ex: "A happy panda"'
           style={{ height: 120 }}
+          minLength={1}
+          showCount
         />
       </Form.Item>
       <Form.Item

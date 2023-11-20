@@ -20,12 +20,14 @@ import { authenticator } from "~/services/auth.server";
 import { getLoggedInUserData } from "~/server";
 import { NavigationSidebar } from "./components";
 import { UserContext } from "~/context";
+import { Theme } from "@radix-ui/themes";
 
 // CSS
 import antdStyles from "antd/dist/antd.css";
 import darkStyle from "~/styles/antd.dark.css";
 import globalStyles from "~/styles/global.css";
 import tailwindStyles from "~/styles/tailwind.css";
+import radixUIStyles from "@radix-ui/themes/styles.css";
 
 // @ts-ignore
 export const links: LinksFunction = () => {
@@ -34,6 +36,7 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: darkStyle },
     { rel: "stylesheet", href: globalStyles },
     { rel: "stylesheet", href: tailwindStyles },
+    { rel: "stylesheet", href: radixUIStyles },
     cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
   ].filter(Boolean);
 };
@@ -73,10 +76,12 @@ export default function App() {
           data-y_margin='18'
         ></script> */}
       </head>
-      <body style={{ margin: 0 }}>
-        {/* @ts-ignore */}
-        <UserContext.Provider value={userData}>
-          {/* <ConfigProvider
+      {/* Adding className="dark" ensures our app will always use dark mode via radix-ui – @reference: https://stackoverflow.com/a/77276471*/}
+      <body style={{ margin: 0 }} className="dark">
+        <Theme>
+          {/* @ts-ignore */}
+          <UserContext.Provider value={userData}>
+            {/* <ConfigProvider
           theme={{
             hashed: false,
             token: {
@@ -90,32 +95,33 @@ export default function App() {
             },
           }}
         > */}
-          <Layout>
-            <NavigationSidebar />
-            <Layout style={{ marginLeft: 200 }}>
-              <Layout
-                style={{ minHeight: "100vh", width: "95%", margin: "0 auto" }}
-              >
-                <Layout>
-                  <Layout.Content
-                    style={{
-                      padding: 24,
-                      margin: 0,
-                      minHeight: 280,
-                    }}
-                  >
-                    <Outlet />
-                  </Layout.Content>
+            <Layout>
+              <NavigationSidebar />
+              <Layout style={{ marginLeft: 200 }}>
+                <Layout
+                  style={{ minHeight: "100vh", width: "95%", margin: "0 auto" }}
+                >
+                  <Layout>
+                    <Layout.Content
+                      style={{
+                        padding: 24,
+                        margin: 0,
+                        minHeight: 280,
+                      }}
+                    >
+                      <Outlet />
+                    </Layout.Content>
+                  </Layout>
                 </Layout>
               </Layout>
             </Layout>
-          </Layout>
-          {/* </ConfigProvider> */}
-        </UserContext.Provider>
+            {/* </ConfigProvider> */}
+          </UserContext.Provider>
 
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </Theme>
       </body>
     </html>
   );

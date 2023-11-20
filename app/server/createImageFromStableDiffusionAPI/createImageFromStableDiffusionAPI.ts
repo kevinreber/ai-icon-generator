@@ -21,6 +21,14 @@ const DEFAULT_PAYLOAD = {
   private: DEFAULT_IS_IMAGE_PRIVATE,
 };
 
+type FormDataPayload = {
+  prompt: string;
+  numberOfImages: number;
+  model: string;
+  stylePreset?: string;
+  private?: boolean;
+};
+
 interface GenerationResponse {
   artifacts: Array<{
     base64: string;
@@ -36,12 +44,17 @@ interface GenerationResponse {
  * @reference
  * https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/textToImage
  */
-const createStableDiffusionImages = async (
-  prompt: string,
+const createStableDiffusionImages = async ({
+  prompt,
   numberOfImages = DEFAULT_NUMBER_OF_IMAGES_CREATED,
   model = DEFAULT_AI_IMAGE_LANGUAGE_MODEL,
   stylePreset = DEFAULT_IMAGE_STYLE_PRESET,
-) => {
+}: {
+  prompt: string;
+  numberOfImages: number;
+  model: string;
+  stylePreset?: string;
+}) => {
   const promptMessage = prompt;
   const numberOfImagesToGenerate = Math.round(numberOfImages);
   const engineId = getEngineId(model);
@@ -65,24 +78,37 @@ const createStableDiffusionImages = async (
     ],
   };
 
-  const response = await fetch(
-    `${process.env.STABLE_DIFFUSION_API_ENDPOINT}/v1/generation/${engineId}/text-to-image`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${process.env.STABLE_DIFFUSION_API_KEY}`,
+  try {
+    const response = await fetch(
+      `${process.env.STABLE_DIFFUSION_API_ENDPOINT}/v1/generation/${engineId}/text-to-image`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${process.env.STABLE_DIFFUSION_API_KEY}`,
+        },
+        body: JSON.stringify(body),
       },
-      body: JSON.stringify(body),
-    },
-  );
+    );
 
-  invariantResponse(response.ok, `Non-200 response: ${await response.text()}`);
+    if (!response.ok) {
+      throw new Error("Invalid Response");
+    }
 
-  const responseJSON = (await response.json()) as GenerationResponse;
+    // invariantResponse(
+    //   response.ok,
+    //   `Non-200 response: ${await response.text()}`,
+    // );
 
-  return responseJSON;
+    const responseJSON = (await response.json()) as GenerationResponse;
+    console.log(responseJSON);
+
+    return responseJSON;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`Error creating image using language model: ${model}`);
+  }
 };
 
 /**
@@ -93,7 +119,7 @@ const createStableDiffusionImages = async (
  *   3. Stores the image Blob from "Step 1" into our AWS S3 bucket
  */
 export const createImageFromStableDiffusionAPI = async (
-  formData = DEFAULT_PAYLOAD,
+  formData: FormDataPayload = DEFAULT_PAYLOAD,
   userId: string,
 ) => {
   const {
@@ -101,7 +127,7 @@ export const createImageFromStableDiffusionAPI = async (
     numberOfImages,
     model,
     stylePreset,
-    private: isImagePrivate,
+    private: isImagePrivate = false,
   } = formData;
 
   try {
@@ -116,12 +142,12 @@ export const createImageFromStableDiffusionAPI = async (
     }
 
     // Generate Images
-    const images = await createStableDiffusionImages(
+    const images = await createStableDiffusionImages({
       prompt,
       numberOfImages,
       model,
       stylePreset,
-    );
+    });
 
     const formattedImagesData = await Promise.all(
       images.artifacts.map(async (image) => {

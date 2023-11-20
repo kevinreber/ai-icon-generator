@@ -21,7 +21,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const imageId = params?.imageId || "";
 
   invariantResponse(
-    !userId,
+    userId,
     "Missing User ID: Must be logged in to Edit an Image",
   );
 
