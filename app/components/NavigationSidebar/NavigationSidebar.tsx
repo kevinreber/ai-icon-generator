@@ -89,7 +89,7 @@ const NavigationSidebar = () => {
               </Button>
               <Button
                 type="link"
-                href={`/profile/${userData.id}`}
+                href={`/profile/${userData.username}`}
                 icon={<UserOutlined />}
                 style={{ color: "#fff", fontSize: 16 }}
               >

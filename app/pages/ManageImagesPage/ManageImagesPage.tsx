@@ -149,7 +149,7 @@ const ManageImagesPage = () => {
                             <br />
                             <Typography.Link
                               strong
-                              href={`/profile/${image.user.id}`}
+                              href={`/profile/${image.user.username}`}
                             >
                               {image.user.username}
                             </Typography.Link>
@@ -250,7 +250,9 @@ const ManageImagesPage = () => {
                             marginBottom: 8,
                           }}
                         >
-                          <Typography.Link href={`/profile/${image.user.id}`}>
+                          <Typography.Link
+                            href={`/profile/${image.user.username}`}
+                          >
                             {image.user.username}
                           </Typography.Link>
                           <Typography.Text italic>
