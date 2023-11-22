@@ -43,11 +43,11 @@ export const links: LinksFunction = () => {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request);
-  if (!user) {
-    throw json({ data: undefined });
-  }
+  // if (!user) {
+  //   throw json({ data: undefined });
+  // }
 
-  const userData = await getLoggedInUserData(user as any);
+  const userData = !user ? {} : await getLoggedInUserData(user as any);
 
   return json({ data: userData });
 };
