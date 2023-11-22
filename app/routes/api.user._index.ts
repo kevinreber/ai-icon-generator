@@ -4,7 +4,7 @@ import { getSession } from "~/services";
 import { z } from "zod";
 import { parse } from "@conform-to/zod";
 import { invariantResponse } from "~/utils/invariantResponse";
-import { checkHoneypot } from "~/utils";
+import { checkHoneypot, checkCSRFToken } from "~/utils";
 
 const MAX_PROMPT_CHARACTERS = 25;
 
@@ -32,6 +32,8 @@ export async function action({ request, params }: ActionFunctionArgs) {
     case "PATCH": {
       const formData = await request.formData();
       checkHoneypot(formData);
+      // TODO Temporarily disabling
+      // await checkCSRFToken(formData, request);
 
       // const payload = JSON.parse(formData.get("body") as string);
 
