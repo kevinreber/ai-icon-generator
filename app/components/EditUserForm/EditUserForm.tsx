@@ -14,6 +14,7 @@ import { getFieldsetConstraint, parse } from "@conform-to/zod";
 import { EditUserFormSchema } from "~/routes/api.user._index";
 import { Spin } from "antd";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { HoneypotInputs } from "remix-utils/honeypot/server";
 
 const EDIT_FORM_ID = "edit-user-data";
 
@@ -76,7 +77,7 @@ const EditUserForm = () => {
                   </div>
                 </div>
               </div>
-
+              <HoneypotInputs />
               {/* <div className="col-span-full">
                 <label
                   htmlFor="bio"

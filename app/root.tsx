@@ -21,6 +21,8 @@ import { getLoggedInUserData } from "~/server";
 import { NavigationSidebar } from "./components";
 import { UserContext } from "~/context";
 import { Theme } from "@radix-ui/themes";
+import { HoneypotProvider } from "remix-utils/honeypot/server";
+import { honeypot } from "./utils";
 
 // CSS
 import antdStyles from "antd/dist/antd.css";
@@ -43,13 +45,15 @@ export const links: LinksFunction = () => {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request);
+  const honeyProps = honeypot.getInputProps();
+
   // if (!user) {
   //   throw json({ data: undefined });
   // }
 
   const userData = !user ? {} : await getLoggedInUserData(user as any);
 
-  return json({ data: userData });
+  return json({ data: userData, honeyProps });
 };
 
 type LoaderData = SerializeFrom<typeof loader>;
@@ -79,9 +83,10 @@ export default function App() {
       {/* Adding className="dark" ensures our app will always use dark mode via radix-ui – @reference: https://stackoverflow.com/a/77276471*/}
       <body style={{ margin: 0 }} className="dark">
         <Theme>
-          {/* @ts-ignore */}
-          <UserContext.Provider value={userData}>
-            {/* <ConfigProvider
+          <HoneypotProvider {...loaderData.honeyProps}>
+            {/* @ts-ignore */}
+            <UserContext.Provider value={userData}>
+              {/* <ConfigProvider
           theme={{
             hashed: false,
             token: {
@@ -95,32 +100,37 @@ export default function App() {
             },
           }}
         > */}
-            <Layout>
-              <NavigationSidebar />
-              <Layout style={{ marginLeft: 200 }}>
-                <Layout
-                  style={{ minHeight: "100vh", width: "95%", margin: "0 auto" }}
-                >
-                  <Layout>
-                    <Layout.Content
-                      style={{
-                        padding: 24,
-                        margin: 0,
-                        minHeight: 280,
-                      }}
-                    >
-                      <Outlet />
-                    </Layout.Content>
+              <Layout>
+                <NavigationSidebar />
+                <Layout style={{ marginLeft: 200 }}>
+                  <Layout
+                    style={{
+                      minHeight: "100vh",
+                      width: "95%",
+                      margin: "0 auto",
+                    }}
+                  >
+                    <Layout>
+                      <Layout.Content
+                        style={{
+                          padding: 24,
+                          margin: 0,
+                          minHeight: 280,
+                        }}
+                      >
+                        <Outlet />
+                      </Layout.Content>
+                    </Layout>
                   </Layout>
                 </Layout>
               </Layout>
-            </Layout>
-            {/* </ConfigProvider> */}
-          </UserContext.Provider>
+              {/* </ConfigProvider> */}
+            </UserContext.Provider>
 
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </HoneypotProvider>
         </Theme>
       </body>
     </html>

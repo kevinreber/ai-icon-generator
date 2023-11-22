@@ -4,6 +4,8 @@ import { getSession } from "~/services";
 import { z } from "zod";
 import { parse } from "@conform-to/zod";
 import { invariantResponse } from "~/utils/invariantResponse";
+import { honeypot } from "~/utils";
+import { SpamError } from "remix-utils/honeypot/server";
 
 const MAX_PROMPT_CHARACTERS = 25;
 
@@ -30,6 +32,17 @@ export async function action({ request, params }: ActionFunctionArgs) {
   switch (request.method.toUpperCase()) {
     case "PATCH": {
       const formData = await request.formData();
+
+      try {
+        // honeypot to verify our form isn't being spammed
+        honeypot.check(formData);
+      } catch (error) {
+        if (error instanceof SpamError) {
+          throw new Response("Invalid form", { status: 400 });
+        }
+        throw error;
+      }
+
       // const payload = JSON.parse(formData.get("body") as string);
 
       const submission = parse(formData, {
