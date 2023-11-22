@@ -1,4 +1,4 @@
-import { json, MetaFunction } from "@remix-run/node";
+import { json, MetaFunction, SerializeFrom } from "@remix-run/node";
 import { SettingsPage } from "~/pages";
 
 export const meta: MetaFunction = () => {
@@ -8,6 +8,8 @@ export const meta: MetaFunction = () => {
 export const loader = async () => {
   return json({});
 };
+
+export type SettingsPageLoader = SerializeFrom<typeof loader>;
 
 export default function Index() {
   return <SettingsPage />;
