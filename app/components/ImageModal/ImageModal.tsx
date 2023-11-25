@@ -53,7 +53,7 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
 
   return (
     <div>
-      <Tooltip
+      {/* <Tooltip
         placement="top"
         title={
           <Typography.Text style={{ color: "#fff" }}>
@@ -76,31 +76,31 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
         }
       >
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-        <div
-          className="relative overflow-hidden w-full pt-[100%]"
-          onClick={() => setShowImageModal(true)}
-        >
-          <img
-            className="inset-0 object-cover cursor-pointer 
+      <div
+        className="relative overflow-hidden w-full pt-[100%]"
+        onClick={() => setShowImageModal(true)}
+      >
+        <img
+          className="inset-0 object-cover cursor-pointer 
             absolute w-full h-full 
             "
-            src={imageData.thumbnailURL}
-            alt={imageData.prompt}
-            // fallback={fallbackImageSource}
-            // style={{ cursor: "pointer", maxWidth: 150, height: 'auto' }}
-            // placeholder={
-            //   <div
-            //     style={{
-            //       width,
-            //       height: imagePreviewHeight,
-            //       backgroundColor: "#d9d9d9",
-            //     }}
-            //   />
-            // }
-            // }
-          />
-        </div>
-      </Tooltip>
+          src={imageData.thumbnailURL}
+          alt={imageData.prompt}
+          // fallback={fallbackImageSource}
+          // style={{ cursor: "pointer", maxWidth: 150, height: 'auto' }}
+          // placeholder={
+          //   <div
+          //     style={{
+          //       width,
+          //       height: imagePreviewHeight,
+          //       backgroundColor: "#d9d9d9",
+          //     }}
+          //   />
+          // }
+          // }
+        />
+      </div>
+      {/* </Tooltip> */}
 
       <Modal
         open={showImageModal}
