@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Layout, Space, Typography } from "antd";
-import { SocialsProvider } from "remix-auth-socials";
 import {
   BookOutlined,
   PlusCircleOutlined,
@@ -8,24 +7,13 @@ import {
   ToolOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useFetcher } from "@remix-run/react";
 import { UserAvatar } from "~/components";
 import { UserContext } from "~/context";
 import { ThemeSwitch } from "../ThemeSwitch";
-import { useTheme } from "~/hooks/useTheme";
 
 const NavigationSidebar = () => {
   const userData = React.useContext(UserContext);
   const isLoggedIn = Boolean(userData?.id);
-  const fetcher = useFetcher();
-  const theme = useTheme();
-
-  const handleLogIn = () => {
-    fetcher.submit(
-      { intent: "user-log-in" },
-      { method: "post", action: `/api/auth/${SocialsProvider.GOOGLE}` },
-    );
-  };
 
   return (
     <Layout.Sider
@@ -118,7 +106,7 @@ const NavigationSidebar = () => {
             <UserAvatar />
           </div>
         ) : (
-          <Button onClick={handleLogIn}>Sign In</Button>
+          <Button href="/login">Sign In</Button>
         )}
       </div>
     </Layout.Sider>
