@@ -13,6 +13,7 @@ import {
   json,
   type LinksFunction,
   type SerializeFrom,
+  DataFunctionArgs,
 } from "@remix-run/node";
 // TODO: setup in Remix v2
 import { cssBundleHref } from "@remix-run/css-bundle";
@@ -23,7 +24,7 @@ import { UserContext } from "~/context";
 import { Theme } from "@radix-ui/themes";
 import { HoneypotProvider } from "remix-utils/honeypot/react";
 import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
-import { csrf, honeypot } from "./utils";
+import { csrf, getTheme, honeypot, invariantResponse, setTheme } from "./utils";
 
 // CSS
 import antdStyles from "antd/dist/antd.css";
@@ -31,6 +32,9 @@ import darkStyle from "~/styles/antd.dark.css";
 import globalStyles from "~/styles/global.css";
 import tailwindStyles from "~/styles/tailwind.css";
 import radixUIStyles from "@radix-ui/themes/styles.css";
+import { z } from "zod";
+import { parse } from "@conform-to/zod";
+import { useTheme } from "./hooks/useTheme";
 
 // @ts-ignore
 export const links: LinksFunction = () => {
@@ -58,7 +62,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userData = !user ? {} : await getLoggedInUserData(user as any);
 
   return json(
-    { data: userData, honeyProps, csrfToken },
+    { data: userData, honeyProps, csrfToken, theme: getTheme(request) },
     {
       headers: csrfCookieHeader
         ? {
@@ -69,11 +73,42 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   );
 };
 
-type LoaderData = SerializeFrom<typeof loader>;
+export type RootLoaderData = SerializeFrom<typeof loader>;
+
+export const ThemeFormSchema = z.object({
+  theme: z.enum(["light", "dark"]),
+});
+
+export async function action({ request }: DataFunctionArgs) {
+  const formData = await request.formData();
+  invariantResponse(
+    formData.get("intent") === "update-theme",
+    "Invalid intent",
+    { status: 400 },
+  );
+  const submission = parse(formData, {
+    schema: ThemeFormSchema,
+  });
+  if (submission.intent !== "submit") {
+    return json({ status: "success", submission } as const);
+  }
+  if (!submission.value) {
+    return json({ status: "error", submission } as const, { status: 400 });
+  }
+  const { theme } = submission.value;
+
+  const responseInit = {
+    headers: { "set-cookie": setTheme(theme) },
+  };
+  return json({ success: true, submission }, responseInit);
+}
+
+export type RootActionData = typeof action;
 
 export default function App() {
-  const loaderData = useLoaderData<LoaderData>();
+  const loaderData = useLoaderData<RootLoaderData>();
   const userData = loaderData.data;
+  const theme = useTheme();
 
   return (
     <html lang="en">
@@ -94,26 +129,14 @@ export default function App() {
         ></script> */}
       </head>
       {/* Adding className="dark" ensures our app will always use dark mode via radix-ui – @reference: https://stackoverflow.com/a/77276471*/}
-      <body style={{ margin: 0 }} className="dark">
-        <Theme>
+      <body style={{ margin: 0 }}>
+        <Theme appearance="dark">
+          {/* TODO: Integrate theme when ready, will need to tweak some AntDesign components */}
+          {/* <Theme appearance={theme}> */}
           <AuthenticityTokenProvider token={loaderData.csrfToken}>
             <HoneypotProvider {...loaderData.honeyProps}>
               {/* @ts-ignore */}
               <UserContext.Provider value={userData}>
-                {/* <ConfigProvider
-          theme={{
-            hashed: false,
-            token: {
-              colorPrimaryBorder: "#64ffda",
-              colorBgBase: "#0a1930",
-              colorPrimary: "#64ffda",
-              colorText: "#e6f1ff",
-              colorTextSecondary: "#ccd7f5",
-              colorTextPlaceholder: "#495670",
-              colorTextDisabled: "#495670",
-            },
-          }}
-        > */}
                 <Layout>
                   <NavigationSidebar />
                   <Layout style={{ marginLeft: 200 }}>
@@ -138,9 +161,7 @@ export default function App() {
                     </Layout>
                   </Layout>
                 </Layout>
-                {/* </ConfigProvider> */}
               </UserContext.Provider>
-
               <ScrollRestoration />
               <Scripts />
               <LiveReload />

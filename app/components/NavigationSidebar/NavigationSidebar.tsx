@@ -11,11 +11,14 @@ import {
 import { useFetcher } from "@remix-run/react";
 import { UserAvatar } from "~/components";
 import { UserContext } from "~/context";
+import { ThemeSwitch } from "../ThemeSwitch";
+import { useTheme } from "~/hooks/useTheme";
 
 const NavigationSidebar = () => {
   const userData = React.useContext(UserContext);
   const isLoggedIn = Boolean(userData?.id);
   const fetcher = useFetcher();
+  const theme = useTheme();
 
   const handleLogIn = () => {
     fetcher.submit(
@@ -47,19 +50,23 @@ const NavigationSidebar = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography.Link
-          href="/"
-          style={{
-            color: "#e6f1ff",
-            height: 64,
-            fontSize: 20,
-            fontWeight: 600,
-            textAlign: "left",
-            padding: "0 8px",
-          }}
-        >
-          AI Image Generator
-        </Typography.Link>
+        <div>
+          <Typography.Link
+            href="/"
+            style={{
+              color: "#e6f1ff",
+              height: 64,
+              fontSize: 20,
+              fontWeight: 600,
+              textAlign: "left",
+              padding: "0 8px",
+            }}
+          >
+            AI Image Generator
+          </Typography.Link>
+          {/* TODO: Integrate when ready */}
+          {/* <ThemeSwitch userPreference={theme} /> */}
+        </div>
         <Space direction="vertical" style={{ alignItems: "flex-start" }}>
           <Button
             type="link"

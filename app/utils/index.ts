@@ -16,3 +16,4 @@ export * from "./buildClassName";
 export * from "./honeypot.server";
 export * from "./csrf.server";
 export * from "./singleton.server";
+export * from "./theme.server";
