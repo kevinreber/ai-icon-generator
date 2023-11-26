@@ -88,7 +88,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   );
 };
 
-export type RootLoaderData = SerializeFrom<typeof loader>;
+export type RootLoaderData = typeof loader;
 
 export const ThemeFormSchema = z.object({
   theme: z.enum(["light", "dark"]),
@@ -144,7 +144,7 @@ export default function App() {
         ></script> */}
       </head>
       {/* Adding className="dark" ensures our app will always use dark mode via radix-ui – @reference: https://stackoverflow.com/a/77276471*/}
-      <body style={{ margin: 0 }} className="dark">
+      <body style={{ margin: 0 }} className="dark h-full">
         {/* <Theme appearance="dark"> */}
         {/* TODO: Integrate theme when ready, will need to tweak some AntDesign components */}
         {/* <Theme appearance={theme}> */}
