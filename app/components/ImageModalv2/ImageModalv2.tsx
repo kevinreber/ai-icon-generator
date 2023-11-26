@@ -15,10 +15,8 @@ import {
   Tabs,
   Form,
   Input,
-  Tooltip,
 } from "antd";
 import { convertUtcDateToLocalDateString, fallbackImageSource } from "~/utils";
-import type { ImageType, Comment } from "~/types";
 import {
   CopyToClipboardButton,
   LikeImageButton,
@@ -27,12 +25,19 @@ import {
 } from "~/components";
 import { useRemixFetcher } from "~/hooks";
 import { UserContext } from "~/context";
+import { useLoaderData, useNavigate } from "@remix-run/react";
+import { ExplorePageImageLoader } from "~/routes/explore.$imageId";
+import { ImageType, Comment } from "~/types";
 
-const ImageModal = ({ imageData }: { imageData: ImageType }) => {
+const ImageModalv2 = () => {
   const userData = React.useContext(UserContext);
   const isUserLoggedIn = Boolean(userData);
+  const navigate = useNavigate();
 
-  const [showImageModal, setShowImageModal] = React.useState(false);
+  const loaderData = useLoaderData<ExplorePageImageLoader>();
+  const imageData = loaderData.data;
+
+  // const [showImageModal, setShowImageModal] = React.useState(false);
   const [formInstance] = Form.useForm();
 
   const { fetcher, isLoadingFetcher } = useRemixFetcher({
@@ -51,61 +56,17 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
     );
   };
 
-  return (
-    <div>
-      {/* <Tooltip
-        placement="top"
-        title={
-          <Typography.Text style={{ color: "#fff" }}>
-            {imageData.title}
-            <br />
-            <Typography.Text italic style={{ color: "#fff" }}>
-              {imageData.prompt}
-              <br />
-              <br />
-              <Typography.Link
-                strong
-                href={`/profile/${imageData.user.username}`}
-              >
-                {imageData.user.username}
-              </Typography.Link>
-              <br />
-              {convertUtcDateToLocalDateString(imageData.createdAt)}
-            </Typography.Text>
-          </Typography.Text>
-        }
-      >
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-      <div
-        className="relative overflow-hidden w-full pt-[100%]"
-        onClick={() => setShowImageModal(true)}
-      >
-        <img
-          className="inset-0 object-cover cursor-pointer 
-            absolute w-full h-full 
-            "
-          src={imageData.thumbnailURL}
-          alt={imageData.prompt}
-          // fallback={fallbackImageSource}
-          // style={{ cursor: "pointer", maxWidth: 150, height: 'auto' }}
-          // placeholder={
-          //   <div
-          //     style={{
-          //       width,
-          //       height: imagePreviewHeight,
-          //       backgroundColor: "#d9d9d9",
-          //     }}
-          //   />
-          // }
-          // }
-        />
-      </div>
-      {/* </Tooltip> */}
+  const handleImageClick = () => {
+    // TODO: Need to figure our how to pass the parent routes query params to this route
+    navigate(`..`);
+  };
 
+  return (
+    <>
       <Modal
-        open={showImageModal}
+        open={true}
         destroyOnClose
-        onCancel={() => setShowImageModal(false)}
+        onCancel={() => handleImageClick()}
         width="90%"
         footer={null}
         bodyStyle={{ display: "flex", padding: 0, height: "100%" }}
@@ -141,7 +102,7 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
             >
               <Image
                 src={imageData.url}
-                alt={imageData.prompt}
+                alt={imageData.prompt || "Generated Image"}
                 fallback={fallbackImageSource}
                 preview={false}
                 placeholder={
@@ -173,12 +134,12 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
             <div style={{ display: "flex", flexDirection: "column" }}>
               <Typography.Link
                 strong
-                href={`/profile/${imageData.user.username}`}
+                href={`/profile/${imageData.user!.username}`}
               >
-                {imageData.user.username}
+                {imageData.user!.username}
               </Typography.Link>
               <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-                {convertUtcDateToLocalDateString(imageData.createdAt)}
+                {convertUtcDateToLocalDateString(imageData.createdAt!)}
               </Typography.Text>
             </div>
           </Space>
@@ -187,8 +148,8 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
               {imageData.title || "Untitled"}
             </Typography.Text>
             <Space size="small">
-              <LikeImageButton imageData={imageData} />
-              <AddImageToCollectionButton imageData={imageData} />
+              <LikeImageButton imageData={imageData as ImageType} />
+              <AddImageToCollectionButton imageData={imageData as ImageType} />
             </Space>
           </Space>
 
@@ -246,12 +207,12 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
                         </Form>
                       </div>
                     )}
-                    {imageData.comments.length ? (
-                      imageData.comments.map((comment: Comment) => (
+                    {imageData.comments && imageData.comments.length > 0 ? (
+                      imageData.comments.map((comment) => (
                         <CommentCard
                           key={comment.id}
-                          imageData={imageData}
-                          comment={comment}
+                          imageData={imageData as ImageType}
+                          comment={comment as Comment}
                         />
                       ))
                     ) : (
@@ -301,7 +262,7 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
                           {imageData.prompt}
                         </Typography.Text>
                         <CopyToClipboardButton
-                          stringToCopy={imageData.prompt}
+                          stringToCopy={imageData.prompt || ""}
                         />
                       </div>
                     </Space>
@@ -312,8 +273,8 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
           />
         </div>
       </Modal>
-    </div>
+    </>
   );
 };
 
-export default ImageModal;
+export default ImageModalv2;

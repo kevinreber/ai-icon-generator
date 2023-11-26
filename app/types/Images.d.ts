@@ -11,6 +11,7 @@ export type Comment = {
   user: {
     id: string;
     username: string;
+    image: string;
   };
   parentId: string;
   likes: CommentLike[];
@@ -24,7 +25,7 @@ export type ImageType = {
   title?: string;
   url: string;
   thumbnailURL: string;
-  createdAt: Date;
+  createdAt: string;
   user: {
     id: string;
     username: string;
