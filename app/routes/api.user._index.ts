@@ -4,7 +4,7 @@ import { getSession } from "~/services";
 import { z } from "zod";
 import { parse } from "@conform-to/zod";
 import { invariantResponse } from "~/utils/invariantResponse";
-import { checkHoneypot, checkCSRFToken } from "~/utils";
+import { checkHoneypot, checkCSRFToken, toastSessionStorage } from "~/utils";
 
 const MAX_PROMPT_CHARACTERS = 25;
 
@@ -30,6 +30,8 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   switch (request.method.toUpperCase()) {
     case "PATCH": {
+      console.log("Updating User ID: ", userId);
+
       const formData = await request.formData();
       checkHoneypot(formData);
       // TODO Temporarily disabling
@@ -53,10 +55,23 @@ export async function action({ request, params }: ActionFunctionArgs) {
       const payload = submission.value;
 
       const response = await updateUserData(userId, payload);
-      console.log(response);
+      console.log("Response", response);
 
-      // return response;
-      return redirect("/settings");
+      const toastCookieSession = await toastSessionStorage.getSession(
+        request.headers.get("cookie"),
+      );
+      toastCookieSession.flash("toast", {
+        type: "success",
+        title: "Updated image",
+        description: "Your image has been successfully updated",
+      });
+
+      return redirect(`/settings`, {
+        headers: {
+          "set-cookie":
+            await toastSessionStorage.commitSession(toastCookieSession),
+        },
+      });
     }
     default: {
       return {};

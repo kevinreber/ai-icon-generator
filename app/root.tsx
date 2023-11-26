@@ -15,16 +15,24 @@ import {
   type SerializeFrom,
   DataFunctionArgs,
 } from "@remix-run/node";
-// TODO: setup in Remix v2
 import { cssBundleHref } from "@remix-run/css-bundle";
 import { authenticator } from "~/services/auth.server";
 import { getLoggedInUserData } from "~/server";
-import { NavigationSidebar } from "./components";
+import { NavigationSidebar, ShowToast } from "./components";
 import { UserContext } from "~/context";
 import { Theme } from "@radix-ui/themes";
 import { HoneypotProvider } from "remix-utils/honeypot/react";
 import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
-import { csrf, getTheme, honeypot, invariantResponse, setTheme } from "./utils";
+import { Toaster } from "sonner";
+import {
+  combineHeaders,
+  csrf,
+  getTheme,
+  honeypot,
+  invariantResponse,
+  setTheme,
+  toastSessionStorage,
+} from "./utils";
 
 // CSS
 import antdStyles from "antd/dist/antd.css";
@@ -55,6 +63,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   console.log(csrfToken);
   console.log(csrfCookieHeader);
 
+  const toastCookieSession = await toastSessionStorage.getSession(
+    request.headers.get("cookie"),
+  );
+  const toast = toastCookieSession.get("toast");
+
   // if (!user) {
   //   throw json({ data: undefined });
   // }
@@ -62,13 +75,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userData = !user ? {} : await getLoggedInUserData(user as any);
 
   return json(
-    { data: userData, honeyProps, csrfToken, theme: getTheme(request) },
+    { data: userData, honeyProps, csrfToken, theme: getTheme(request), toast },
     {
-      headers: csrfCookieHeader
-        ? {
-            "set-cookie": csrfCookieHeader,
-          }
-        : {},
+      headers: combineHeaders(
+        csrfCookieHeader ? { "set-cookie": csrfCookieHeader } : null,
+        {
+          "set-cookie":
+            await toastSessionStorage.commitSession(toastCookieSession),
+        },
+      ),
     },
   );
 };
@@ -129,45 +144,47 @@ export default function App() {
         ></script> */}
       </head>
       {/* Adding className="dark" ensures our app will always use dark mode via radix-ui – @reference: https://stackoverflow.com/a/77276471*/}
-      <body style={{ margin: 0 }}>
-        <Theme appearance="dark">
-          {/* TODO: Integrate theme when ready, will need to tweak some AntDesign components */}
-          {/* <Theme appearance={theme}> */}
-          <AuthenticityTokenProvider token={loaderData.csrfToken}>
-            <HoneypotProvider {...loaderData.honeyProps}>
-              {/* @ts-ignore */}
-              <UserContext.Provider value={userData}>
-                <Layout>
-                  <NavigationSidebar />
-                  <Layout style={{ marginLeft: 200 }}>
-                    <Layout
-                      style={{
-                        minHeight: "100vh",
-                        width: "95%",
-                        margin: "0 auto",
-                      }}
-                    >
-                      <Layout>
-                        <Layout.Content
-                          style={{
-                            padding: 24,
-                            margin: 0,
-                            minHeight: 280,
-                          }}
-                        >
-                          <Outlet />
-                        </Layout.Content>
-                      </Layout>
+      <body style={{ margin: 0 }} className="dark">
+        {/* <Theme appearance="dark"> */}
+        {/* TODO: Integrate theme when ready, will need to tweak some AntDesign components */}
+        {/* <Theme appearance={theme}> */}
+        <Toaster closeButton position="top-center" richColors />
+        <AuthenticityTokenProvider token={loaderData.csrfToken}>
+          <HoneypotProvider {...loaderData.honeyProps}>
+            {/* @ts-ignore */}
+            <UserContext.Provider value={userData}>
+              <Layout>
+                <NavigationSidebar />
+                <Layout style={{ marginLeft: 200 }}>
+                  <Layout
+                    style={{
+                      minHeight: "100vh",
+                      width: "95%",
+                      margin: "0 auto",
+                    }}
+                  >
+                    <Layout>
+                      <Layout.Content
+                        style={{
+                          padding: 24,
+                          margin: 0,
+                          minHeight: 280,
+                        }}
+                      >
+                        <Outlet />
+                      </Layout.Content>
                     </Layout>
                   </Layout>
                 </Layout>
-              </UserContext.Provider>
-              <ScrollRestoration />
-              <Scripts />
-              <LiveReload />
-            </HoneypotProvider>
-          </AuthenticityTokenProvider>
-        </Theme>
+              </Layout>
+            </UserContext.Provider>
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </HoneypotProvider>
+        </AuthenticityTokenProvider>
+        {loaderData.toast ? <ShowToast toast={loaderData.toast} /> : null}
+        {/* </Theme> */}
       </body>
     </html>
   );
