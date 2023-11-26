@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, useLoaderData, useSearchParams } from "@remix-run/react";
 import { Typography } from "antd";
-import { ImageV2 } from "~/components";
+import { ErrorList, ImageV2 } from "~/components";
 import { type ExplorePageLoader } from "~/routes/explore";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
@@ -12,10 +12,14 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 const ExplorePage = () => {
   const loaderData = useLoaderData<ExplorePageLoader>();
-  const images = loaderData.data || [];
+  const images = loaderData.data.images || [];
   const [searchParams] = useSearchParams();
   const initialSearchTerm = searchParams.get("q") || "";
   const [searchTerm, setSearchTerm] = React.useState(initialSearchTerm);
+
+  if (loaderData.data.status === "error") {
+    console.error(loaderData.data.error);
+  }
 
   return (
     <>
@@ -50,15 +54,31 @@ const ExplorePage = () => {
       </div>
       <div className="container pt-8 max-w-5xl">
         {/* highlight on hover reference: https://www.hyperui.dev/blog/highlight-hover-effect-with-tailwindcss */}
-        <ul className="grid grid-cols-3 gap-1 lg:gap-4">
-          {images.map((image) => {
-            return (
-              <li key={image.id} className="hover:!opacity-60">
-                <ImageV2 imageData={image} />
-              </li>
-            );
-          })}
-        </ul>
+        {images.length > 0 ? (
+          <ul className="grid grid-cols-3 gap-1 lg:gap-4">
+            {images.map(
+              (image) =>
+                // This removes Typescript error: "image is possibly 'null'."
+                image && (
+                  <li key={image.id} className="hover:!opacity-60">
+                    <ImageV2 imageData={image} />
+                  </li>
+                ),
+            )}
+          </ul>
+        ) : (
+          <Typography.Text
+            type="secondary"
+            italic
+            className="text-center w-full block"
+          >
+            No images found
+          </Typography.Text>
+        )}
+
+        {loaderData.data.status === "error" && (
+          <ErrorList errors={["There was an error parsing the results"]} />
+        )}
       </div>
     </>
   );

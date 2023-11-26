@@ -17,12 +17,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const searchTerm = searchParams.get("q") || "";
   const currentPage = Math.max(Number(searchParams.get("page") || 1), 1);
 
-  const images = await getImages(searchTerm, currentPage);
+  const data = await getImages(searchTerm, currentPage);
 
-  return json({ data: images });
+  return json({ data });
 };
 
-export type ExplorePageLoader = SerializeFrom<typeof loader>;
+export type ExplorePageLoader = typeof loader;
 
 export default function Index() {
   return (
