@@ -45,6 +45,7 @@
     "remix-auth": "^3.6.0",
     "remix-auth-socials": "^2.0.5",
     "remix-utils": "^7.1.0",
+    "sonner": "^1.2.3",
     "stripe": "^12.3.0",
     "tailwind-merge": "^2.0.0",
     "zod": "^3.22.4"
