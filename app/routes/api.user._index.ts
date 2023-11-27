@@ -4,7 +4,7 @@ import { getSession } from "~/services";
 import { z } from "zod";
 import { parse } from "@conform-to/zod";
 import { invariantResponse } from "~/utils/invariantResponse";
-import { checkHoneypot, checkCSRFToken, toastSessionStorage } from "~/utils";
+import { checkHoneypot, validateCSRF, toastSessionStorage } from "~/utils";
 
 const MAX_PROMPT_CHARACTERS = 25;
 

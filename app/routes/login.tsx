@@ -1,9 +1,29 @@
-import { type LoaderFunctionArgs, json, MetaFunction } from "@remix-run/node";
-import { CollectionsPage } from "~/pages";
-import { getUserCollections } from "~/server";
+import {
+  type LoaderFunctionArgs,
+  json,
+  MetaFunction,
+  DataFunctionArgs,
+  redirect,
+} from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
-import { loader as UserLoaderData } from "../root";
 import GoogleLoginButton from "~/components/GoogleLoginButton";
+import {
+  EmailSchema,
+  PasswordSchema,
+  UsernameSchema,
+  checkHoneypot,
+  validateCSRF,
+  sessionStorage,
+} from "~/utils";
+import { z } from "zod";
+import { getFieldsetConstraint, parse } from "@conform-to/zod";
+import { Form, useActionData } from "@remix-run/react";
+import { AuthenticityTokenInput } from "remix-utils/csrf/react";
+import { HoneypotInputs } from "remix-utils/honeypot/react";
+import { useForm, conform } from "@conform-to/react";
+import { useIsPending } from "~/hooks";
+import { ErrorList } from "~/components";
+import { prisma } from "~/services/prisma.server";
 
 export const meta: MetaFunction<typeof loader> = () => {
   return [{ title: "User Login" }];
@@ -17,7 +37,77 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({});
 };
 
+const LoginFormSchema = z.object({
+  //   username: UsernameSchema,
+  email: EmailSchema,
+  password: PasswordSchema,
+});
+
+export async function action({ request }: DataFunctionArgs) {
+  const formData = await request.formData();
+  await validateCSRF(formData, request.headers);
+  checkHoneypot(formData);
+  const submission = await parse(formData, {
+    schema: (intent) =>
+      LoginFormSchema.transform(async (data, ctx) => {
+        if (intent !== "submit") return { ...data, user: null };
+
+        const user = await prisma.user.findUnique({
+          select: { id: true },
+          where: { email: data.email },
+        });
+        if (!user) {
+          ctx.addIssue({
+            code: "custom",
+            message: "Invalid email or password",
+          });
+          return z.NEVER;
+        }
+        // verify the password (we'll do this later)
+        return { ...data, user };
+      }),
+    async: true,
+  });
+  // get the password off the payload that's sent back
+  delete submission.payload.password;
+
+  if (submission.intent !== "submit") {
+    // @ts-expect-error - conform should probably have support for doing this
+    delete submission.value?.password;
+    return json({ status: "idle", submission } as const);
+  }
+  if (!submission.value?.user) {
+    return json({ status: "error", submission } as const, { status: 400 });
+  }
+
+  const { user } = submission.value;
+
+  const cookieSession = await sessionStorage.getSession(
+    request.headers.get("cookie"),
+  );
+  cookieSession.set("userId", user.id);
+
+  return redirect("/", {
+    headers: {
+      "set-cookie": await sessionStorage.commitSession(cookieSession),
+    },
+  });
+}
+
 export default function Index() {
+  const actionData = useActionData<typeof action>();
+  const isPending = useIsPending();
+
+  const [form, fields] = useForm({
+    id: "login-form",
+    constraint: getFieldsetConstraint(LoginFormSchema),
+    lastSubmission: actionData?.submission,
+    onValidate({ formData }) {
+      return parse(formData, { schema: LoginFormSchema });
+    },
+    shouldRevalidate: "onBlur",
+  });
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -35,7 +125,9 @@ export default function Index() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-[#24292F] px-6 py-12 shadow sm:rounded-lg sm:px-12">
-            <form className="space-y-6" action="#" method="POST">
+            <Form className="space-y-6" method="POST" {...form.props}>
+              <AuthenticityTokenInput />
+              <HoneypotInputs />
               <div>
                 <label
                   htmlFor="email"
@@ -45,12 +137,11 @@ export default function Index() {
                 </label>
                 <div className="mt-2">
                   <input
-                    id="email"
-                    name="email"
+                    id={fields.email.id}
+                    {...conform.input(fields.email)}
                     type="email"
-                    autoComplete="email"
-                    required
-                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Enter email address..."
+                    className="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 text-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -64,12 +155,11 @@ export default function Index() {
                 </label>
                 <div className="mt-2">
                   <input
-                    id="password"
-                    name="password"
+                    id={fields.password.id}
+                    {...conform.input(fields.password)}
                     type="password"
-                    autoComplete="current-password"
-                    required
-                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Enter password..."
+                    className="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 text-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -100,16 +190,19 @@ export default function Index() {
                   </a>
                 </div>
               </div>
-
+              <ErrorList errors={form.errors} id={form.errorId} />
               <div>
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  //   TODO: Add loading state
+                  //   status={isPending ? 'pending' : actionData?.status ?? 'idle'}
+                  disabled={isPending}
                 >
                   Sign in
                 </button>
               </div>
-            </form>
+            </Form>
 
             <div>
               <div className="relative mt-10">
