@@ -28,8 +28,10 @@ import {
   combineHeaders,
   csrf,
   getTheme,
+  getToast,
   honeypot,
   invariantResponse,
+  sessionStorage,
   setTheme,
   toastSessionStorage,
 } from "./utils";
@@ -63,10 +65,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   console.log(csrfToken);
   console.log(csrfCookieHeader);
 
-  const toastCookieSession = await toastSessionStorage.getSession(
+  const { toast, headers: toastHeaders } = await getToast(request);
+  const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie"),
   );
-  const toast = toastCookieSession.get("toast");
+  const userId = cookieSession.get("userId");
 
   // if (!user) {
   //   throw json({ data: undefined });
@@ -75,14 +78,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userData = !user ? {} : await getLoggedInUserData(user as any);
 
   return json(
-    { data: userData, honeyProps, csrfToken, theme: getTheme(request), toast },
+    { userData, honeyProps, csrfToken, theme: getTheme(request), toast },
     {
       headers: combineHeaders(
         csrfCookieHeader ? { "set-cookie": csrfCookieHeader } : null,
-        {
-          "set-cookie":
-            await toastSessionStorage.commitSession(toastCookieSession),
-        },
+        toastHeaders,
       ),
     },
   );
@@ -122,7 +122,7 @@ export type RootActionData = typeof action;
 
 export default function App() {
   const loaderData = useLoaderData<RootLoaderData>();
-  const userData = loaderData.data;
+  const userData = loaderData.userData;
   const theme = useTheme();
 
   return (
