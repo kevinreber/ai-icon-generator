@@ -1,5 +1,6 @@
 import { useRouteLoaderData } from "@remix-run/react";
 import { RootLoaderData } from "~/root";
+import { invariantResponse } from "~/utils";
 
 export function useOptionalUser() {
   const data = useRouteLoaderData<RootLoaderData>("root");
@@ -8,10 +9,9 @@ export function useOptionalUser() {
 
 export function useLoggedInUser() {
   const maybeUser = useOptionalUser();
-  if (!maybeUser) {
-    throw new Error(
-      "No user found in root loader, but user is required by useUser. If user is optional, try useOptionalUser instead.",
-    );
-  }
+  invariantResponse(
+    maybeUser,
+    "No user found in root loader, but user is required by useLoggedInUser. If user is optional, try useOptionalUser instead.",
+  );
   return maybeUser;
 }
