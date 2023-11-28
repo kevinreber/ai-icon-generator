@@ -8,21 +8,21 @@ import {
 import { authenticator } from "~/services/auth.server";
 import GoogleLoginButton from "~/components/GoogleLoginButton";
 import {
-  EmailSchema,
   PasswordSchema,
   UsernameSchema,
   checkHoneypot,
   validateCSRF,
   sessionStorage,
+  getSessionExpirationDate,
 } from "~/utils";
 import { z } from "zod";
 import { getFieldsetConstraint, parse } from "@conform-to/zod";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, Link, useActionData } from "@remix-run/react";
 import { AuthenticityTokenInput } from "remix-utils/csrf/react";
 import { HoneypotInputs } from "remix-utils/honeypot/react";
 import { useForm, conform } from "@conform-to/react";
 import { useIsPending } from "~/hooks";
-import { ErrorList } from "~/components";
+import { ErrorList, Field } from "~/components";
 import { prisma } from "~/services/prisma.server";
 import bcrypt from "bcryptjs";
 
@@ -41,6 +41,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 const LoginFormSchema = z.object({
   username: UsernameSchema,
   password: PasswordSchema,
+  remember: z.boolean().optional(),
 });
 
 export async function action({ request }: DataFunctionArgs) {
@@ -52,33 +53,32 @@ export async function action({ request }: DataFunctionArgs) {
       LoginFormSchema.transform(async (data, ctx) => {
         if (intent !== "submit") return { ...data, user: null };
 
-        const usernameAndPassword = await prisma.user.findUnique({
+        const userWithPassword = await prisma.user.findUnique({
           select: { id: true, password: { select: { hash: true } } },
           where: { username: data.username },
         });
-        if (!usernameAndPassword || !usernameAndPassword.password) {
+        if (!userWithPassword || !userWithPassword.password) {
           ctx.addIssue({
             code: "custom",
-            message: "Invalid email or password",
+            message: "Invalid username or password",
           });
           return z.NEVER;
         }
 
         const isValid = await bcrypt.compare(
           data.password,
-          usernameAndPassword.password.hash,
+          userWithPassword.password.hash,
         );
 
         if (!isValid) {
           ctx.addIssue({
             code: "custom",
-            message: "Invalid email or password",
+            message: "Invalid username or password",
           });
           return z.NEVER;
         }
 
-        // verify the password (we'll do this later)
-        return { ...data, user: { id: usernameAndPassword.id } };
+        return { ...data, user: { id: userWithPassword.id } };
       }),
     async: true,
   });
@@ -94,7 +94,7 @@ export async function action({ request }: DataFunctionArgs) {
     return json({ status: "error", submission } as const, { status: 400 });
   }
 
-  const { user } = submission.value;
+  const { user, remember } = submission.value;
 
   const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie"),
@@ -103,7 +103,9 @@ export async function action({ request }: DataFunctionArgs) {
 
   return redirect("/", {
     headers: {
-      "set-cookie": await sessionStorage.commitSession(cookieSession),
+      "set-cookie": await sessionStorage.commitSession(cookieSession, {
+        expires: remember ? getSessionExpirationDate() : undefined,
+      }),
     },
   });
 }
@@ -143,39 +145,23 @@ export default function Index() {
               <AuthenticityTokenInput />
               <HoneypotInputs />
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium leading-6"
-                >
-                  Email address
-                </label>
-                <div className="mt-2">
-                  <input
-                    id={fields.username.id}
-                    {...conform.input(fields.username)}
-                    type="username"
-                    placeholder="Enter username..."
-                    className="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 text-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
+                <Field
+                  labelProps={{ children: "Username" }}
+                  inputProps={{
+                    ...conform.input(fields.username),
+                    autoFocus: true,
+                    className: "lowercase",
+                  }}
+                  errors={fields.username.errors}
+                />
 
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6"
-                >
-                  Password
-                </label>
-                <div className="mt-2">
-                  <input
-                    id={fields.password.id}
-                    {...conform.input(fields.password)}
-                    type="password"
-                    placeholder="Enter password..."
-                    className="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 text-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
+                <Field
+                  labelProps={{ children: "Password" }}
+                  inputProps={conform.input(fields.password, {
+                    type: "password",
+                  })}
+                  errors={fields.password.errors}
+                />
               </div>
 
               <div className="flex items-center justify-between">
@@ -196,12 +182,12 @@ export default function Index() {
 
                 <div className="text-sm leading-6">
                   {/* ! TODO */}
-                  <a
-                    href="#"
+                  <Link
+                    to="/forgot-password"
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
               </div>
               <ErrorList errors={form.errors} id={form.errorId} />
