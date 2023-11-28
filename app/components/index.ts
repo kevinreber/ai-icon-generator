@@ -22,3 +22,4 @@ export * from "./GoogleLoginButton";
 export * from "./FormField";
 export * from "./Checkbox";
 export * from "./CheckboxField";
+export * from "./LogOutButton";
