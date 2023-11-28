@@ -22,6 +22,7 @@ export default {
     /^@ant-design\/icons-svg.*/,
     /^rc-util.*/,
   ],
+  browserNodeBuiltinsPolyfill: { modules: { crypto: true } },
   // serverModuleFormat: "cjs",
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",

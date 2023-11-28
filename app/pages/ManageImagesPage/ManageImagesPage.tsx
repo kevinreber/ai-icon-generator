@@ -43,6 +43,7 @@ const ManageImagesPage = () => {
       </div>
 
       <Table
+        rowKey="id"
         columns={TABLE_COLUMNS}
         dataSource={images}
         bordered

@@ -47,6 +47,7 @@ model User {
   name         String?
   username     String?       @unique
   email        String?       @unique
+  password     Password?
   image        String?
   credits      Int           @default(5)
   accounts     Account[]
@@ -58,6 +59,12 @@ model User {
   imageLikes   ImageLike[]
   commentLikes CommentLike[]
   collections  Collection[]
+}
+
+model Password {
+  hash   String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
 }
 
 model Icon {

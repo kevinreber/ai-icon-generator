@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Layout, Space, Typography } from "antd";
-import { SocialsProvider } from "remix-auth-socials";
 import {
   BookOutlined,
   PlusCircleOutlined,
@@ -8,21 +7,13 @@ import {
   ToolOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useFetcher } from "@remix-run/react";
 import { UserAvatar } from "~/components";
 import { UserContext } from "~/context";
+import { ThemeSwitch } from "../ThemeSwitch";
 
 const NavigationSidebar = () => {
   const userData = React.useContext(UserContext);
   const isLoggedIn = Boolean(userData?.id);
-  const fetcher = useFetcher();
-
-  const handleLogIn = () => {
-    fetcher.submit(
-      { intent: "user-log-in" },
-      { method: "post", action: `/api/auth/${SocialsProvider.GOOGLE}` },
-    );
-  };
 
   return (
     <Layout.Sider
@@ -47,19 +38,23 @@ const NavigationSidebar = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography.Link
-          href="/"
-          style={{
-            color: "#e6f1ff",
-            height: 64,
-            fontSize: 20,
-            fontWeight: 600,
-            textAlign: "left",
-            padding: "0 8px",
-          }}
-        >
-          AI Image Generator
-        </Typography.Link>
+        <div>
+          <Typography.Link
+            href="/"
+            style={{
+              color: "#e6f1ff",
+              height: 64,
+              fontSize: 20,
+              fontWeight: 600,
+              textAlign: "left",
+              padding: "0 8px",
+            }}
+          >
+            AI Image Generator
+          </Typography.Link>
+          {/* TODO: Integrate when ready */}
+          {/* <ThemeSwitch userPreference={theme} /> */}
+        </div>
         <Space direction="vertical" style={{ alignItems: "flex-start" }}>
           <Button
             type="link"
@@ -111,7 +106,7 @@ const NavigationSidebar = () => {
             <UserAvatar />
           </div>
         ) : (
-          <Button onClick={handleLogIn}>Sign In</Button>
+          <Button href="/login">Sign In</Button>
         )}
       </div>
     </Layout.Sider>

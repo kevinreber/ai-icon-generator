@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { useRemixFetcher } from "~/hooks";
 import { UserContext } from "~/context";
+import LogOutButton from "../LogOutButton";
 
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
@@ -67,13 +68,7 @@ const UserAvatar = () => {
             >
               Settings
             </Button>
-            <Button
-              style={{ width: 130 }}
-              icon={<IconFont type="icon-tuichu" />}
-              onClick={handleLogOut}
-            >
-              Logout
-            </Button>
+            <LogOutButton />
           </Space>
         }
         trigger="click"
