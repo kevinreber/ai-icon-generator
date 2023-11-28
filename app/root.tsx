@@ -14,6 +14,7 @@ import {
   type LinksFunction,
   type SerializeFrom,
   DataFunctionArgs,
+  redirect,
 } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import { authenticator } from "~/services/auth.server";
@@ -70,6 +71,16 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     request.headers.get("cookie"),
   );
   const userId = cookieSession.get("userId");
+
+  if (userId && !user) {
+    // Edge case: something weird happened... The user is authenticated but we can't find
+    // them in the database. Maybe they were deleted? Let's log them out.
+    throw redirect("/", {
+      headers: {
+        "set-cookie": await sessionStorage.destroySession(cookieSession),
+      },
+    });
+  }
 
   // if (!user) {
   //   throw json({ data: undefined });
