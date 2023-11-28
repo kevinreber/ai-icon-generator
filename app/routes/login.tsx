@@ -24,6 +24,7 @@ import { useForm, conform } from "@conform-to/react";
 import { useIsPending } from "~/hooks";
 import { ErrorList } from "~/components";
 import { prisma } from "~/services/prisma.server";
+import bcrypt from "bcryptjs";
 
 export const meta: MetaFunction<typeof loader> = () => {
   return [{ title: "User Login" }];
@@ -38,8 +39,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 const LoginFormSchema = z.object({
-  //   username: UsernameSchema,
-  email: EmailSchema,
+  username: UsernameSchema,
   password: PasswordSchema,
 });
 
@@ -52,19 +52,33 @@ export async function action({ request }: DataFunctionArgs) {
       LoginFormSchema.transform(async (data, ctx) => {
         if (intent !== "submit") return { ...data, user: null };
 
-        const user = await prisma.user.findUnique({
-          select: { id: true },
-          where: { email: data.email },
+        const usernameAndPassword = await prisma.user.findUnique({
+          select: { id: true, password: { select: { hash: true } } },
+          where: { username: data.username },
         });
-        if (!user) {
+        if (!usernameAndPassword || !usernameAndPassword.password) {
           ctx.addIssue({
             code: "custom",
             message: "Invalid email or password",
           });
           return z.NEVER;
         }
+
+        const isValid = await bcrypt.compare(
+          data.password,
+          usernameAndPassword.password.hash,
+        );
+
+        if (!isValid) {
+          ctx.addIssue({
+            code: "custom",
+            message: "Invalid email or password",
+          });
+          return z.NEVER;
+        }
+
         // verify the password (we'll do this later)
-        return { ...data, user };
+        return { ...data, user: { id: usernameAndPassword.id } };
       }),
     async: true,
   });
@@ -137,10 +151,10 @@ export default function Index() {
                 </label>
                 <div className="mt-2">
                   <input
-                    id={fields.email.id}
-                    {...conform.input(fields.email)}
-                    type="email"
-                    placeholder="Enter email address..."
+                    id={fields.username.id}
+                    {...conform.input(fields.username)}
+                    type="username"
+                    placeholder="Enter username..."
                     className="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 text-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
