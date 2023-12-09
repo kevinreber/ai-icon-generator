@@ -1,14 +1,18 @@
 import React from "react";
 import { SocialsProvider } from "remix-auth-socials";
-import { Form } from "@remix-run/react";
+import { Form, useSearchParams } from "@remix-run/react";
 
 const GOGLE_ACTION_STRING = `/api/auth/${SocialsProvider.GOOGLE}`;
 
 const GoogleLoginButton = () => {
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "";
+
   return (
     <div className="px-6 sm:px-0 max-w-sm">
       <Form method="POST" action={GOGLE_ACTION_STRING}>
         <input type="hidden" name="intent" value="user-log-in" />
+        <input type="hidden" name="redirectTo" value={redirectTo} />
         <button
           type="submit"
           className="border-solid border-gray-600 flex w-full items-center justify-center gap-3 rounded-md bg-[#24292F] px-3 py-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
