@@ -6,7 +6,7 @@ import {
   MetaFunction,
 } from "@remix-run/node";
 import { CreateImagePage } from "~/pages";
-import { authenticator } from "~/services/auth.server";
+import { authenticator, requireUserId } from "~/services/auth.server";
 import { updateUserCredits } from "~/server/updateUserCredits";
 import { createNewImages } from "~/server/createNewImages";
 import { getSession } from "~/services";
@@ -76,6 +76,8 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  await requireUserId(request, { redirectTo: "/create" });
+
   await authenticator.isAuthenticated(request, {
     failureRedirect: "/",
   });
