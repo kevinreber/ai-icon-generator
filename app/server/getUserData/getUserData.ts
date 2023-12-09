@@ -56,7 +56,7 @@ export const getUserData = async (
 ) => {
   const selectImageQuery = createImageSelectQuery();
 
-  const count = await prisma.icon.count({
+  const count = await prisma.image.count({
     where: {
       userId,
     },
@@ -72,7 +72,7 @@ export const getUserData = async (
       image: true,
       createdAt: true,
       // @ts-ignore
-      Icon: {
+      images: {
         take: pageSize,
         skip: (page - 1) * pageSize,
         orderBy: {
@@ -85,7 +85,7 @@ export const getUserData = async (
 
   // Append images source URL since we cannot use `env` variables in our UI
   // @ts-ignore
-  const formattedImages = userData?.Icon.map((image) => ({
+  const formattedImages = userData?.images.map((image) => ({
     ...image,
     url: getS3BucketURL(image.id),
     thumbnailURL: getS3BucketThumbnailURL(image.id),

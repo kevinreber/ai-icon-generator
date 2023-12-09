@@ -9,7 +9,7 @@ export const updateImageData = async (
     const message = `Success updating Image Data for imageID: ${imageId}`;
     const formattedPayload = removeEmptyValuesFromObject(payload);
 
-    const data = await prisma.icon.update({
+    const data = await prisma.image.update({
       where: {
         id: imageId,
       },

@@ -6,7 +6,7 @@ import { prisma } from "~/services/prisma.server";
  */
 export const deleteImageFromDB = async (imageId: string) => {
   try {
-    const response = await prisma.icon.delete({
+    const response = await prisma.image.delete({
       where: {
         id: imageId,
       },

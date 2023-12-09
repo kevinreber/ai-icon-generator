@@ -52,13 +52,14 @@ model User {
   credits      Int           @default(5)
   accounts     Account[]
   sessions     Session[]
-  Icon         Icon[]
+  images       Image[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime?     @updatedAt
   comments     Comment[]
   imageLikes   ImageLike[]
   commentLikes CommentLike[]
   collections  Collection[]
+  roles        Role[]
 }
 
 model Password {
@@ -67,7 +68,35 @@ model Password {
   userId String @unique
 }
 
-model Icon {
+// @reference: See Permisions - Managing Roles sand Permissions
+model Permission {
+  id          String @id @default(cuid())
+  action      String // e.g. create, read, update, delete
+  entity      String // e.g. image, user, etc.
+  access      String // e.g. own or any
+  description String @default("")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  roles Role[]
+
+  @@unique([action, entity, access])
+}
+
+model Role {
+  id          String @id @default(cuid())
+  name        String @unique
+  description String @default("")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users       User[]
+  permissions Permission[]
+}
+
+model Image {
   id          String               @id @default(cuid())
   title       String?              @default("Untitled")
   prompt      String?
@@ -86,7 +115,7 @@ model Icon {
 
 model ImageLike {
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  image   Icon   @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  image   Image   @relation(fields: [imageId], references: [id], onDelete: Cascade)
   userId  String
   imageId String
 
@@ -100,7 +129,7 @@ model Comment {
   updatedAt DateTime      @updatedAt
   user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  image     Icon          @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  image     Image          @relation(fields: [imageId], references: [id], onDelete: Cascade)
   imageId   String
   parent    Comment?      @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
   children  Comment[]     @relation("ParentChild")
@@ -135,7 +164,7 @@ model CollectionHasImage {
   collectionId String
   imageId      String
   collection   Collection? @relation(fields: [collectionId], references: [id], onDelete: Cascade)
-  image        Icon?       @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  image        Image?       @relation(fields: [imageId], references: [id], onDelete: Cascade)
 
   @@index([collectionId, imageId])
   @@index([collectionId])

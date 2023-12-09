@@ -10,12 +10,12 @@ export const getUserImages = async (
   page = DEFAULT_CURRENT_PAGE,
   pageSize = DEFAULT_PAGE_SIZE,
 ) => {
-  const count = await prisma.icon.count({
+  const count = await prisma.image.count({
     where: {
       userId,
     },
   });
-  const images = await prisma.icon.findMany({
+  const images = await prisma.image.findMany({
     take: pageSize,
     skip: (page - 1) * pageSize,
     where: {

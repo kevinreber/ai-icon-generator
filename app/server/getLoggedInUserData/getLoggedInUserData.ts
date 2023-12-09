@@ -1,4 +1,5 @@
 import { prisma } from "~/services/prisma.server";
+import { sessionStorage } from "~/utils";
 
 type UserGoogleData = {
   provider: "google";
@@ -17,9 +18,13 @@ type UserGoogleData = {
   };
 };
 
-export const getLoggedInUserData = async (userGoogleData: UserGoogleData) => {
+export const getLoggedInUserData = async (
+  userGoogleData: UserGoogleData,
+  request: Request,
+) => {
+  const userId = userGoogleData.id;
   let userData = await prisma.user.findUnique({
-    where: { id: userGoogleData.id },
+    where: { id: userId },
     select: {
       id: true,
       name: true,
@@ -40,23 +45,25 @@ export const getLoggedInUserData = async (userGoogleData: UserGoogleData) => {
           },
         },
       },
+      roles: true,
     },
   });
 
   if (!userData?.id) {
     const { name, email, picture } = userGoogleData._json;
 
-    const newUser = {
-      id: userGoogleData.id,
-      name,
-      username: userGoogleData.displayName,
-      email,
-      image: picture,
-    };
-
     // If new user is created, no collections will exist
     // @ts-ignore
-    userData = await prisma.user.create({ data: newUser });
+    userData = await prisma.user.create({
+      data: {
+        id: userId,
+        name,
+        username: userGoogleData.displayName,
+        email,
+        image: picture,
+        roles: { connect: { name: "user" } },
+      },
+    });
   }
 
   return userData;

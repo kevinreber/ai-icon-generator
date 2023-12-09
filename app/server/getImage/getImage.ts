@@ -2,7 +2,7 @@ import { prisma } from "~/services/prisma.server";
 import { getS3BucketThumbnailURL, getS3BucketURL } from "~/utils";
 
 export const getImage = async (imageId: string) => {
-  const image = await prisma.icon.findUnique({
+  const image = await prisma.image.findUnique({
     where: { id: imageId },
     select: {
       id: true,
