@@ -28,6 +28,7 @@ import {
   ErrorList,
   CheckboxField,
 } from "~/components";
+import { safeRedirect } from "remix-utils/safe-redirect";
 
 const SignupFormSchema = z
   .object({
@@ -36,6 +37,7 @@ const SignupFormSchema = z
     email: EmailSchema,
     password: PasswordSchema,
     confirmPassword: PasswordSchema,
+    redirectTo: z.string().optional(),
     agreeToTermsOfServiceAndPrivacyPolicy: z.boolean({
       required_error:
         "You must agree to the terms of service and privacy policy",
@@ -92,6 +94,7 @@ export async function action({ request }: DataFunctionArgs) {
               hash: await bcrypt.hash(password, 10),
             },
           },
+          roles: { connect: { name: "user" } },
         },
       });
 
@@ -107,14 +110,14 @@ export async function action({ request }: DataFunctionArgs) {
     return json({ status: "error", submission } as const, { status: 400 });
   }
 
-  const { user, remember } = submission.value;
+  const { user, remember, redirectTo } = submission.value;
 
   const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie"),
   );
   cookieSession.set("userId", user.id);
 
-  return redirect("/", {
+  return redirect(safeRedirect(redirectTo), {
     headers: {
       "set-cookie": await sessionStorage.commitSession(cookieSession, {
         expires: remember ? getSessionExpirationDate() : undefined,
@@ -224,6 +227,8 @@ export default function Index() {
             buttonProps={conform.input(fields.remember, { type: "checkbox" })}
             errors={fields.remember.errors}
           />
+
+          <input {...conform.input(fields.redirectTo, { type: "hidden" })} />
 
           <ErrorList errors={form.errors} id={form.errorId} />
 
