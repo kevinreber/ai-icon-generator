@@ -41,7 +41,7 @@ export const getImages = async (
   // NOTE: Postgres automatically converts camelCase to all lowercase. We need to add "" around the column names to prevent this from breaking our query.
   const rawImages = await prisma.$queryRaw`
   SELECT i.id, i.title, i.prompt, i.model, i."stylePreset", i."userId", i."createdAt" 
-  FROM "Icon" i
+  FROM "Image" i
   WHERE i.private = false AND (i.title LIKE ${like} OR i.prompt LIKE ${like} OR i."stylePreset" LIKE ${like})
   ORDER BY i."createdAt" DESC
   LIMIT ${pageSize} OFFSET ${(page - 1) * pageSize};

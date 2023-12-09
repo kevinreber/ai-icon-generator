@@ -63,14 +63,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request);
   const honeyProps = honeypot.getInputProps();
   const [csrfToken, csrfCookieHeader] = await csrf.commitToken(request);
-  console.log(csrfToken);
-  console.log(csrfCookieHeader);
 
   const { toast, headers: toastHeaders } = await getToast(request);
   const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie"),
   );
   const userId = cookieSession.get("userId");
+  console.log(userId);
 
   if (userId && !user) {
     // Edge case: something weird happened... The user is authenticated but we can't find
@@ -86,7 +85,21 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   //   throw json({ data: undefined });
   // }
 
-  const userData = !user ? {} : await getLoggedInUserData(user as any);
+  const userData = !user ? {} : await getLoggedInUserData(user as any, request);
+
+  console.log(userData);
+
+  // const cookieSession = await sessionStorage.getSession(
+  //   request.headers.get("cookie"),
+  // );
+
+  // TODO: figure out where to set this userId
+  // @ts-ignore
+  if (userData && userData.id) {
+    // @ts-ignore
+    cookieSession.set("userId", userData.id || "");
+    await sessionStorage.commitSession(cookieSession);
+  }
 
   return json(
     { userData, honeyProps, csrfToken, theme: getTheme(request), toast },

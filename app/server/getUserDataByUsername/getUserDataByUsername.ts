@@ -59,7 +59,7 @@ export const getUserDataByUsername = async (
   // If UserA is visiting UserB's profile, we do not want to show UserB's Private images to UserA
   const selectImageQuery = createImageSelectQuery();
 
-  const count = await prisma.icon.count({
+  const count = await prisma.image.count({
     where: {
       user: {
         username,
@@ -77,7 +77,7 @@ export const getUserDataByUsername = async (
       image: true,
       createdAt: true,
       // @ts-ignore
-      Icon: {
+      images: {
         take: pageSize,
         skip: (page - 1) * pageSize,
         orderBy: {
@@ -90,7 +90,7 @@ export const getUserDataByUsername = async (
 
   // Append images source URL since we cannot use `env` variables in our UI
   // @ts-ignore
-  const formattedImages = userData?.Icon.map((image) => ({
+  const formattedImages = userData?.images.map((image) => ({
     ...image,
     url: getS3BucketURL(image.id),
     thumbnailURL: getS3BucketThumbnailURL(image.id),

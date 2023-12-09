@@ -2,6 +2,8 @@ import { Authenticator } from "remix-auth";
 import { GoogleStrategy, SocialsProvider } from "remix-auth-socials";
 import { sessionStorage } from "~/services/session.server";
 import bcrypt from "bcryptjs";
+import { prisma } from "./prisma.server";
+import { redirect } from "@remix-run/node";
 
 export const SESSION_KEY = "_session";
 // export const sessionKey = 'sessionId'
@@ -36,4 +38,46 @@ authenticator.use(
 export const getPasswordHash = async (password: string) => {
   const hash = await bcrypt.hash(password, 10);
   return hash;
+};
+
+export const userIdKey = "userId";
+
+export const getUserId = async (request: Request) => {
+  const cookieSession = await sessionStorage.getSession(
+    request.headers.get("cookie"),
+  );
+  const userId = cookieSession.get(userIdKey);
+  console.log(userId);
+
+  if (!userId) return null;
+  const user = await prisma.user.findUnique({
+    select: { id: true },
+    where: { id: userId },
+  });
+  if (!user) {
+    // TODO: When passwords are setup
+    // throw await logout({ request })
+    return authenticator.logout(request, { redirectTo: "/" });
+  }
+  return user.id;
+};
+
+export const requireUserId = async (
+  request: Request,
+  { redirectTo }: { redirectTo?: string | null } = {},
+) => {
+  const userId = await getUserId(request);
+  if (!userId) {
+    const requestUrl = new URL(request.url);
+    redirectTo =
+      redirectTo === null
+        ? null
+        : redirectTo ?? `${requestUrl.pathname}${requestUrl.search}`;
+    const loginParams = redirectTo ? new URLSearchParams({ redirectTo }) : null;
+    const loginRedirect = ["/login", loginParams?.toString()]
+      .filter(Boolean)
+      .join("?");
+    throw redirect(loginRedirect);
+  }
+  return userId;
 };

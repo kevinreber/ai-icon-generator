@@ -17,8 +17,9 @@ import {
 } from "~/utils";
 import { z } from "zod";
 import { getFieldsetConstraint, parse } from "@conform-to/zod";
-import { Form, Link, useActionData } from "@remix-run/react";
+import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import { AuthenticityTokenInput } from "remix-utils/csrf/react";
+import { safeRedirect } from "remix-utils/safe-redirect";
 import { HoneypotInputs } from "remix-utils/honeypot/react";
 import { useForm, conform } from "@conform-to/react";
 import { useIsPending } from "~/hooks";
@@ -41,6 +42,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 const LoginFormSchema = z.object({
   username: UsernameSchema,
   password: PasswordSchema,
+  redirectTo: z.string().optional(),
   remember: z.boolean().optional(),
 });
 
@@ -94,14 +96,14 @@ export async function action({ request }: DataFunctionArgs) {
     return json({ status: "error", submission } as const, { status: 400 });
   }
 
-  const { user, remember } = submission.value;
+  const { user, remember, redirectTo } = submission.value;
 
   const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie"),
   );
   cookieSession.set("userId", user.id);
 
-  return redirect("/", {
+  return redirect(safeRedirect(redirectTo), {
     headers: {
       "set-cookie": await sessionStorage.commitSession(cookieSession, {
         expires: remember ? getSessionExpirationDate() : undefined,
@@ -113,10 +115,13 @@ export async function action({ request }: DataFunctionArgs) {
 export default function Index() {
   const actionData = useActionData<typeof action>();
   const isPending = useIsPending();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo");
 
   const [form, fields] = useForm({
     id: "login-form",
     constraint: getFieldsetConstraint(LoginFormSchema),
+    defaultValue: { redirectTo },
     lastSubmission: actionData?.submission,
     onValidate({ formData }) {
       return parse(formData, { schema: LoginFormSchema });
@@ -190,6 +195,11 @@ export default function Index() {
                   </Link>
                 </div>
               </div>
+
+              <input
+                {...conform.input(fields.redirectTo, { type: "hidden" })}
+              />
+
               <ErrorList errors={form.errors} id={form.errorId} />
               <div>
                 <button

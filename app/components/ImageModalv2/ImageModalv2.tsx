@@ -58,6 +58,7 @@ const ImageModalv2 = () => {
 
   const handleImageClick = () => {
     // TODO: Need to figure our how to pass the parent routes query params to this route
+    // ! TODO: Try manually enetering query params
     navigate(`..`);
   };
 

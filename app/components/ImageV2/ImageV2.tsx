@@ -9,6 +9,7 @@ const ImageV2 = ({ imageData }: { imageData: ImageTagType }) => {
     // redirect user to explore.$imageId page when image is clicked
     // (this is the page that shows the image modal)
     // TODO: Need to figure our how to pass the this current routes query params to this route
+    // ! TODO: Try manually entering query params
     navigate(`${imageData.id}`);
   };
 
