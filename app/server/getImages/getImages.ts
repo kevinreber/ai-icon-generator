@@ -7,10 +7,10 @@ const DEFAULT_PAGE_SIZE = 50;
 
 export const ImagesSearchResultSchema = z.object({
   id: z.string(),
-  title: z.string(),
+  title: z.string().nullable().optional(),
   prompt: z.string(),
   model: z.string(),
-  stylePreset: z.string(),
+  stylePreset: z.string().nullable().optional(),
   userId: z.string(),
   createdAt: z.date(),
 });
