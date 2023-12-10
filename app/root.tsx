@@ -85,7 +85,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   //   throw json({ data: undefined });
   // }
 
-  const userData = !user ? {} : await getLoggedInUserData(user as any, request);
+  const userData = !user
+    ? null
+    : await getLoggedInUserData(user as any, request);
 
   console.log(userData);
 

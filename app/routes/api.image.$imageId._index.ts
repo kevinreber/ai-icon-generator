@@ -6,7 +6,8 @@ import {
 } from "@remix-run/node";
 import { deleteUserImage, getImageBase64, updateImageData } from "~/server";
 import { getSession } from "~/services";
-import { toastSessionStorage } from "~/utils";
+import { prisma } from "~/services/prisma.server";
+import { requireUserWithPermission, toastSessionStorage } from "~/utils";
 import { invariantResponse } from "~/utils/invariantResponse";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
@@ -20,15 +21,28 @@ export async function action({ request, params }: ActionFunctionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const googleSessionData = (await session.get("_session")) || undefined;
   const userId = googleSessionData.id;
-  const imageId = params?.imageId || "";
-
+  const imageId = params.imageId;
+  invariantResponse(imageId, "Invalid Image ID");
   invariantResponse(
     userId,
     "Missing User ID: Must be logged in to Edit an Image",
   );
 
+  const image = await prisma.image.findFirst({
+    select: { id: true, userId: true, user: { select: { username: true } } },
+    where: { id: imageId },
+  });
+
+  invariantResponse(image, "Image does not exist");
+
+  const isOwner = userId === image.userId;
+
   switch (request.method.toUpperCase()) {
     case "PATCH": {
+      await requireUserWithPermission(
+        request,
+        isOwner ? "update:image:own" : "update:image:any",
+      );
       console.log("Updating Image ID: ", imageId);
 
       const formData = await request.formData();
@@ -53,8 +67,11 @@ export async function action({ request, params }: ActionFunctionArgs) {
       });
     }
     case "DELETE": {
-      const imageId = params?.imageId || "";
-      invariantResponse(imageId, "Invalid Image ID");
+      await requireUserWithPermission(
+        request,
+        isOwner ? "delete:image:own" : "delete:image:any",
+      );
+
       console.log("Deleting Image ID: ", imageId);
       const response = await deleteUserImage(imageId);
       console.log("Response", response);

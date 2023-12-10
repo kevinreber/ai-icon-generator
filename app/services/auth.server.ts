@@ -49,6 +49,12 @@ export const getUserId = async (request: Request) => {
   const userId = cookieSession.get(userIdKey);
   console.log(userId);
 
+  // ! TODO: This is temporary until we get to section where we get to SSO section
+  const tempUser = await authenticator.isAuthenticated(request);
+
+  // @ts-ignore
+  return tempUser?.id || "";
+
   if (!userId) return null;
   const user = await prisma.user.findUnique({
     select: { id: true },
