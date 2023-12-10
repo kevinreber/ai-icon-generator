@@ -56,27 +56,6 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
 export type UserProfilePageLoader = SerializeFrom<typeof loader>;
 
-// export async function action({ request }: ActionFunctionArgs) {
-//   const formData = await request.formData();
-//   const intent = formData.get("intent");
-
-//   switch (intent) {
-//     case "_delete_image": {
-//       const payload = JSON.parse(formData.get("body") as string);
-//       const { imageId = "" } = payload;
-
-//       const response = await deleteUserImage(imageId);
-//       console.log("Response ------------------");
-//       console.log(response);
-
-//       return response;
-//     }
-//     default: {
-//       return {};
-//     }
-//   }
-// }
-
 export default function Index() {
   return <UserProfilePage />;
 }

@@ -5,7 +5,6 @@ import {
   SerializeFrom,
   MetaFunction,
 } from "@remix-run/node";
-import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { Alert } from "antd";
 import { ManageImagesPage } from "~/pages";
 import { getUserData } from "~/server";
@@ -13,6 +12,7 @@ import { getSession } from "~/services";
 import { authenticator } from "~/services/auth.server";
 import { loader as UserLoaderData } from "../root";
 import { invariantResponse } from "~/utils/invariantResponse";
+import { GeneralErrorBoundary } from "~/components";
 
 export const meta: MetaFunction<
   typeof loader,
@@ -60,67 +60,24 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 
 export type ManageImagesPageLoader = SerializeFrom<typeof loader>;
 
-// export async function action({ request }: ActionFunctionArgs) {
-//   const formData = await request.formData();
-//   const intent = formData.get("intent");
-
-//   switch (intent) {
-//     case "_delete_image": {
-//       const payload = JSON.parse(formData.get("body") as string);
-//       const { imageId = "" } = payload;
-
-//       const response = await deleteUserImage(imageId);
-//       console.log("Response ------------------");
-//       console.log(response);
-
-//       return response;
-//     }
-//     default: {
-//       return {};
-//     }
-//   }
-// }
-
 export default function Index() {
   return <ManageImagesPage />;
 }
 
-export function ErrorBoundary() {
-  const error = useRouteError();
-
-  if (isRouteErrorResponse(error)) {
-    return (
-      <Alert
-        message={`${error.status} ${error.statusText}`}
-        description={error.data}
-        type="error"
-        showIcon
-      />
-    );
-  } else if (error instanceof Error) {
-    return (
-      <Alert
-        message="Error"
-        description={error.message}
-        type="error"
-        showIcon
-      />
-    );
-
-    // <div>
-    //   <h1>Error</h1>
-    //   <p>{error.message}</p>
-    //   <p>The stack trace is:</p>
-    //   <pre>{error.stack}</pre>
-    // </div>
-  } else {
-    return (
-      <Alert
-        message="Error"
-        description="User Profile is currently unavailable"
-        type="error"
-        showIcon
-      />
-    );
-  }
-}
+export const ErrorBoundary = () => {
+  return (
+    <GeneralErrorBoundary
+      statusHandlers={{
+        403: () => <p>You do not have permission</p>,
+      }}
+      unexpectedErrorHandler={(error) => (
+        <Alert
+          message="Error"
+          description="User Profile is currently unavailable"
+          type="error"
+          showIcon
+        />
+      )}
+    />
+  );
+};
