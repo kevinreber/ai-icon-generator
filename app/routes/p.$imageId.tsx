@@ -76,7 +76,7 @@ export default function Index() {
   };
 
   return (
-    <div className="flex">
+    <div className="border rounded flex border-solid border-gray-500 m-auto w-fit">
       <div
         style={{
           flex: "1 1 100%",
@@ -125,7 +125,8 @@ export default function Index() {
       </div>
 
       <div
-        className="border rounded flex border-solid border-gray-500 flex-col p-4"
+        // className="border rounded flex border-solid border-gray-500 flex-col p-4"
+        className="flex flex-col p-4"
         style={{ flexBasis: 420 }}
       >
         <Space style={{ marginBottom: "1rem" }}>
