@@ -45,7 +45,18 @@ export const getLoggedInUserData = async (
           },
         },
       },
-      roles: true,
+      roles: {
+        select: {
+          name: true,
+          permissions: {
+            select: {
+              action: true,
+              entity: true,
+              access: true,
+            },
+          },
+        },
+      },
     },
   });
 

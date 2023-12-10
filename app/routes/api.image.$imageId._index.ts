@@ -7,7 +7,7 @@ import {
 import { deleteUserImage, getImageBase64, updateImageData } from "~/server";
 import { getSession } from "~/services";
 import { prisma } from "~/services/prisma.server";
-import { toastSessionStorage } from "~/utils";
+import { requireUserWithPermission, toastSessionStorage } from "~/utils";
 import { invariantResponse } from "~/utils/invariantResponse";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
@@ -33,28 +33,16 @@ export async function action({ request, params }: ActionFunctionArgs) {
     where: { id: imageId },
   });
 
-  invariantResponse(imageId, "Image does not exist");
+  invariantResponse(image, "Image does not exist");
+
+  const isOwner = userId === image.userId;
 
   switch (request.method.toUpperCase()) {
     case "PATCH": {
-      const permission = await prisma.permission.findFirst({
-        select: { id: true },
-        where: {
-          roles: { some: { users: { some: { id: userId } } } },
-          entity: "image",
-          action: "update",
-          access: image?.userId === userId ? "own" : "any",
-        },
-      });
-      if (!permission) {
-        throw json(
-          {
-            error: "Unauthorized",
-            message: "You do not have permission to update this image",
-          },
-          { status: 403 },
-        );
-      }
+      await requireUserWithPermission(
+        request,
+        isOwner ? "update:image:own" : "update:image:any",
+      );
       console.log("Updating Image ID: ", imageId);
 
       const formData = await request.formData();
@@ -79,24 +67,11 @@ export async function action({ request, params }: ActionFunctionArgs) {
       });
     }
     case "DELETE": {
-      const permission = await prisma.permission.findFirst({
-        select: { id: true },
-        where: {
-          roles: { some: { users: { some: { id: userId } } } },
-          entity: "image",
-          action: "delete",
-          access: image?.userId === userId ? "own" : "any",
-        },
-      });
-      if (!permission) {
-        throw json(
-          {
-            error: "Unauthorized",
-            message: "You do not have permission to delete this image",
-          },
-          { status: 403 },
-        );
-      }
+      await requireUserWithPermission(
+        request,
+        isOwner ? "delete:image:own" : "delete:image:any",
+      );
+
       console.log("Deleting Image ID: ", imageId);
       const response = await deleteUserImage(imageId);
       console.log("Response", response);
