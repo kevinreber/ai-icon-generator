@@ -1,16 +1,20 @@
-import React from "react";
-import { useNavigate } from "@remix-run/react";
+import { useLocation, useNavigate } from "@remix-run/react";
 import { ImageTagType } from "~/server/getImages";
 
 const ImageV2 = ({ imageData }: { imageData: ImageTagType }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleImageClick = () => {
     // redirect user to explore.$imageId page when image is clicked
     // (this is the page that shows the image modal)
-    // TODO: Need to figure our how to pass the this current routes query params to this route
-    // ! TODO: Try manually entering query params
-    navigate(`${imageData.id}`);
+    navigate(
+      `${
+        location.search
+          ? `${imageData.id}${location.search}`
+          : `${imageData.id}`
+      }`,
+    );
   };
 
   return (

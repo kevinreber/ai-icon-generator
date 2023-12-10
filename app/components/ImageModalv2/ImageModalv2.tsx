@@ -25,13 +25,15 @@ import {
 } from "~/components";
 import { useRemixFetcher } from "~/hooks";
 import { UserContext } from "~/context";
-import { useLoaderData, useNavigate } from "@remix-run/react";
+import { useLoaderData, useLocation, useNavigate } from "@remix-run/react";
 import { ExplorePageImageLoader } from "~/routes/explore.$imageId";
 import { ImageType, Comment } from "~/types";
 
 const ImageModalv2 = () => {
   const userData = React.useContext(UserContext);
   const isUserLoggedIn = Boolean(userData);
+  const location = useLocation();
+
   const navigate = useNavigate();
 
   const loaderData = useLoaderData<ExplorePageImageLoader>();
@@ -57,9 +59,7 @@ const ImageModalv2 = () => {
   };
 
   const handleImageClick = () => {
-    // TODO: Need to figure our how to pass the parent routes query params to this route
-    // ! TODO: Try manually enetering query params
-    navigate(`..`);
+    navigate(`${location.search ? `/explore${location.search}` : "/explore"}`);
   };
 
   return (
