@@ -146,7 +146,12 @@ const ImageModalv2 = () => {
           </Space>
           <Space style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography.Text strong style={{ fontSize: 16 }}>
-              {imageData.title || "Untitled"}
+              <Typography.Link
+                href={`/p/${imageData.id}`}
+                style={{ color: "inherit" }}
+              >
+                {imageData.title || "Untitled"}
+              </Typography.Link>
             </Typography.Text>
             <Space size="small">
               <LikeImageButton imageData={imageData as ImageType} />
