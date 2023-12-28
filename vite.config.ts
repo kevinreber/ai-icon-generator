@@ -1,37 +1,41 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 import { config } from "@netlify/remix-adapter";
+import { unstable_vitePlugin as remix } from "@remix-run/dev";
+import { defineConfig } from "vite";
+import { installGlobals } from "@remix-run/node";
+import tsconfigPaths from "vite-tsconfig-paths";
 
-export default {
-  serverModuleFormat: "esm",
-  ...config,
-  ignoredRouteFiles: ["**/.*"],
-  serverPlatform: "node",
-  server:
-    process.env.NETLIFY || process.env.NETLIFY_LOCAL
-      ? "./server.ts"
-      : undefined,
-  serverBuildPath: ".netlify/functions-internal/server.js",
-  // v2_routeConvention: false,
-  // TODO: Setting postcss = false temporarily....
-  postcss: false,
-  tailwind: true,
-  // For below, reference: https://github.com/ant-design/ant-design-icons/issues/605
-  serverDependenciesToBundle: [
-    "@radix-ui/themes",
-    "@ant-design/icons",
-    /^@ant-design\/icons-svg.*/,
-    /^rc-util.*/,
+installGlobals();
+
+export default defineConfig({
+  plugins: [
+    remix({
+      serverModuleFormat: "esm",
+      ...config,
+      ignoredRouteFiles: ["**/.*"],
+      // serverPlatform: "node",
+      // server:
+      //   process.env.NETLIFY || process.env.NETLIFY_LOCAL
+      //     ? "./server.ts"
+      //     : undefined,
+      serverBuildPath: ".netlify/functions-internal/server.js",
+      // v2_routeConvention: false,
+      // For below, reference: https://github.com/ant-design/ant-design-icons/issues/605
+      // browserNodeBuiltinsPolyfill: { modules: { crypto: true } },
+      // serverModuleFormat: "cjs",
+      // appDirectory: "app",
+      // assetsBuildDirectory: "public/build",
+      // publicPath: "/build/",
+    }),
+    tsconfigPaths(),
   ],
-  browserNodeBuiltinsPolyfill: { modules: { crypto: true } },
-  // serverModuleFormat: "cjs",
-  // appDirectory: "app",
-  // assetsBuildDirectory: "public/build",
-  // publicPath: "/build/",
-  // future: {
-  //   v2_dev: true,
-  //   v2_errorBoundary: true,
-  //   v2_meta: true,
-  //   v2_normalizeFormMethod: true,
-  //   v2_routeConvention: false,
-  // },
-};
+  ssr: {
+    // Looks into thread for reference: https://github.com/remix-run/remix/issues/7865
+    noExternal: [
+      "@radix-ui/themes",
+      "@ant-design/icons",
+      /^@ant-design\/icons-svg.*/,
+      /^rc-util.*/,
+    ],
+  },
+});
