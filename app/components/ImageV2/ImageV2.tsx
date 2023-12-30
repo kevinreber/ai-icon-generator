@@ -6,6 +6,8 @@ const ImageV2 = ({ imageData }: { imageData: ImageTagType }) => {
   const location = useLocation();
 
   const handleImageClick = () => {
+    console.log("clicking..........");
+
     // redirect user to explore.$imageId page when image is clicked
     // (this is the page that shows the image modal)
     navigate(

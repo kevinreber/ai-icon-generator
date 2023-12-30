@@ -16,7 +16,6 @@ import {
   DataFunctionArgs,
   redirect,
 } from "@remix-run/node";
-import { cssBundleHref } from "@remix-run/css-bundle";
 import { authenticator } from "~/services/auth.server";
 import { getLoggedInUserData } from "~/server";
 import { NavigationSidebar, ShowToast } from "./components";
@@ -38,26 +37,15 @@ import {
 } from "./utils";
 
 // CSS
-import antdStyles from "antd/dist/antd.css";
-import darkStyle from "~/styles/antd.dark.css";
-import globalStyles from "~/styles/global.css";
-import tailwindStyles from "~/styles/tailwind.css";
-import radixUIStyles from "@radix-ui/themes/styles.css";
+import "antd/dist/antd.css";
+import "~/styles/antd.dark.css";
+import "~/styles/global.css";
+import "~/styles/tailwind.css";
+import "@radix-ui/themes/styles.css";
+
 import { z } from "zod";
 import { parse } from "@conform-to/zod";
 import { useTheme } from "./hooks/useTheme";
-
-// @ts-ignore
-export const links: LinksFunction = () => {
-  return [
-    { rel: "stylesheet", href: antdStyles },
-    { rel: "stylesheet", href: darkStyle },
-    { rel: "stylesheet", href: globalStyles },
-    { rel: "stylesheet", href: tailwindStyles },
-    { rel: "stylesheet", href: radixUIStyles },
-    cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
-  ].filter(Boolean);
-};
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request);
