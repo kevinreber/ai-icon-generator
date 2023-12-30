@@ -2,6 +2,7 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
+  "license": "UNLICENSED",
   "scripts": {
     "build": "VITE_CJS_TRACE=true vite build",
     "dev": "yarn run check-env-file && vite dev",
