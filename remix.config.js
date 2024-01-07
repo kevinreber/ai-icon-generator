@@ -12,6 +12,7 @@ export default {
   serverDependenciesToBundle: [
     "@radix-ui/themes",
     "@ant-design/icons",
+    "bcrypt",
     /^@ant-design\/icons-svg.*/,
     /^rc-util.*/,
   ],
