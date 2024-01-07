@@ -5,7 +5,7 @@
   "scripts": {
     "build": "remix build",
     "dev": "yarn run check-env-file && remix dev --manual",
-    "start": "netlify dev",
+    "start": "remix-serve ./build/index.js",
     "typecheck": "tsc",
     "check-env-file": "node ./scripts/check-env-file.mjs",
     "postinstall": "prisma generate",
@@ -20,8 +20,6 @@
     "@conform-to/react": "^0.9.1",
     "@conform-to/zod": "^0.9.1",
     "@heroicons/react": "^2.0.18",
-    "@netlify/functions": "^2.3.0",
-    "@netlify/remix-adapter": "^2.2.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@prisma/client": "^5.4.2",
     "@radix-ui/colors": "^3.0.0",
