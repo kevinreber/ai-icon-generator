@@ -21,7 +21,6 @@ import {
   getSessionExpirationDate,
   validateCSRF,
 } from "~/utils";
-import bcrypt from "bcryptjs";
 import {
   Field,
   GeneralErrorBoundary,
@@ -29,6 +28,7 @@ import {
   CheckboxField,
 } from "~/components";
 import { safeRedirect } from "remix-utils/safe-redirect";
+import { getHashedPassword } from "~/utils/getHashedPassword.server";
 
 const SignupFormSchema = z
   .object({
@@ -91,7 +91,7 @@ export async function action({ request }: DataFunctionArgs) {
           name,
           password: {
             create: {
-              hash: await bcrypt.hash(password, 10),
+              hash: await getHashedPassword(password),
             },
           },
           roles: { connect: { name: "user" } },

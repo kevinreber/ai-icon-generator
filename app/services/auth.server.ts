@@ -1,7 +1,6 @@
 import { Authenticator } from "remix-auth";
 import { GoogleStrategy, SocialsProvider } from "remix-auth-socials";
 import { sessionStorage } from "~/services/session.server";
-import bcrypt from "bcryptjs";
 import { prisma } from "./prisma.server";
 import { redirect } from "@remix-run/node";
 
@@ -34,11 +33,6 @@ authenticator.use(
     },
   ),
 );
-
-export const getPasswordHash = async (password: string) => {
-  const hash = await bcrypt.hash(password, 10);
-  return hash;
-};
 
 export const userIdKey = "userId";
 

@@ -1,16 +1,9 @@
 /** @type {import('@remix-run/dev').AppConfig} */
-import { config } from "@netlify/remix-adapter";
 
 export default {
   serverModuleFormat: "esm",
-  ...config,
   ignoredRouteFiles: ["**/.*"],
   serverPlatform: "node",
-  server:
-    process.env.NETLIFY || process.env.NETLIFY_LOCAL
-      ? "./server.ts"
-      : undefined,
-  serverBuildPath: ".netlify/functions-internal/server.js",
   // v2_routeConvention: false,
   // TODO: Setting postcss = false temporarily....
   postcss: false,
@@ -19,6 +12,7 @@ export default {
   serverDependenciesToBundle: [
     "@radix-ui/themes",
     "@ant-design/icons",
+    "bcrypt",
     /^@ant-design\/icons-svg.*/,
     /^rc-util.*/,
   ],

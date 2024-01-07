@@ -25,7 +25,7 @@ import { useForm, conform } from "@conform-to/react";
 import { useIsPending } from "~/hooks";
 import { ErrorList, Field } from "~/components";
 import { prisma } from "~/services/prisma.server";
-import bcrypt from "bcryptjs";
+import { isValidPassword } from "~/utils/isValidPassword.server";
 
 export const meta: MetaFunction<typeof loader> = () => {
   return [{ title: "User Login" }];
@@ -67,7 +67,7 @@ export async function action({ request }: DataFunctionArgs) {
           return z.NEVER;
         }
 
-        const isValid = await bcrypt.compare(
+        const isValid = await isValidPassword(
           data.password,
           userWithPassword.password.hash,
         );
