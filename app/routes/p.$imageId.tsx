@@ -148,10 +148,12 @@ export default function Index() {
           <Typography.Text strong style={{ fontSize: 16 }}>
             {imageData.title || "Untitled"}
           </Typography.Text>
-          <Space size="small">
-            <LikeImageButton imageData={imageData as ImageType} />
-            <AddImageToCollectionButton imageData={imageData as ImageType} />
-          </Space>
+          {isUserLoggedIn ? (
+            <Space size="small">
+              <LikeImageButton imageData={imageData as ImageType} />
+              <AddImageToCollectionButton imageData={imageData as ImageType} />
+            </Space>
+          ) : null}
         </Space>
 
         <Tabs
@@ -175,18 +177,19 @@ export default function Index() {
                     height: "100%",
                   }}
                 >
-                  {isUserLoggedIn && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        width: "100%",
-                        bottom: 0,
-                      }}
-                    >
+                  <div
+                    style={{
+                      position: "absolute",
+                      width: "100%",
+                      bottom: 0,
+                    }}
+                  >
+                    {isUserLoggedIn ? (
                       <Form
                         onFinish={handleCommentFormSubmit}
                         initialValues={{ comment: undefined }}
                         form={formInstance}
+                        disabled={!useLoggedInUser}
                       >
                         <Form.Item
                           name="comment"
@@ -196,6 +199,7 @@ export default function Index() {
                         >
                           <Space.Compact style={{ width: "100%" }}>
                             <Input placeholder="Leave a comment" allowClear />
+
                             <Button
                               type="primary"
                               ghost
@@ -206,8 +210,12 @@ export default function Index() {
                           </Space.Compact>
                         </Form.Item>
                       </Form>
-                    </div>
-                  )}
+                    ) : (
+                      <Button href="/login" className="w-full">
+                        Login to comment
+                      </Button>
+                    )}
+                  </div>
                   {imageData.comments && imageData.comments.length > 0 ? (
                     imageData.comments.map((comment) => (
                       <CommentCard

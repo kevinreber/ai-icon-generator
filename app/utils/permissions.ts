@@ -80,13 +80,17 @@ const parsePermissionString = (permissionString: PermissionString) => {
 };
 
 export const userHasPermission = (
+  // @ts-ignore
   user: Pick<ReturnType<typeof useLoggedInUser>, "roles"> | null,
   permission: PermissionString,
 ) => {
   if (!user) return false;
   const { action, entity, access } = parsePermissionString(permission);
+
+  // @ts-ignore
   return user.roles.some((role) =>
     role.permissions.some(
+      // @ts-ignore
       (permission) =>
         permission.entity === entity &&
         permission.action === action &&
@@ -97,9 +101,11 @@ export const userHasPermission = (
 };
 
 export function userHasRole(
+  // @ts-ignore
   user: Pick<ReturnType<typeof useLoggedInUser>, "roles"> | null,
   role: string,
 ) {
   if (!user) return false;
+  // @ts-ignore
   return user.roles.some((r) => r.name === role);
 }
