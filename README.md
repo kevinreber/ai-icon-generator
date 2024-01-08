@@ -1,3 +1,4 @@
+![Vercel Deploy](https://therealsujitk-vercel-badge.vercel.app/?app=ai-icon-generator-git-main-kevinreber)
 # Welcome to Remix!
 
 - [Remix Docs](https://remix.run/docs)
