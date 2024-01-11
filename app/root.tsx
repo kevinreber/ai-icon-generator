@@ -1,3 +1,4 @@
+import { captureRemixErrorBoundaryError } from "@sentry/remix";
 import {
   Links,
   LiveReload,
@@ -6,8 +7,9 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
-import { Layout } from "antd";
+import { Button, Layout, Result } from "antd";
 import {
   type LoaderFunctionArgs,
   json,
@@ -19,7 +21,11 @@ import {
 import { cssBundleHref } from "@remix-run/css-bundle";
 import { authenticator } from "~/services/auth.server";
 import { getLoggedInUserData } from "~/server";
-import { NavigationSidebar, ShowToast } from "./components";
+import {
+  GeneralErrorBoundary,
+  NavigationSidebar,
+  ShowToast,
+} from "./components";
 import { UserContext } from "~/context";
 import { Theme } from "@radix-ui/themes";
 import { HoneypotProvider } from "remix-utils/honeypot/react";
@@ -213,5 +219,28 @@ export default function App() {
         {/* </Theme> */}
       </body>
     </html>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  captureRemixErrorBoundaryError(error);
+  return (
+    <GeneralErrorBoundary
+      statusHandlers={{
+        404: () => (
+          <Result
+            status="404"
+            title="404"
+            subTitle="Sorry, the page you visited does not exist."
+            extra={
+              <Button type="primary" href="/">
+                Back to Home
+              </Button>
+            }
+          />
+        ),
+      }}
+    />
   );
 }
