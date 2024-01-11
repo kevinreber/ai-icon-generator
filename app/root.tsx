@@ -1,4 +1,3 @@
-import { captureRemixErrorBoundaryError } from "@sentry/remix";
 import {
   Links,
   LiveReload,
@@ -223,8 +222,6 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
-  const error = useRouteError();
-  captureRemixErrorBoundaryError(error);
   return (
     <GeneralErrorBoundary
       statusHandlers={{
