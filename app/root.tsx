@@ -51,6 +51,7 @@ import radixUIStyles from "@radix-ui/themes/styles.css";
 import { z } from "zod";
 import { parse } from "@conform-to/zod";
 import { useTheme } from "./hooks/useTheme";
+import { withSentry } from "@sentry/remix";
 
 // @ts-ignore
 export const links: LinksFunction = () => {
@@ -151,7 +152,7 @@ export async function action({ request }: DataFunctionArgs) {
 
 export type RootActionData = typeof action;
 
-export default function App() {
+function App() {
   const loaderData = useLoaderData<RootLoaderData>();
   const userData = loaderData.userData;
   const theme = useTheme();
@@ -241,3 +242,5 @@ export function ErrorBoundary() {
     />
   );
 }
+
+export default withSentry(App);
