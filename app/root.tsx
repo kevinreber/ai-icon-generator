@@ -18,7 +18,7 @@ import {
 } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import { authenticator } from "~/services/auth.server";
-import { getLoggedInUserData } from "~/server";
+import { getLoggedInUserData, getLoggedInUserSSOData } from "~/server";
 import { NavigationSidebar, ShowToast } from "./components";
 import { UserContext } from "~/context";
 import { Theme } from "@radix-ui/themes";
@@ -70,18 +70,40 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie"),
   );
-  const userId = cookieSession.get("userId");
-  console.log(userId);
 
+  const userId = cookieSession.get("userId");
+
+  // Not using SSO login
   if (userId && !user) {
-    // Edge case: something weird happened... The user is authenticated but we can't find
-    // them in the database. Maybe they were deleted? Let's log them out.
-    throw redirect("/", {
-      headers: {
-        "set-cookie": await sessionStorage.destroySession(cookieSession),
+    const userData = await getLoggedInUserData(userId);
+
+    if (userData && userData.id) {
+      cookieSession.set("userId", userData.id || "");
+      await sessionStorage.commitSession(cookieSession);
+    }
+
+    return json(
+      { userData, honeyProps, csrfToken, theme: getTheme(request), toast },
+      {
+        headers: combineHeaders(
+          csrfCookieHeader ? { "set-cookie": csrfCookieHeader } : null,
+          toastHeaders,
+          { "set-cookie": await sessionStorage.commitSession(cookieSession) },
+        ),
       },
-    });
+    );
   }
+
+  // TODO: Look into later.....
+  // if (userId && !user) {
+  //   // Edge case: something weird happened... The user is authenticated but we can't find
+  //   // them in the database. Maybe they were deleted? Let's log them out.
+  //   throw redirect("/", {
+  //     headers: {
+  //       "set-cookie": await sessionStorage.destroySession(cookieSession),
+  //     },
+  //   });
+  // }
 
   // if (!user) {
   //   throw json({ data: undefined });
@@ -89,18 +111,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const userData = !user
     ? null
-    : await getLoggedInUserData(user as any, request);
+    : await getLoggedInUserSSOData(user as any, request);
 
   console.log(userData);
 
-  // const cookieSession = await sessionStorage.getSession(
-  //   request.headers.get("cookie"),
-  // );
-
-  // TODO: figure out where to set this userId
-  // @ts-ignore
   if (userData && userData.id) {
-    // @ts-ignore
     cookieSession.set("userId", userData.id || "");
     await sessionStorage.commitSession(cookieSession);
   }
@@ -111,6 +126,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       headers: combineHeaders(
         csrfCookieHeader ? { "set-cookie": csrfCookieHeader } : null,
         toastHeaders,
+        { "set-cookie": await sessionStorage.commitSession(cookieSession) },
       ),
     },
   );

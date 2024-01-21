@@ -1,6 +1,7 @@
 import React from "react";
 import { SocialsProvider } from "remix-auth-socials";
 import { Form, useSearchParams } from "@remix-run/react";
+import { Button } from "@/components/ui/button";
 
 const GOGLE_ACTION_STRING = `/api/auth/${SocialsProvider.GOOGLE}`;
 
@@ -9,13 +10,15 @@ const GoogleLoginButton = () => {
   const redirectTo = searchParams.get("redirectTo") || "";
 
   return (
-    <div className="px-6 sm:px-0 max-w-sm">
+    <div className="px-6 sm:px-0">
       <Form method="POST" action={GOGLE_ACTION_STRING}>
         <input type="hidden" name="intent" value="user-log-in" />
         <input type="hidden" name="redirectTo" value={redirectTo} />
-        <button
+        <Button
           type="submit"
-          className="border-solid border-gray-600 flex w-full items-center justify-center gap-3 rounded-md bg-[#24292F] px-3 py-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
+          // className="border-solid border-gray-600 flex w-full items-center justify-center gap-3 rounded-md bg-[#24292F] px-3 py-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
+          variant="outline"
+          className="w-full"
         >
           <svg
             className="mr-2 -ml-1 w-4 h-4"
@@ -33,7 +36,7 @@ const GoogleLoginButton = () => {
             ></path>
           </svg>
           Google
-        </button>
+        </Button>
       </Form>
     </div>
   );

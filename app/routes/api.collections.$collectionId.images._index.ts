@@ -9,15 +9,16 @@ import {
   removeImageFromCollection,
   getCollectionData,
 } from "~/server";
-import { getSession } from "~/services";
 import { authenticator } from "~/services/auth.server";
 import { prisma } from "~/services/prisma.server";
+import { getSessionUserId } from "~/utils";
 import { invariantResponse } from "~/utils/invariantResponse";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: "/",
-  });
+  // TODO: after we implement other forms of login (Ex: SSO), we can use this to check if user is authenticated
+  // await authenticator.isAuthenticated(request, {
+  //   failureRedirect: "/",
+  // });
   const collectionId = params?.collectionId || "";
   const collectionData = await getCollectionData(collectionId);
 
@@ -29,9 +30,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 };
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  const googleSessionData = (await session.get("_session")) || undefined;
-  const userId = googleSessionData.id;
+  const userId = await getSessionUserId(request);
   const collectionId = params.collectionId || "";
 
   invariantResponse(

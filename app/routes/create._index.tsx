@@ -9,13 +9,13 @@ import { CreateImagePage } from "~/pages";
 import { authenticator, requireUserId } from "~/services/auth.server";
 import { updateUserCredits } from "~/server/updateUserCredits";
 import { createNewImages } from "~/server/createNewImages";
-import { getSession } from "~/services";
 import { GeneralErrorBoundary } from "~/components";
 import { Button, Result } from "antd";
 import { z } from "zod";
 import {
   LANGUAGE_MODEL_OPTIONS,
   STABLE_DIFFUSION_IMAGE_PRESETS,
+  getSessionUserId,
 } from "~/utils";
 import { parse } from "@conform-to/zod";
 
@@ -78,17 +78,16 @@ export const meta: MetaFunction = () => {
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await requireUserId(request, { redirectTo: "/create" });
 
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: "/",
-  });
+  // TODO: after we implement other forms of login (Ex: SSO), we can use this to check if user is authenticated
+  // await authenticator.isAuthenticated(request, {
+  //   failureRedirect: "/",
+  // });
 
   return json({});
 };
 
 export async function action({ request }: ActionFunctionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  const googleSessionData = (await session.get("_session")) || undefined;
-  const userId = googleSessionData.id;
+  const userId = await getSessionUserId(request);
 
   const formData = await request.formData();
   const payload = formData.get("body");

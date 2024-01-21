@@ -5,9 +5,12 @@ import {
   redirect,
 } from "@remix-run/node";
 import { deleteUserImage, getImageBase64, updateImageData } from "~/server";
-import { getSession } from "~/services";
 import { prisma } from "~/services/prisma.server";
-import { requireUserWithPermission, toastSessionStorage } from "~/utils";
+import {
+  getSessionUserId,
+  requireUserWithPermission,
+  toastSessionStorage,
+} from "~/utils";
 import { invariantResponse } from "~/utils/invariantResponse";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
@@ -18,9 +21,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 };
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  const googleSessionData = (await session.get("_session")) || undefined;
-  const userId = googleSessionData.id;
+  const userId = await getSessionUserId(request);
   const imageId = params.imageId;
   invariantResponse(imageId, "Invalid Image ID");
   invariantResponse(
