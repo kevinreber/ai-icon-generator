@@ -2,7 +2,7 @@ import { createCookieSessionStorage } from "@remix-run/node";
 
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
-    name: "aiig_session", // "aiig" stands for "AI Image Generator"
+    name: "pixstudio_session", // "pixstudio" stands for "Pixels Studio"
     sameSite: "lax",
     path: "/",
     httpOnly: true,
