@@ -41,6 +41,7 @@ import {
 import antdStyles from "antd/dist/antd.css";
 import darkStyle from "~/styles/antd.dark.css";
 import globalStyles from "~/styles/global.css";
+import globalsStyles from "~/globals.css";
 import tailwindStyles from "~/styles/tailwind.css";
 import radixUIStyles from "@radix-ui/themes/styles.css";
 import { z } from "zod";
@@ -53,6 +54,7 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: antdStyles },
     { rel: "stylesheet", href: darkStyle },
     { rel: "stylesheet", href: globalStyles },
+    { rel: "stylesheet", href: globalsStyles },
     { rel: "stylesheet", href: tailwindStyles },
     { rel: "stylesheet", href: radixUIStyles },
     cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
