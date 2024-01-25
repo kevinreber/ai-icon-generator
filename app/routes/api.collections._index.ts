@@ -1,12 +1,11 @@
 import { type ActionFunctionArgs } from "@remix-run/node";
 import { createNewCollection } from "~/server";
-import { getSession } from "~/services";
+
+import { getSessionUserId } from "~/utils";
 import { invariantResponse } from "~/utils/invariantResponse";
 
 export async function action({ request }: ActionFunctionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  const googleSessionData = (await session.get("_session")) || undefined;
-  const userId = googleSessionData.id;
+  const userId = await getSessionUserId(request);
 
   invariantResponse(
     userId,

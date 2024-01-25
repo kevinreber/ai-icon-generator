@@ -1,13 +1,11 @@
 import { type ActionFunctionArgs } from "@remix-run/node";
 import { addImageToCollection, removeImageFromCollection } from "~/server";
-import { getSession } from "~/services";
 import { prisma } from "~/services/prisma.server";
+import { getSessionUserId } from "~/utils";
 import { invariantResponse } from "~/utils/invariantResponse";
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  const googleSessionData = (await session.get("_session")) || undefined;
-  const userId = googleSessionData.id;
+  const userId = await getSessionUserId(request);
   const collectionId = params.collectionId || "";
   const imageId = params.imageId || "";
 
