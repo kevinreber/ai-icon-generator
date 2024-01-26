@@ -182,7 +182,7 @@ export default function Index() {
       {/* <Card className="mx-auto mt-16 min-w-[368px] max-w-sm"> */}
       <Card className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
         <div className="bg-[#24292F] px-6 py-12 shadow sm:rounded-lg sm:px-12">
-          <Form method="POST" {...form.props}>
+          {/* <Form method="POST" {...form.props}>
             <AuthenticityTokenInput />
             <HoneypotInputs />
             <Field
@@ -232,10 +232,10 @@ export default function Index() {
                 autoComplete: "new-password",
               }}
               errors={fields.confirmPassword.errors}
-            />
+            /> */}
 
-            {/* TODO: Later... */}
-            {/* <CheckboxField
+          {/* TODO: Later... */}
+          {/* <CheckboxField
               labelProps={{
                 htmlFor: fields.agreeToTermsOfServiceAndPrivacyPolicy.id,
                 children:
@@ -248,7 +248,7 @@ export default function Index() {
               errors={fields.agreeToTermsOfServiceAndPrivacyPolicy.errors}
             /> */}
 
-            {/* <CheckboxField
+          {/* <CheckboxField
               labelProps={{
                 htmlFor: fields.remember.id,
                 children: "Remember me",
@@ -257,7 +257,7 @@ export default function Index() {
               errors={fields.remember.errors}
             /> */}
 
-            <input {...conform.input(fields.redirectTo, { type: "hidden" })} />
+          {/* <input {...conform.input(fields.redirectTo, { type: "hidden" })} />
 
             <ErrorList errors={form.errors} id={form.errorId} />
 
@@ -273,9 +273,9 @@ export default function Index() {
                 Sign Up
               </Button>
             </div>
-          </Form>
+          </Form> */}
           <div>
-            <div className="relative mt-10">
+            {/* <div className="relative mt-10">
               <div
                 className="absolute inset-0 flex items-center"
                 aria-hidden="true"
@@ -285,7 +285,7 @@ export default function Index() {
               <div className="relative flex justify-center text-sm font-medium leading-6">
                 <span className=" bg-[#24292F]">Or continue with</span>
               </div>
-            </div>
+            </div> */}
 
             <div className="mt-6 w-full">
               <GoogleLoginButton />
