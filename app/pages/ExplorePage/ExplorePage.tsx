@@ -61,6 +61,7 @@ const ExplorePage = () => {
                 // This removes Typescript error: "image is possibly 'null'."
                 image && (
                   <li key={image.id} className="hover:!opacity-60">
+                    {/* @ts-ignore */}
                     <ImageV2 imageData={image} />
                   </li>
                 ),

@@ -19,10 +19,11 @@ import { ICON_SHAPE_OPTIONS, ICON_STYLE_OPTIONS } from "./constants";
 
 const DEFAULT_FORM_VALUES = {
   prompt: undefined,
-  color: undefined,
-  shape: undefined,
+  // color: undefined,
+  // shape: undefined,
   numberOfImages: 1,
   model: undefined,
+  style: undefined,
 };
 
 const CreateImageForm = () => {

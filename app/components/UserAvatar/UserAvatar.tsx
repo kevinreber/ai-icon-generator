@@ -8,7 +8,6 @@ import {
 } from "@ant-design/icons";
 import { useRemixFetcher } from "~/hooks";
 import { UserContext } from "~/context";
-import LogOutButton from "../LogOutButton";
 
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
@@ -16,7 +15,6 @@ const IconFont = createFromIconfontCN({
 
 const UserAvatar = () => {
   const userData = React.useContext(UserContext);
-
   const { fetcher, isLoadingFetcher } = useRemixFetcher({
     // onSuccess: (response) => {
     //   notification.success({ message: response.message });
@@ -62,13 +60,19 @@ const UserAvatar = () => {
               </Button>
             </div>
             <Button
-              style={{ width: 130 }}
+              className="full w-32"
               icon={<SettingOutlined />}
               href="/settings"
             >
               Settings
             </Button>
-            <LogOutButton />
+            <Button
+              className="full w-32"
+              disabled={isLoadingFetcher}
+              onClick={handleLogOut}
+            >
+              <IconFont type="icon-tuichu" /> Logout
+            </Button>
           </Space>
         }
         trigger="click"
