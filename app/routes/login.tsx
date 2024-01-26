@@ -150,7 +150,7 @@ export default function Index() {
 
         <Card className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-[#24292F] px-6 py-12 shadow sm:rounded-lg sm:px-12">
-            <Form className="space-y-6" method="POST" {...form.props}>
+            {/* <Form className="space-y-6" method="POST" {...form.props}>
               <AuthenticityTokenInput />
               <HoneypotInputs />
               <div>
@@ -188,9 +188,9 @@ export default function Index() {
                   >
                     Remember me
                   </label>
-                </div>
+                </div> */}
 
-                {/* <div className="text-sm leading-6">
+            {/* <div className="text-sm leading-6">
                   <Link
                     to="/forgot-password"
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
@@ -198,13 +198,13 @@ export default function Index() {
                     Forgot password?
                   </Link>
                 </div> */}
-              </div>
+            {/* </div> */}
 
-              <input
+            {/* <input
                 {...conform.input(fields.redirectTo, { type: "hidden" })}
-              />
+              /> */}
 
-              <ErrorList errors={form.errors} id={form.errorId} />
+            {/* <ErrorList errors={form.errors} id={form.errorId} />
               <div>
                 <Button
                   type="submit"
@@ -217,10 +217,10 @@ export default function Index() {
                   Sign in
                 </Button>
               </div>
-            </Form>
+            </Form> */}
 
             <div>
-              <div className="relative mt-10">
+              {/* <div className="relative mt-10">
                 <div
                   className="absolute inset-0 flex items-center"
                   aria-hidden="true"
@@ -230,12 +230,12 @@ export default function Index() {
                 <div className="relative flex justify-center text-sm font-medium leading-6">
                   <span className=" bg-[#24292F]">Or continue with</span>
                 </div>
-              </div>
+              </div> */}
 
               <div className="mt-6 w-full">
                 <GoogleLoginButton />
               </div>
-              <div className="mt-6 w-full">
+              {/* <div className="mt-6 w-full">
                 <p className="text-center text-sm text-gray-500">
                   Don't have an account?{" "}
                   <Link
@@ -245,7 +245,7 @@ export default function Index() {
                     Sign up
                   </Link>
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
 
