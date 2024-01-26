@@ -188,7 +188,7 @@ export default function App() {
         ></script> */}
       </head>
       {/* Adding className="dark" ensures our app will always use dark mode via radix-ui – @reference: https://stackoverflow.com/a/77276471*/}
-      <body style={{ margin: 0 }} className="dark h-full">
+      <body style={{ margin: 0 }} className="dark h-full vsc-initialized">
         {/* <Theme appearance="dark"> */}
         {/* TODO: Integrate theme when ready, will need to tweak some AntDesign components */}
         {/* <Theme appearance={theme}> */}
