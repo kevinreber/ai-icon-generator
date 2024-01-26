@@ -10,6 +10,7 @@ import {
 import { UserAvatar } from "~/components";
 import { UserContext } from "~/context";
 import { ThemeSwitch } from "../ThemeSwitch";
+import PixelStudioIcon from "../PixelStudioIcon/PixelStudioIcon";
 
 const NavigationSidebar = () => {
   const userData = React.useContext(UserContext);
@@ -17,6 +18,7 @@ const NavigationSidebar = () => {
 
   return (
     <Layout.Sider
+      // width={200}
       style={{
         overflow: "auto",
         height: "100vh",
@@ -49,8 +51,12 @@ const NavigationSidebar = () => {
               textAlign: "left",
               padding: "0 8px",
             }}
+            className="flex w-full justify-between"
           >
-            AI Image Generator
+            <div style={{ width: 28 }}>
+              <PixelStudioIcon />
+            </div>
+            Pixel Studio
           </Typography.Link>
           {/* TODO: Integrate when ready */}
           {/* <ThemeSwitch userPreference={theme} /> */}
