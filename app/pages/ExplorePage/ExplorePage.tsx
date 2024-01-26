@@ -22,10 +22,10 @@ const ExplorePage = () => {
   }
 
   return (
-    <>
-      <div className="flex flex-col justify-between w-full">
+    <div>
+      <div className="flex flex-col justify-between w-full max-w-5xl m-auto">
         <Typography.Title level={3}>Explore</Typography.Title>
-        <div className="w-full max-w-5xl">
+        <div className="w-full">
           <Form action="/explore" method="GET">
             <div className="mt-2 flex rounded-md shadow-sm">
               <div className="relative flex flex-grow items-stretch focus-within:z-10">
@@ -33,7 +33,7 @@ const ExplorePage = () => {
                   type="text"
                   name="q"
                   id="q"
-                  className="bg-inherit block w-full rounded-l-md border-0 py-1.5 px-2 text-white ring-1 ring-inset ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                  className="bg-inherit block w-full rounded-l-md border-0 py-1.5 px-2 text-white ring-1 ring-inset ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
                   placeholder="Search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -81,7 +81,7 @@ const ExplorePage = () => {
           <ErrorList errors={["There was an error parsing the results"]} />
         )}
       </div>
-    </>
+    </div>
   );
 };
 
