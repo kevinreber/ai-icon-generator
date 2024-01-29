@@ -11,17 +11,10 @@ import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
-import { prisma } from "./services/prisma.server";
 
 export function handleError(error: Error, { request }: { request: Request }) {
   Sentry.captureRemixServerException(error, "remix.server", request);
 }
-
-// Sentry.init({
-//   dsn: "https://b1d58bbbf18e16501f1b26b6de2fa6a7@o4506551058759680.ingest.sentry.io/4506551062757376",
-//   tracesSampleRate: 1,
-//   integrations: [new Sentry.Integrations.Prisma({ client: prisma })],
-// });
 
 import("./utils/monitoring.server").then(({ init }) => init());
 
