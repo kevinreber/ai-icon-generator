@@ -1,8 +1,8 @@
 import { type LoaderFunctionArgs, json, MetaFunction } from "@remix-run/node";
 import { CollectionsPage } from "~/pages";
 import { getUserCollections } from "~/server";
-import { authenticator } from "~/services/auth.server";
 import { loader as UserLoaderData } from "../root";
+import { getSessionUserId } from "~/utils";
 
 export const meta: MetaFunction<
   typeof loader,
@@ -16,19 +16,21 @@ export const meta: MetaFunction<
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const user = (await authenticator.isAuthenticated(request, {
-    failureRedirect: "/",
-  })) as { id: string };
+  // TODO: after we implement other forms of login (Ex: SSO), we can use this to check if user is authenticated
+  // const user = (await authenticator.isAuthenticated(request, {
+  //   failureRedirect: "/",
+  // })) as { id: string };
+  const userId = await getSessionUserId(request);
 
   const searchParams = new URL(request.url).searchParams;
   const currentPage = Math.max(Number(searchParams.get("page") || 1), 1);
   const pageSize = Number(searchParams.get("page_size")) || 50;
 
-  const collections = await getUserCollections(user.id, currentPage, pageSize);
+  const collections = await getUserCollections(userId, currentPage, pageSize);
 
   // console.log(collections);
 
-  return json({ data: collections, user });
+  return json({ data: collections });
 };
 
 export default function Index() {

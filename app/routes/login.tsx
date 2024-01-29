@@ -5,7 +5,13 @@ import {
   DataFunctionArgs,
   redirect,
 } from "@remix-run/node";
-import { authenticator } from "~/services/auth.server";
+import {
+  SESSION_KEY,
+  USER_ID_KEY,
+  authenticator,
+  login,
+  requireAnonymous,
+} from "~/services/auth.server";
 import GoogleLoginButton from "~/components/GoogleLoginButton";
 import {
   PasswordSchema,
@@ -14,6 +20,7 @@ import {
   validateCSRF,
   sessionStorage,
   getSessionExpirationDate,
+  getSessionUserId,
 } from "~/utils";
 import { z } from "zod";
 import { getFieldsetConstraint, parse } from "@conform-to/zod";
@@ -26,15 +33,22 @@ import { useIsPending } from "~/hooks";
 import { ErrorList, Field } from "~/components";
 import { prisma } from "~/services/prisma.server";
 import { isValidPassword } from "~/utils/isValidPassword.server";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export const meta: MetaFunction<typeof loader> = () => {
   return [{ title: "User Login" }];
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  await authenticator.isAuthenticated(request, {
-    successRedirect: "/explore",
-  });
+  await requireAnonymous(request);
+
+  // TODO: after we implement other forms of login (Ex: SSO), we can use this to check if user is authenticated
+  // await authenticator.isAuthenticated(request, {
+  //   successRedirect: "/explore",
+  // });
 
   return json({});
 };
@@ -47,19 +61,19 @@ const LoginFormSchema = z.object({
 });
 
 export async function action({ request }: DataFunctionArgs) {
+  await requireAnonymous(request);
+
   const formData = await request.formData();
   await validateCSRF(formData, request.headers);
   checkHoneypot(formData);
+
   const submission = await parse(formData, {
     schema: (intent) =>
       LoginFormSchema.transform(async (data, ctx) => {
         if (intent !== "submit") return { ...data, user: null };
 
-        const userWithPassword = await prisma.user.findUnique({
-          select: { id: true, password: { select: { hash: true } } },
-          where: { username: data.username },
-        });
-        if (!userWithPassword || !userWithPassword.password) {
+        const user = await login(data);
+        if (!user) {
           ctx.addIssue({
             code: "custom",
             message: "Invalid username or password",
@@ -67,23 +81,11 @@ export async function action({ request }: DataFunctionArgs) {
           return z.NEVER;
         }
 
-        const isValid = await isValidPassword(
-          data.password,
-          userWithPassword.password.hash,
-        );
-
-        if (!isValid) {
-          ctx.addIssue({
-            code: "custom",
-            message: "Invalid username or password",
-          });
-          return z.NEVER;
-        }
-
-        return { ...data, user: { id: userWithPassword.id } };
+        return { ...data, user };
       }),
     async: true,
   });
+
   // get the password off the payload that's sent back
   delete submission.payload.password;
 
@@ -101,7 +103,9 @@ export async function action({ request }: DataFunctionArgs) {
   const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie"),
   );
-  cookieSession.set("userId", user.id);
+  cookieSession.set(USER_ID_KEY, user.id);
+  console.log("Success!!!!!!!!!!!!!!!!!!!!!!!!!");
+  console.log(cookieSession.data);
 
   return redirect(safeRedirect(redirectTo), {
     headers: {
@@ -139,14 +143,14 @@ export default function Index() {
             alt="Your Company"
           /> */}
           {/* <h1 className="text-center text-1xl">AI Image Generator</h1> */}
-          <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-600">
+          <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight">
             Sign in to your account
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
+        <Card className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-[#24292F] px-6 py-12 shadow sm:rounded-lg sm:px-12">
-            <Form className="space-y-6" method="POST" {...form.props}>
+            {/* <Form className="space-y-6" method="POST" {...form.props}>
               <AuthenticityTokenInput />
               <HoneypotInputs />
               <div>
@@ -175,7 +179,8 @@ export default function Index() {
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 focus:ring-indigo-600"
+                    className="h-4 w-4 rounded"
+                    // className="h-4 w-4 rounded border-gray-300 focus:ring-indigo-600"
                   />
                   <label
                     htmlFor="remember-me"
@@ -183,39 +188,39 @@ export default function Index() {
                   >
                     Remember me
                   </label>
-                </div>
+                </div> */}
 
-                <div className="text-sm leading-6">
-                  {/* ! TODO */}
+            {/* <div className="text-sm leading-6">
                   <Link
                     to="/forgot-password"
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot password?
                   </Link>
-                </div>
-              </div>
+                </div> */}
+            {/* </div> */}
 
-              <input
+            {/* <input
                 {...conform.input(fields.redirectTo, { type: "hidden" })}
-              />
+              /> */}
 
-              <ErrorList errors={form.errors} id={form.errorId} />
+            {/* <ErrorList errors={form.errors} id={form.errorId} />
               <div>
-                <button
+                <Button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center px-3 py-1.5 text-sm font-semibold leading-6"
+                  variant="outline"
                   //   TODO: Add loading state
                   //   status={isPending ? 'pending' : actionData?.status ?? 'idle'}
                   disabled={isPending}
                 >
                   Sign in
-                </button>
+                </Button>
               </div>
-            </Form>
+            </Form> */}
 
             <div>
-              <div className="relative mt-10">
+              {/* <div className="relative mt-10">
                 <div
                   className="absolute inset-0 flex items-center"
                   aria-hidden="true"
@@ -225,11 +230,22 @@ export default function Index() {
                 <div className="relative flex justify-center text-sm font-medium leading-6">
                   <span className=" bg-[#24292F]">Or continue with</span>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="mt-6">
+              <div className="mt-6 w-full">
                 <GoogleLoginButton />
               </div>
+              {/* <div className="mt-6 w-full">
+                <p className="text-center text-sm text-gray-500">
+                  Don't have an account?{" "}
+                  <Link
+                    to="/signup"
+                    className="font-semibold leading-6 text-white"
+                  >
+                    Sign up
+                  </Link>
+                </p>
+              </div> */}
             </div>
           </div>
 
@@ -243,8 +259,43 @@ export default function Index() {
               Start a 14 day free trial
             </a>
           </p> */}
-        </div>
+        </Card>
       </div>
+
+      {/* <Card>
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl">Create an account</CardTitle>
+          <CardDescription>
+            Enter your email below to create your account
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          <div className="grid grid-cols-2 gap-6">
+            <GoogleLoginButton />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" type="email" placeholder="m@example.com" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="password">Password</Label>
+            <Input id="password" type="password" />
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button className="w-full">Create account</Button>
+        </CardFooter>
+        <div className="relative">
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">
+              Or continue with
+            </span>
+          </div>
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+        </div>
+      </Card> */}
     </>
   );
 }

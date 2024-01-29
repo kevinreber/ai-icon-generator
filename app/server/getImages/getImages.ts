@@ -19,10 +19,10 @@ export const ImagesSearchResultsSchema = z.array(ImagesSearchResultSchema);
 
 type Image = {
   id: string;
-  title: string;
+  title?: string | undefined | null;
   prompt: string;
   model: string;
-  stylePreset: string;
+  stylePreset?: string;
   userId: string;
   createdAt: string;
 };

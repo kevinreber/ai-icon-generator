@@ -1,12 +1,10 @@
 import { redirect, type ActionFunctionArgs } from "@remix-run/node";
 import { deleteCollection, updateCollection } from "~/server";
-import { getSession } from "~/services";
+import { getSessionUserId } from "~/utils";
 import { invariantResponse } from "~/utils/invariantResponse";
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  const googleSessionData = (await session.get("_session")) || undefined;
-  const userId = googleSessionData.id;
+  const userId = await getSessionUserId(request);
   const collectionId = params.collectionId || "";
 
   invariantResponse(

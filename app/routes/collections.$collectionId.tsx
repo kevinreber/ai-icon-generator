@@ -7,7 +7,11 @@ import {
 import { CollectionDetailsPage } from "~/pages";
 import { getCollectionData } from "~/server";
 import { authenticator } from "~/services/auth.server";
-import { getS3BucketThumbnailURL, getS3BucketURL } from "~/utils";
+import {
+  getS3BucketThumbnailURL,
+  getS3BucketURL,
+  getSessionUserId,
+} from "~/utils";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const collectionTitle = data?.data.collection?.title;
@@ -16,9 +20,15 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: "/",
-  });
+  // TODO: after we implement other forms of login (Ex: SSO), we can use this to check if user is authenticated
+  // const user = (await authenticator.isAuthenticated(request, {
+  //   failureRedirect: "/",
+  // })) as { id: string };
+  // const userId = await getSessionUserId(request);
+  // if (!userId) {
+  //   return redirect("/login");
+  // }
+
   const collectionId = params?.collectionId || "";
 
   // const searchParams = new URL(request.url).searchParams;
