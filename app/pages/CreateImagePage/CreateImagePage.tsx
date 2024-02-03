@@ -5,6 +5,7 @@ import { fallbackImageSource } from "~/utils";
 import type { ImageType } from "~/types";
 import { type CreateImagePageActionData } from "~/routes/create._index";
 import { AddImagesToCollectionButton } from "~/components";
+import PageContainer from "~/components/PageContainer";
 
 const CreateImagePage = () => {
   const actionData = useActionData() as CreateImagePageActionData;
@@ -16,56 +17,65 @@ const CreateImagePage = () => {
   const imagesGenerated = Boolean(actionData && actionData.images);
 
   return (
-    <Row gutter={[16, 16]}>
-      <Col span={12}>
-        <Typography.Title level={3}>Create Images</Typography.Title>
-        <CreateImageForm />
-      </Col>
-      <Col span={12}>
-        <Space style={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography.Title level={3}>Images Generated</Typography.Title>
-          <AddImagesToCollectionButton images={actionData?.images || []} />
-        </Space>
+    <PageContainer className="mb-20">
+      {/* <Row gutter={[16, 16]}> */}
+      <div className="flex flex-col  lg:flex-row lg:justify-between h-full">
+        {/* <Col span={12}> */}
+        <div className="flex flex-col lg:p-4 w-full">
+          <Typography.Title level={3}>Create Images</Typography.Title>
+          <CreateImageForm />
+        </div>
+        {/* </Col> */}
+        {/* <Col span={12}> */}
 
-        <Card
-          loading={isLoadingData}
-          style={{ minHeight: 400 }}
-          bodyStyle={{ textAlign: imagesGenerated ? "initial" : "center" }}
-        >
-          {imagesGenerated ? (
-            // <Image.PreviewGroup
-            //   preview={{
-            //     onChange: (current, prev) =>
-            //       console.log(`current index: ${current}, prev index: ${prev}`),
-            //   }}
-            // >
-            <Row gutter={16}>
-              {actionData.images.map((image: ImageType) => {
-                return (
-                  <Col key={image.id}>
-                    <div style={{ marginBottom: 10 }}>
-                      <Image
-                        width={200}
-                        src={image.url}
-                        alt={image.prompt}
-                        fallback={fallbackImageSource}
-                        style={{ borderRadius: 12 }}
-                        preview
-                      />
-                    </div>
-                  </Col>
-                );
-              })}
-            </Row>
-          ) : (
-            // </Image.PreviewGroup>
-            <Typography.Text italic disabled>
-              Images generated will appear here
-            </Typography.Text>
-          )}
-        </Card>
-      </Col>
-    </Row>
+        <div className="flex flex-col lg:p-4 w-full">
+          <Space style={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography.Title level={3}>Images Generated</Typography.Title>
+            <AddImagesToCollectionButton images={actionData?.images || []} />
+          </Space>
+
+          <Card
+            loading={isLoadingData}
+            style={{ minHeight: 400 }}
+            bodyStyle={{ textAlign: imagesGenerated ? "initial" : "center" }}
+          >
+            {imagesGenerated ? (
+              // <Image.PreviewGroup
+              //   preview={{
+              //     onChange: (current, prev) =>
+              //       console.log(`current index: ${current}, prev index: ${prev}`),
+              //   }}
+              // >
+              <Row gutter={16}>
+                {actionData.images.map((image: ImageType) => {
+                  return (
+                    <Col key={image.id}>
+                      <div style={{ marginBottom: 10 }}>
+                        <Image
+                          width={200}
+                          src={image.url}
+                          alt={image.prompt}
+                          fallback={fallbackImageSource}
+                          style={{ borderRadius: 12 }}
+                          preview
+                        />
+                      </div>
+                    </Col>
+                  );
+                })}
+              </Row>
+            ) : (
+              // </Image.PreviewGroup>
+              <Typography.Text italic disabled>
+                Images generated will appear here
+              </Typography.Text>
+            )}
+          </Card>
+        </div>
+        {/* </Col> */}
+      </div>
+      {/* </Row> */}
+    </PageContainer>
   );
 };
 

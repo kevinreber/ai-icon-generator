@@ -36,6 +36,7 @@ import {
   EditImageButton,
 } from "../ManageImagesPage/components";
 import { UserContext } from "~/context";
+import PageContainer from "~/components/PageContainer";
 
 const DEFAULT_COLLECTION_DATA = {
   id: "",
@@ -81,7 +82,7 @@ const CollectionDetailsPage = () => {
   // );
 
   return (
-    <>
+    <PageContainer>
       <div
         style={{
           display: "flex",
@@ -137,7 +138,7 @@ const CollectionDetailsPage = () => {
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         )}
       </div>
-    </>
+    </PageContainer>
   );
 };
 

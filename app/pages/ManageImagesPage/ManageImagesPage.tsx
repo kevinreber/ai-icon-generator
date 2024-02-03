@@ -7,6 +7,7 @@ import {
 import { Typography, Pagination, Table } from "antd";
 import { type ManageImagesPageLoader } from "~/routes/manage";
 import { TABLE_COLUMNS } from "./TableColumns";
+import PageContainer from "~/components/PageContainer";
 
 const ManageImagesPage = () => {
   const data = useLoaderData() as ManageImagesPageLoader;
@@ -29,14 +30,8 @@ const ManageImagesPage = () => {
   };
 
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "baseline",
-        }}
-      >
+    <PageContainer>
+      <div className="flex justify-between items-baseline">
         <Typography.Title level={3}>
           Manage AI Generated Images
         </Typography.Title>
@@ -64,7 +59,7 @@ const ManageImagesPage = () => {
         pageSizeOptions={[50, 100, 150, 200]}
         onChange={handlePaginationChange}
       />
-    </>
+    </PageContainer>
   );
 };
 

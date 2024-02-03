@@ -23,14 +23,13 @@ import {
   CommentCard,
   AddImageToCollectionButton,
 } from "~/components";
-import { useRemixFetcher } from "~/hooks";
-import { UserContext } from "~/context";
+import { useLoggedInUser, useRemixFetcher } from "~/hooks";
 import { useLoaderData, useLocation, useNavigate } from "@remix-run/react";
 import { ExplorePageImageLoader } from "~/routes/explore.$imageId";
 import { ImageType, Comment } from "~/types";
 
 const ImageModalv2 = () => {
-  const userData = React.useContext(UserContext);
+  const userData = useLoggedInUser();
   const isUserLoggedIn = Boolean(userData);
   const location = useLocation();
 
@@ -153,10 +152,15 @@ const ImageModalv2 = () => {
                 {imageData.title || "Untitled"}
               </Typography.Link>
             </Typography.Text>
-            <Space size="small">
-              <LikeImageButton imageData={imageData as ImageType} />
-              <AddImageToCollectionButton imageData={imageData as ImageType} />
-            </Space>
+
+            {isUserLoggedIn && (
+              <Space size="small">
+                <LikeImageButton imageData={imageData as ImageType} />
+                <AddImageToCollectionButton
+                  imageData={imageData as ImageType}
+                />
+              </Space>
+            )}
           </Space>
 
           <Tabs
