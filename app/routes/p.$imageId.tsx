@@ -33,6 +33,7 @@ import {
 import { useLoggedInUser, useRemixFetcher } from "~/hooks";
 import { useLoaderData } from "@remix-run/react";
 import { ImageType, Comment } from "~/types";
+import PageContainer from "~/components/PageContainer";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Image Details Page" }];
@@ -76,210 +77,216 @@ export default function Index() {
   };
 
   return (
-    <div className="border rounded flex border-solid border-gray-500 m-auto w-fit">
-      <div
-        style={{
-          flex: "1 1 100%",
-          background: "black",
-          position: "relative",
-        }}
-      >
+    <PageContainer>
+      <div className="border rounded flex border-solid border-gray-500 m-auto w-fit">
         <div
           style={{
+            flex: "1 1 100%",
+            background: "black",
             position: "relative",
-            overflow: "hidden",
-            minHeight: 300,
-            paddingBottom: 0,
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
           }}
         >
           <div
             style={{
-              width: "100%",
-              maxWidth: 1024,
-              margin: "auto",
+              position: "relative",
+              overflow: "hidden",
+              minHeight: 300,
+              paddingBottom: 0,
+              height: "100%",
               display: "flex",
               justifyContent: "center",
+              flexDirection: "column",
             }}
           >
-            <Image
-              src={imageData.url}
-              alt={imageData.prompt || "Generated Image"}
-              fallback={fallbackImageSource}
-              preview={false}
-              placeholder={
-                <div
-                  style={{
-                    width: 1024,
-                    height: 1024,
-                    background: "black",
-                  }}
-                />
-              }
-            />
-          </div>
-        </div>
-      </div>
-
-      <div
-        // className="border rounded flex border-solid border-gray-500 flex-col p-4"
-        className="flex flex-col p-4"
-        style={{ flexBasis: 420 }}
-      >
-        <Space style={{ marginBottom: "1rem" }}>
-          <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
-
-          <div className="flex flex-col">
-            <Typography.Link
-              strong
-              href={`/profile/${imageData.user!.username}`}
+            <div
+              style={{
+                width: "100%",
+                maxWidth: 1024,
+                margin: "auto",
+                display: "flex",
+                justifyContent: "center",
+              }}
             >
-              {imageData.user!.username}
-            </Typography.Link>
-            <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-              {convertUtcDateToLocalDateString(imageData.createdAt!)}
-            </Typography.Text>
-          </div>
-        </Space>
-        <Space style={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography.Text strong style={{ fontSize: 16 }}>
-            {imageData.title || "Untitled"}
-          </Typography.Text>
-          {isUserLoggedIn ? (
-            <Space size="small">
-              <LikeImageButton imageData={imageData as ImageType} />
-              <AddImageToCollectionButton imageData={imageData as ImageType} />
-            </Space>
-          ) : null}
-        </Space>
-
-        <Tabs
-          style={{ height: "100%" }}
-          defaultActiveKey="comments"
-          items={[
-            {
-              label: (
-                <span>
-                  <MessageOutlined />
-                  Comments
-                </span>
-              ),
-              key: "comment",
-              children: (
-                <div
-                  style={{
-                    position: "relative",
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
-                  }}
-                >
+              <Image
+                src={imageData.url}
+                alt={imageData.prompt || "Generated Image"}
+                fallback={fallbackImageSource}
+                preview={false}
+                placeholder={
                   <div
                     style={{
-                      position: "absolute",
-                      width: "100%",
-                      bottom: 0,
+                      width: 1024,
+                      height: 1024,
+                      background: "black",
+                    }}
+                  />
+                }
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          // className="border rounded flex border-solid border-gray-500 flex-col p-4"
+          className="flex flex-col p-4"
+          style={{ flexBasis: 420 }}
+        >
+          <Space style={{ marginBottom: "1rem" }}>
+            <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
+
+            <div className="flex flex-col">
+              <Typography.Link
+                strong
+                href={`/profile/${imageData.user!.username}`}
+              >
+                {imageData.user!.username}
+              </Typography.Link>
+              <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+                {convertUtcDateToLocalDateString(imageData.createdAt!)}
+              </Typography.Text>
+            </div>
+          </Space>
+          <Space style={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography.Text strong style={{ fontSize: 16 }}>
+              {imageData.title || "Untitled"}
+            </Typography.Text>
+            {isUserLoggedIn ? (
+              <Space size="small">
+                <LikeImageButton imageData={imageData as ImageType} />
+                <AddImageToCollectionButton
+                  imageData={imageData as ImageType}
+                />
+              </Space>
+            ) : null}
+          </Space>
+
+          <Tabs
+            style={{ height: "100%" }}
+            defaultActiveKey="comments"
+            items={[
+              {
+                label: (
+                  <span>
+                    <MessageOutlined />
+                    Comments
+                  </span>
+                ),
+                key: "comment",
+                children: (
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      height: "100%",
                     }}
                   >
-                    {isUserLoggedIn ? (
-                      <Form
-                        onFinish={handleCommentFormSubmit}
-                        initialValues={{ comment: undefined }}
-                        form={formInstance}
-                        disabled={!useLoggedInUser}
-                      >
-                        <Form.Item
-                          name="comment"
-                          style={{
-                            margin: 0,
-                          }}
+                    <div
+                      style={{
+                        position: "absolute",
+                        width: "100%",
+                        bottom: 0,
+                      }}
+                    >
+                      {isUserLoggedIn ? (
+                        <Form
+                          onFinish={handleCommentFormSubmit}
+                          initialValues={{ comment: undefined }}
+                          form={formInstance}
+                          disabled={!useLoggedInUser}
                         >
-                          <Space.Compact style={{ width: "100%" }}>
-                            <Input placeholder="Leave a comment" allowClear />
+                          <Form.Item
+                            name="comment"
+                            style={{
+                              margin: 0,
+                            }}
+                          >
+                            <Space.Compact style={{ width: "100%" }}>
+                              <Input placeholder="Leave a comment" allowClear />
 
-                            <Button
-                              type="primary"
-                              ghost
-                              icon={<SendOutlined />}
-                              onClick={() => formInstance.submit()}
-                              loading={isLoadingFetcher}
-                            />
-                          </Space.Compact>
-                        </Form.Item>
-                      </Form>
+                              <Button
+                                type="primary"
+                                ghost
+                                icon={<SendOutlined />}
+                                onClick={() => formInstance.submit()}
+                                loading={isLoadingFetcher}
+                              />
+                            </Space.Compact>
+                          </Form.Item>
+                        </Form>
+                      ) : (
+                        <Button href="/login" className="w-full">
+                          Login to comment
+                        </Button>
+                      )}
+                    </div>
+                    {imageData.comments && imageData.comments.length > 0 ? (
+                      imageData.comments.map((comment) => (
+                        <CommentCard
+                          key={comment.id}
+                          imageData={imageData as ImageType}
+                          comment={comment as Comment}
+                        />
+                      ))
                     ) : (
-                      <Button href="/login" className="w-full">
-                        Login to comment
-                      </Button>
+                      <Typography.Text
+                        type="secondary"
+                        italic
+                        style={{ alignSelf: "center" }}
+                      >
+                        No comments
+                      </Typography.Text>
                     )}
                   </div>
-                  {imageData.comments && imageData.comments.length > 0 ? (
-                    imageData.comments.map((comment) => (
-                      <CommentCard
-                        key={comment.id}
-                        imageData={imageData as ImageType}
-                        comment={comment as Comment}
-                      />
-                    ))
-                  ) : (
-                    <Typography.Text
-                      type="secondary"
-                      italic
-                      style={{ alignSelf: "center" }}
-                    >
-                      No comments
-                    </Typography.Text>
-                  )}
-                </div>
-              ),
-            },
-            {
-              label: (
-                <span>
-                  <InfoCircleOutlined />
-                  Info
-                </span>
-              ),
-              key: "info",
-              children: (
-                <Space direction="vertical">
-                  <Space direction="vertical" size="small">
-                    <Typography.Text style={{ fontWeight: 600 }}>
-                      Engine Model
-                    </Typography.Text>
-                    <Typography.Text italic>{imageData.model}</Typography.Text>
-                  </Space>
-                  <Space direction="vertical" size="small">
-                    <Typography.Text style={{ fontWeight: 600 }}>
-                      Style Preset
-                    </Typography.Text>
-                    <Typography.Text italic>
-                      {imageData.stylePreset}
-                    </Typography.Text>
-                  </Space>
-                  <Space direction="vertical" size="small">
-                    <Typography.Text style={{ fontWeight: 600 }}>
-                      Prompt
-                    </Typography.Text>
-                    <div>
-                      <Typography.Text italic>
-                        {imageData.prompt}
+                ),
+              },
+              {
+                label: (
+                  <span>
+                    <InfoCircleOutlined />
+                    Info
+                  </span>
+                ),
+                key: "info",
+                children: (
+                  <Space direction="vertical">
+                    <Space direction="vertical" size="small">
+                      <Typography.Text style={{ fontWeight: 600 }}>
+                        Engine Model
                       </Typography.Text>
-                      <CopyToClipboardButton
-                        stringToCopy={imageData.prompt || ""}
-                      />
-                    </div>
+                      <Typography.Text italic>
+                        {imageData.model}
+                      </Typography.Text>
+                    </Space>
+                    <Space direction="vertical" size="small">
+                      <Typography.Text style={{ fontWeight: 600 }}>
+                        Style Preset
+                      </Typography.Text>
+                      <Typography.Text italic>
+                        {imageData.stylePreset}
+                      </Typography.Text>
+                    </Space>
+                    <Space direction="vertical" size="small">
+                      <Typography.Text style={{ fontWeight: 600 }}>
+                        Prompt
+                      </Typography.Text>
+                      <div>
+                        <Typography.Text italic>
+                          {imageData.prompt}
+                        </Typography.Text>
+                        <CopyToClipboardButton
+                          stringToCopy={imageData.prompt || ""}
+                        />
+                      </div>
+                    </Space>
                   </Space>
-                </Space>
-              ),
-            },
-          ]}
-        />
+                ),
+              },
+            ]}
+          />
+        </div>
       </div>
-    </div>
+    </PageContainer>
   );
 }
 

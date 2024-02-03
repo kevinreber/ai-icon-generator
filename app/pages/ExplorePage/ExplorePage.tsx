@@ -4,6 +4,7 @@ import { Typography } from "antd";
 import { ErrorList, ImageV2 } from "~/components";
 import { type ExplorePageLoader } from "~/routes/explore";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import PageContainer from "~/components/PageContainer";
 
 /**
  *
@@ -22,7 +23,7 @@ const ExplorePage = () => {
   }
 
   return (
-    <div>
+    <PageContainer>
       <div className="flex flex-col justify-between w-full max-w-5xl m-auto">
         <Typography.Title level={3}>Explore</Typography.Title>
         <div className="w-full">
@@ -81,7 +82,7 @@ const ExplorePage = () => {
           <ErrorList errors={["There was an error parsing the results"]} />
         )}
       </div>
-    </div>
+    </PageContainer>
   );
 };
 
