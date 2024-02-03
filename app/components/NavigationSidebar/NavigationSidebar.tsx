@@ -77,7 +77,7 @@ const NavigationSidebar = () => {
               </div>
               <nav className="mt-10 flex-1 px-2 space-y-1">
                 {navLinksToRender.map((link) => (
-                  <div>
+                  <div key={link.title}>
                     <Link
                       className="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-lg font-medium rounded-md"
                       // className="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
