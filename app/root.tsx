@@ -6,8 +6,9 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
-import { Layout } from "antd";
+import { Button, Layout, Result } from "antd";
 import {
   type LoaderFunctionArgs,
   json,
@@ -19,7 +20,11 @@ import {
 import { cssBundleHref } from "@remix-run/css-bundle";
 import { authenticator } from "~/services/auth.server";
 import { getLoggedInUserData, getLoggedInUserSSOData } from "~/server";
-import { NavigationSidebar, ShowToast } from "./components";
+import {
+  GeneralErrorBoundary,
+  NavigationSidebar,
+  ShowToast,
+} from "./components";
 import { UserContext } from "~/context";
 import { Theme } from "@radix-ui/themes";
 import { HoneypotProvider } from "remix-utils/honeypot/react";
@@ -47,6 +52,7 @@ import radixUIStyles from "@radix-ui/themes/styles.css";
 import { z } from "zod";
 import { parse } from "@conform-to/zod";
 import { useTheme } from "./hooks/useTheme";
+import { withSentry } from "@sentry/remix";
 
 // @ts-ignore
 export const links: LinksFunction = () => {
@@ -164,7 +170,7 @@ export async function action({ request }: DataFunctionArgs) {
 
 export type RootActionData = typeof action;
 
-export default function App() {
+function App() {
   const loaderData = useLoaderData<RootLoaderData>();
   const userData = loaderData.userData;
   const theme = useTheme();
@@ -218,3 +224,26 @@ export default function App() {
     </html>
   );
 }
+
+export function ErrorBoundary() {
+  return (
+    <GeneralErrorBoundary
+      statusHandlers={{
+        404: () => (
+          <Result
+            status="404"
+            title="404"
+            subTitle="Sorry, the page you visited does not exist."
+            extra={
+              <Button type="primary" href="/">
+                Back to Home
+              </Button>
+            }
+          />
+        ),
+      }}
+    />
+  );
+}
+
+export default withSentry(App);

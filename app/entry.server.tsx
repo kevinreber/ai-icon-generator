@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/remix";
 /**
  * By default, Remix will handle generating the HTTP Response for you.
  * You are free to delete this file if you'd like to, but if you ever want it revealed again, you can run `npx remix reveal` ✨
@@ -10,6 +11,12 @@ import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
+
+export function handleError(error: Error, { request }: { request: Request }) {
+  Sentry.captureRemixServerException(error, "remix.server", request);
+}
+
+import("./utils/monitoring.server").then(({ init }) => init());
 
 const ABORT_DELAY = 5_000;
 
