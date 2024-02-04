@@ -19,15 +19,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   // return logout({ request, redirectTo: "/" });
 
-  const cookieSession = await sessionStorage.getSession(
-    request.headers.get("cookie"),
-  );
+  // const cookieSession = await sessionStorage.getSession(
+  // request.headers.get("cookie"),
+  // );
 
-  return redirect("/", {
-    headers: {
-      "set-cookie": await sessionStorage.destroySession(cookieSession),
-    },
-  });
+  // return redirect("/", {
+  //   headers: {
+  //     "set-cookie": await sessionStorage.destroySession(cookieSession),
+  //   },
+  // });
 
   try {
     return authenticator.logout(request, { redirectTo: "/" });
