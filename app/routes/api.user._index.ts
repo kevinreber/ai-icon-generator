@@ -1,10 +1,14 @@
 import { json, type ActionFunctionArgs, redirect } from "@remix-run/node";
 import { updateUserData } from "~/server";
-import { getSession } from "~/services";
 import { z } from "zod";
 import { parse } from "@conform-to/zod";
 import { invariantResponse } from "~/utils/invariantResponse";
-import { checkHoneypot, validateCSRF, toastSessionStorage } from "~/utils";
+import {
+  checkHoneypot,
+  validateCSRF,
+  toastSessionStorage,
+  getSessionUserId,
+} from "~/utils";
 
 const MAX_PROMPT_CHARACTERS = 25;
 
@@ -19,9 +23,7 @@ export const EditUserFormSchema = z.object({
 });
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  const googleSessionData = (await session.get("_session")) || undefined;
-  const userId = googleSessionData.id;
+  const userId = await getSessionUserId(request);
 
   invariantResponse(
     userId,

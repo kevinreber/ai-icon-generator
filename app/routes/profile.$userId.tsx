@@ -39,9 +39,9 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const username = params.userId || "";
   invariantResponse(username, "Username does not exist");
 
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: "/",
-  });
+  // await authenticator.isAuthenticated(request, {
+  //   failureRedirect: "/",
+  // });
 
   const searchParams = new URL(request.url).searchParams;
   const currentPage = Math.max(Number(searchParams.get("page") || 1), 1);
