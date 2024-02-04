@@ -19,16 +19,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   // return logout({ request, redirectTo: "/" });
 
-  const cookieSession = await sessionStorage.getSession(
-    request.headers.get("cookie"),
-  );
+  // TODO: The logic below is for logging out with using session cookies
+  // const cookieSession = await sessionStorage.getSession(
+  // request.headers.get("cookie"),
+  // );
 
-  return redirect("/", {
-    headers: {
-      "set-cookie": await sessionStorage.destroySession(cookieSession),
-    },
-  });
+  // return redirect("/", {
+  //   headers: {
+  //     "set-cookie": await sessionStorage.destroySession(cookieSession),
+  //   },
+  // });
 
+  // The logic below is for logging out using our SSO authenticator session (ex: Google SSO logout)
   try {
     return authenticator.logout(request, { redirectTo: "/" });
   } catch (error) {

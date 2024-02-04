@@ -198,9 +198,6 @@ export default function App() {
       </head>
       {/* Adding className="dark" ensures our app will always use dark mode via radix-ui – @reference: https://stackoverflow.com/a/77276471*/}
       <body className="dark h-screen vsc-initialized bg-black flex">
-        {/* <Theme appearance="dark"> */}
-        {/* TODO: Integrate theme when ready, will need to tweak some AntDesign components */}
-        {/* <Theme appearance={theme}> */}
         <Toaster closeButton position="top-center" richColors />
         <AuthenticityTokenProvider token={loaderData.csrfToken}>
           <HoneypotProvider {...loaderData.honeyProps}>
@@ -210,29 +207,6 @@ export default function App() {
               <main className="flex my-0 mx-auto w-full md:ml-64">
                 <Outlet />
               </main>
-              {/* <Layout>
-                <Layout style={{ marginLeft: 200 }}>
-                  <Layout
-                    style={{
-                      minHeight: "100vh",
-                      width: "95%",
-                      margin: "0 auto",
-                    }}
-                  >
-                    <Layout>
-                      <Layout.Content
-                        style={{
-                          padding: 24,
-                          margin: 0,
-                          minHeight: 280,
-                        }}
-                      >
-                        <Outlet />
-                      </Layout.Content>
-                    </Layout>
-                  </Layout>
-                </Layout>
-              </Layout> */}
             </UserContext.Provider>
             <ScrollRestoration />
             <Scripts />
@@ -240,7 +214,6 @@ export default function App() {
           </HoneypotProvider>
         </AuthenticityTokenProvider>
         {loaderData.toast ? <ShowToast toast={loaderData.toast} /> : null}
-        {/* </Theme> */}
       </body>
     </html>
   );
