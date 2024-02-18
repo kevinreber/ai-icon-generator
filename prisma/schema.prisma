@@ -53,7 +53,7 @@ model User {
   id           String        @id @default(cuid())
   name         String?
   username     String       @unique
-  email        String?       @unique
+  email        String       @unique
   password     Password?
   image        String?
   credits      Int           @default(5)
@@ -72,6 +72,14 @@ model User {
 model Password {
   hash   String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+}
+
+model Prompt {
+  id        String   @id @default(cuid())
+  originalPrompt String 
+  newPrompt String 
+  createdAt DateTime @default(now())
   userId String @unique
 }
 
