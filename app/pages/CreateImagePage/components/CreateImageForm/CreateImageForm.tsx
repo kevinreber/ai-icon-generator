@@ -12,6 +12,7 @@ import {
   notification,
   Typography,
   Space,
+  Tooltip,
 } from "antd";
 import {
   COLOR_PICKER_PRESET_OPTIONS,
@@ -130,14 +131,16 @@ const CreateImageForm = () => {
         label={
           <Space align="center" size="large">
             <Typography.Text>Describe your image</Typography.Text>
-            <Button
-              onClick={handleClick}
-              loading={isLoadingPromptData}
-              disabled={isLoadingData}
-              size="small"
-              shape="circle"
-              icon={<SparkleIcon />}
-            />
+            <Tooltip title="Auto enhance your prompt">
+              <Button
+                onClick={handleClick}
+                loading={isLoadingPromptData}
+                disabled={isLoadingData}
+                size="small"
+                shape="circle"
+                icon={<SparkleIcon />}
+              />
+            </Tooltip>
           </Space>
         }
         required

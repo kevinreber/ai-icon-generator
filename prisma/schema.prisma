@@ -76,11 +76,11 @@ model Password {
 }
 
 model Prompt {
-  id        String   @id @default(cuid())
-  originalPrompt String 
-  newPrompt String 
-  createdAt DateTime @default(now())
-  userId String @unique
+  id              String   @id @default(cuid())
+  originalPrompt  String 
+  newPrompt       String 
+  createdAt       DateTime @default(now())
+  userId          String 
 }
 
 // @reference: See Permisions - Managing Roles sand Permissions
