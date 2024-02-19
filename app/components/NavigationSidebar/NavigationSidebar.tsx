@@ -46,15 +46,7 @@ const NavigationSidebar = () => {
     },
   ];
 
-  const navLinksToRender = isLoggedIn
-    ? NAV_LINKS
-    : [
-        {
-          title: "Explore",
-          icon: <SearchOutlined />,
-          href: "/explore",
-        },
-      ];
+  const navLinksToRender = isLoggedIn ? NAV_LINKS : [];
 
   return (
     <>
@@ -175,22 +167,25 @@ const NavigationSidebar = () => {
               </div>
             )}
           </div>
-          <div
-            className="fixed bottom-0 left-0 right-0 z-10 flex items-center justify-around bg-black py-4"
-            style={{
-              borderTop: "rgb(38, 38, 38) 1px solid",
-            }}
-          >
-            {navLinksToRender.map((link) => (
-              <Link
-                className="text-white group flex items-center px-2 py-2 text-medium font-medium rounded-md"
-                // className="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                to={link.href}
-              >
-                <span>{link.icon}</span>
-              </Link>
-            ))}
-          </div>
+
+          {isLoggedIn && (
+            <div
+              className="fixed bottom-0 left-0 right-0 z-10 flex items-center justify-around bg-black py-4"
+              style={{
+                borderTop: "rgb(38, 38, 38) 1px solid",
+              }}
+            >
+              {navLinksToRender.map((link) => (
+                <Link
+                  className="text-white group flex items-center px-2 py-2 text-medium font-medium rounded-md"
+                  // className="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                  to={link.href}
+                >
+                  <span>{link.icon}</span>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>
