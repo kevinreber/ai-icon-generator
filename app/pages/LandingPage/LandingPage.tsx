@@ -105,6 +105,12 @@ const LandingPage = () => {
                     >
                       Get started
                     </a>
+                    <a
+                      href="/explore"
+                      className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 border border-gray-500 hover:bg-gray-800 hover:text-gray-200"
+                    >
+                      Explore
+                    </a>
                   </div>
                 </div>
                 <div className="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
