@@ -61,6 +61,8 @@ const ImageModalv2 = () => {
     navigate(`${location.search ? `/explore${location.search}` : "/explore"}`);
   };
 
+  // TODO: Maybe we should add an action item for users who own the image so they can update/delete this image?
+
   return (
     <>
       <Modal
