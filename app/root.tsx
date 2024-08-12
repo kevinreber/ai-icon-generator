@@ -48,7 +48,6 @@ import { z } from "zod";
 import { parse } from "@conform-to/zod";
 import { useTheme } from "./hooks/useTheme";
 
-// @ts-ignore
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: antdStyles },
@@ -57,7 +56,6 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: globalsStyles },
     { rel: "stylesheet", href: tailwindStyles },
     { rel: "stylesheet", href: radixUIStyles },
-    cssBundleHref ? { rel: "stylesheet", href: cssBundleHref } : null,
   ].filter(Boolean);
 };
 
