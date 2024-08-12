@@ -1,11 +1,11 @@
 import React from "react";
 import { Popover, Button, Avatar, Space, notification, Typography } from "antd";
 import {
-  DollarOutlined,
-  SettingOutlined,
-  UserOutlined,
-  createFromIconfontCN,
-} from "@ant-design/icons";
+  CurrencyDollarIcon as DollarOutlined,
+  Cog6ToothIcon as SettingOutlined,
+  UserIcon as UserOutlined,
+  ArrowLeftEndOnRectangleIcon as LogoutIcon,
+} from "@heroicons/react/24/outline";
 import { useLoggedInUser, useRemixFetcher } from "~/hooks";
 
 const IconFont = createFromIconfontCN({

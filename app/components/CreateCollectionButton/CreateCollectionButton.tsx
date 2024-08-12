@@ -1,5 +1,5 @@
 import React from "react";
-import { EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { PlusCircleIcon as PlusCircleOutlined} from "@heroicons/react/24/outline";
 import {
   Typography,
   Button,
@@ -50,7 +50,7 @@ const CreateCollectionButton = () => {
   return (
     <>
       <Button
-        icon={<PlusCircleOutlined />}
+        icon={<PlusCircleOutlined className="size-5"/>}
         onClick={toggleCreateCollectionModal}
         loading={isLoadingData}
       >

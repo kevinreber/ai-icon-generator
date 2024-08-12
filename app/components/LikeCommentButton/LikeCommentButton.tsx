@@ -1,5 +1,6 @@
 import React from "react";
-import { HeartFilled, HeartOutlined, HeartTwoTone } from "@ant-design/icons";
+import { HeartIcon as HeartOutlined } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartFilled } from "@heroicons/react/24/solid";
 import { Button } from "antd";
 import type { Comment, ImageType } from "~/types";
 import { useRemixFetcher } from "~/hooks";

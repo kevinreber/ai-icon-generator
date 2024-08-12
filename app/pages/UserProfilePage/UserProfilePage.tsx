@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { Avatar, Space, Typography } from "antd";
 import { ImageModal } from "~/components";
 import { type UserProfilePageLoader } from "~/routes/profile.$userId";
-import { UserOutlined } from "@ant-design/icons";
+import { UserCircleIcon as UserOutlined } from "@heroicons/react/24/outline";
 import PageContainer from "~/components/PageContainer";
 
 /**

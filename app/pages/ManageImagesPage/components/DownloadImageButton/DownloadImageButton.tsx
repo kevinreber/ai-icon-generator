@@ -1,4 +1,4 @@
-import { DownloadOutlined } from "@ant-design/icons";
+import { ArrowDownOnSquareIcon as DownloadOutlined } from "@heroicons/react/24/outline";
 import { Button, notification, Tooltip } from "antd";
 import type { ImageType } from "~/types";
 // import { useRemixFetcher } from "~/hooks";

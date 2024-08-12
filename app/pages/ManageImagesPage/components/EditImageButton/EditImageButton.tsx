@@ -1,5 +1,5 @@
 import React from "react";
-import { EditOutlined } from "@ant-design/icons";
+import { PencilSquareIcon as EditOutlined } from "@heroicons/react/24/outline";
 import {
   Typography,
   Button,

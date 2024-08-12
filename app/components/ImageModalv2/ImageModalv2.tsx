@@ -1,10 +1,10 @@
 import React from "react";
 import {
-  InfoCircleOutlined,
-  MessageOutlined,
-  SendOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+  InformationCircleIcon as InfoCircleOutlined,
+  ChatBubbleLeftIcon as MessageOutlined,
+  PaperAirplaneIcon as SendOutlined,
+  UserIcon as UserOutlined,
+} from "@heroicons/react/24/outline";
 import {
   Typography,
   Image,

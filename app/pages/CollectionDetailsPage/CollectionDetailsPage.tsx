@@ -29,7 +29,6 @@ import {
   EditCollectionButton,
   ImageModal,
 } from "~/components";
-import { MoreOutlined } from "@ant-design/icons";
 import {
   DeleteImageButton,
   DownloadImageButton,
