@@ -1,4 +1,4 @@
-import { useNavigation, useSubmit } from "@remix-run/react";
+import { useFetcher, useNavigation, useSubmit } from "@remix-run/react";
 import {
   Button,
   Col,
@@ -9,6 +9,10 @@ import {
   // ColorPicker,
   InputNumber,
   Select,
+  notification,
+  Typography,
+  Space,
+  Tooltip,
 } from "antd";
 import {
   COLOR_PICKER_PRESET_OPTIONS,
@@ -16,6 +20,8 @@ import {
   STABLE_DIFFUSION_IMAGE_PRESETS,
 } from "app/utils";
 import { ICON_SHAPE_OPTIONS, ICON_STYLE_OPTIONS } from "./constants";
+import React from "react";
+import { CreateEnhancedPromptAPIResponse } from "~/routes/api.prompts._index";
 
 const DEFAULT_FORM_VALUES = {
   prompt: undefined,
@@ -24,6 +30,27 @@ const DEFAULT_FORM_VALUES = {
   numberOfImages: 1,
   model: undefined,
   style: undefined,
+};
+
+const MINIMUM_PROMPT_CHARACTERS = 5;
+
+const SparkleIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-6 h-6 p-1"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+      />
+    </svg>
+  );
 };
 
 const CreateImageForm = () => {
@@ -46,16 +73,78 @@ const CreateImageForm = () => {
     );
   };
 
+  const promptFetcher = useFetcher<CreateEnhancedPromptAPIResponse>();
+  const isLoadingPromptData = promptFetcher.state !== "idle";
+
+  const handleClick = () => {
+    const promptValue = formInstance.getFieldValue("prompt") as string;
+
+    if (!promptValue) {
+      notification.error({ message: "Prompt value is empty" });
+      return;
+    }
+
+    const promptFormatted = promptValue.trim();
+
+    if (!promptFormatted) {
+      notification.error({ message: "Prompt value is empty" });
+      return;
+    }
+
+    if (promptFormatted.length < MINIMUM_PROMPT_CHARACTERS) {
+      notification.error({
+        message: `Please enter more than ${MINIMUM_PROMPT_CHARACTERS} characters to use prompt enhancer`,
+      });
+      return;
+    }
+
+    promptFetcher.submit(
+      {
+        intent: "_generate_prompt",
+        body: JSON.stringify({
+          prompt: promptFormatted,
+        }),
+      },
+      { method: "POST", action: `/api/prompts` },
+    );
+  };
+
+  React.useEffect(() => {
+    if (promptFetcher.data) {
+      formInstance.setFieldsValue({
+        prompt: promptFetcher.data.data.content,
+      });
+    }
+  }, [promptFetcher.data]);
+
   return (
     <Form
       form={formInstance}
       onFinish={handleFormSubmit}
       colon={false}
       layout="vertical"
-      disabled={isLoadingData}
+      disabled={isLoadingData || isLoadingPromptData}
       initialValues={DEFAULT_FORM_VALUES}
     >
-      <Form.Item name="prompt" label="Describe your image" required>
+      <Form.Item
+        name="prompt"
+        label={
+          <Space align="center" size="large">
+            <Typography.Text>Describe your image</Typography.Text>
+            <Tooltip title="Auto enhance your prompt">
+              <Button
+                onClick={handleClick}
+                loading={isLoadingPromptData}
+                disabled={isLoadingData}
+                size="small"
+                shape="circle"
+                icon={<SparkleIcon />}
+              />
+            </Tooltip>
+          </Space>
+        }
+        required
+      >
         <Input.TextArea
           placeholder='Ex: "A happy panda"'
           style={{ height: 120 }}

@@ -37,6 +37,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import PageContainer from "~/components/PageContainer";
+import PixelStudioIcon from "~/components/PixelStudioIcon/PixelStudioIcon";
 
 export const meta: MetaFunction<typeof loader> = () => {
   return [{ title: "User Login" }];
@@ -134,18 +136,18 @@ export default function Index() {
   });
 
   return (
-    <>
-      <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          {/* <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
-          /> */}
-          {/* <h1 className="text-center text-1xl">AI Image Generator</h1> */}
-          <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight">
-            Sign in to your account
-          </h2>
+    <PageContainer>
+      <div className="flex min-h-full flex-1 flex-col justify-center pb-8 sm:px-6 lg:px-8 pt-0">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col items-center">
+          <div className="w-16 mb-2">
+            <PixelStudioIcon />
+          </div>
+          {/* <h2 className="text-center text-2xl font-bold leading-9 tracking-tight">
+            Pixel Studio AI{" "}
+          </h2> */}
+          <h2 className="text-2xl m-0">Pixel Studio AI</h2>
+
+          <h1 className="mt-6 text-center text-1xl">Sign in to your account</h1>
         </div>
 
         <Card className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
@@ -232,6 +234,7 @@ export default function Index() {
                 </div>
               </div> */}
 
+              <p className="text-center text-sm text-gray-200">Sign in with</p>
               <div className="mt-6 w-full">
                 <GoogleLoginButton />
               </div>
@@ -296,6 +299,6 @@ export default function Index() {
           </div>
         </div>
       </Card> */}
-    </>
+    </PageContainer>
   );
 }

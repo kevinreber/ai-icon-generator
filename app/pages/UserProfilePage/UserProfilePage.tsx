@@ -4,6 +4,7 @@ import { Avatar, Space, Typography } from "antd";
 import { ImageModal } from "~/components";
 import { type UserProfilePageLoader } from "~/routes/profile.$userId";
 import { UserOutlined } from "@ant-design/icons";
+import PageContainer from "~/components/PageContainer";
 
 /**
  *
@@ -17,10 +18,10 @@ const UserProfilePage = () => {
   const totalImages = loaderData.count;
 
   return (
-    <>
-      <Space style={{ marginBottom: "1rem", alignItems: "inherit" }}>
+    <PageContainer>
+      <Space style={{ alignItems: "inherit" }}>
         <Avatar
-          size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+          size={{ md: 40, lg: 64, xl: 80, xxl: 100 }}
           style={{ cursor: "pointer" }}
           icon={<UserOutlined />}
         />
@@ -41,38 +42,9 @@ const UserProfilePage = () => {
               </li>
             );
           })}
-
-          {/* <div className="relative overflow-hidden w-full pt-[100%]">
-              <img
-                src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-1-800x800.jpg"
-                className="absolute inset-0 object-cover w-full h-full"
-                alt="..."
-              />
-            </div>
-            <div className="relative overflow-hidden w-full pt-[100%]">
-              <img
-                src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-1-800x800.jpg"
-                className="absolute inset-0 object-cover w-full h-full"
-                alt="..."
-              />
-            </div>
-            <div className="relative overflow-hidden w-full pt-[100%]">
-              <img
-                src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-1-800x800.jpg"
-                className="absolute inset-0 object-cover w-full h-full"
-                alt="..."
-              />
-            </div>
-            <div className="relative overflow-hidden w-full pt-[100%]">
-              <img
-                src="https://www.creative-tim.com/learning-lab/tailwind-starter-kit/img/team-1-800x800.jpg"
-                className="absolute inset-0 object-cover w-full h-full"
-                alt="..."
-              />
-            </div> */}
         </ul>
       </div>
-    </>
+    </PageContainer>
   );
 };
 

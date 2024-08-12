@@ -178,6 +178,15 @@ function App() {
   return (
     <html lang="en">
       <head>
+        <meta charSet="utf-8" />
+        <title>Pixel Studio AI</title>
+        <meta property="og:title" content="Pixel Studio AI" />;
+        <meta
+          name="description"
+          content="Generate images with the power of AI"
+        />
+        {/* helps scaling and responsiveness for mobile devices */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
         {/* <script
@@ -194,39 +203,16 @@ function App() {
         ></script> */}
       </head>
       {/* Adding className="dark" ensures our app will always use dark mode via radix-ui – @reference: https://stackoverflow.com/a/77276471*/}
-      <body style={{ margin: 0 }} className="dark h-full vsc-initialized">
-        {/* <Theme appearance="dark"> */}
-        {/* TODO: Integrate theme when ready, will need to tweak some AntDesign components */}
-        {/* <Theme appearance={theme}> */}
+      <body className="dark h-screen vsc-initialized bg-black flex">
         <Toaster closeButton position="top-center" richColors />
         <AuthenticityTokenProvider token={loaderData.csrfToken}>
           <HoneypotProvider {...loaderData.honeyProps}>
             {/* @ts-ignore */}
             <UserContext.Provider value={userData}>
-              <Layout>
-                <NavigationSidebar />
-                <Layout style={{ marginLeft: 200 }}>
-                  <Layout
-                    style={{
-                      minHeight: "100vh",
-                      width: "95%",
-                      margin: "0 auto",
-                    }}
-                  >
-                    <Layout>
-                      <Layout.Content
-                        style={{
-                          padding: 24,
-                          margin: 0,
-                          minHeight: 280,
-                        }}
-                      >
-                        <Outlet />
-                      </Layout.Content>
-                    </Layout>
-                  </Layout>
-                </Layout>
-              </Layout>
+              <NavigationSidebar />
+              <main className="flex my-0 mx-auto w-full md:ml-64">
+                <Outlet />
+              </main>
             </UserContext.Provider>
             <ScrollRestoration />
             <Scripts />
@@ -234,7 +220,6 @@ function App() {
           </HoneypotProvider>
         </AuthenticityTokenProvider>
         {loaderData.toast ? <ShowToast toast={loaderData.toast} /> : null}
-        {/* </Theme> */}
       </body>
     </html>
   );
