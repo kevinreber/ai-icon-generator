@@ -4,6 +4,7 @@ import { Typography } from "antd";
 import { ErrorList, ImageV2 } from "~/components";
 import { type ExplorePageLoader } from "~/routes/explore";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import PageContainer from "~/components/PageContainer";
 
 /**
  *
@@ -22,10 +23,10 @@ const ExplorePage = () => {
   }
 
   return (
-    <>
-      <div className="flex flex-col justify-between w-full">
+    <PageContainer>
+      <div className="flex flex-col justify-between w-full max-w-5xl m-auto">
         <Typography.Title level={3}>Explore</Typography.Title>
-        <div className="w-full max-w-5xl">
+        <div className="w-full">
           <Form action="/explore" method="GET">
             <div className="mt-2 flex rounded-md shadow-sm">
               <div className="relative flex flex-grow items-stretch focus-within:z-10">
@@ -33,7 +34,7 @@ const ExplorePage = () => {
                   type="text"
                   name="q"
                   id="q"
-                  className="bg-inherit block w-full rounded-l-md border-0 py-1.5 px-2 text-white ring-1 ring-inset ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                  className="bg-inherit block w-full rounded-l-md border-0 py-1.5 px-2 text-white ring-1 ring-inset ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
                   placeholder="Search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -61,6 +62,7 @@ const ExplorePage = () => {
                 // This removes Typescript error: "image is possibly 'null'."
                 image && (
                   <li key={image.id} className="hover:!opacity-60">
+                    {/* @ts-ignore */}
                     <ImageV2 imageData={image} />
                   </li>
                 ),
@@ -80,7 +82,7 @@ const ExplorePage = () => {
           <ErrorList errors={["There was an error parsing the results"]} />
         )}
       </div>
-    </>
+    </PageContainer>
   );
 };
 

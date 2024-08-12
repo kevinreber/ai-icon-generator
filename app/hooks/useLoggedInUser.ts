@@ -9,9 +9,11 @@ export function useOptionalUser() {
 
 export function useLoggedInUser() {
   const maybeUser = useOptionalUser();
-  invariantResponse(
-    maybeUser,
-    "No user found in root loader, but user is required by useLoggedInUser. If user is optional, try useOptionalUser instead.",
-  );
+  if (!maybeUser) {
+    console.error(
+      "No user found in root loader, but user is required by useLoggedInUser. If user is optional, try useOptionalUser instead.",
+    );
+  }
+
   return maybeUser;
 }

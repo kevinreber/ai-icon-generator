@@ -13,6 +13,7 @@ import {
   DeleteCollectionButton,
   EditCollectionButton,
 } from "~/components";
+import PageContainer from "~/components/PageContainer";
 
 const CollectionsPage = () => {
   const loaderData = useLoaderData() as unknown as {
@@ -44,48 +45,14 @@ const CollectionsPage = () => {
   );
 
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "baseline",
-        }}
-      >
+    <PageContainer>
+      <div className="flex justify-between items-baseline">
         <Typography.Title level={3}>Collections</Typography.Title>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Space style={{ marginLeft: "auto" }}>
-            <Typography.Text>
-              {paginationRange.startRange &&
-              paginationRange.endRange &&
-              totalCollections ? (
-                <>
-                  Showing{" "}
-                  {convertNumberToLocaleString(paginationRange.startRange)}-
-                  {convertNumberToLocaleString(paginationRange.endRange)} of{" "}
-                  {convertNumberToLocaleString(totalCollections)} collections
-                </>
-              ) : (
-                <Typography.Text italic type="secondary">
-                  No collections created yet
-                </Typography.Text>
-              )}
-            </Typography.Text>
-            <CreateCollectionButton />
-          </Space>
-        </div>
+        <CreateCollectionButton />
       </div>
       <Card
         loading={isLoadingData}
-        style={{
-          height: "calc(100vh - 140px)",
-          overflow: "auto",
-        }}
+        className="md:h-[calc(100vh-140px)]  h-[calc(100vh-260px)] overflow-auto"
       >
         <List
           itemLayout="horizontal"
@@ -119,17 +86,34 @@ const CollectionsPage = () => {
           )}
         />
       </Card>
-      <Pagination
-        style={{ padding: 16 }}
-        size="small"
-        showSizeChanger
-        total={totalCollections}
-        current={currentPage}
-        pageSize={currentPageSize}
-        pageSizeOptions={[50, 100, 150, 200]}
-        onChange={handlePaginationChange}
-      />
-    </>
+      <div className="flex w-full justify-between items-center">
+        <Pagination
+          style={{ padding: 16 }}
+          size="small"
+          showSizeChanger
+          total={totalCollections}
+          current={currentPage}
+          pageSize={currentPageSize}
+          pageSizeOptions={[50, 100, 150, 200]}
+          onChange={handlePaginationChange}
+        />
+        <Typography.Text>
+          {paginationRange.startRange &&
+          paginationRange.endRange &&
+          totalCollections ? (
+            <>
+              Showing {convertNumberToLocaleString(paginationRange.startRange)}-
+              {convertNumberToLocaleString(paginationRange.endRange)} of{" "}
+              {convertNumberToLocaleString(totalCollections)} collections
+            </>
+          ) : (
+            <Typography.Text italic type="secondary">
+              No collections created yet
+            </Typography.Text>
+          )}
+        </Typography.Text>
+      </div>
+    </PageContainer>
   );
 };
 

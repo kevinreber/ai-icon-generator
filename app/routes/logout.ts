@@ -3,7 +3,8 @@ import {
   type ActionFunctionArgs,
   redirect,
 } from "@remix-run/node";
-import { authenticator } from "~/services/auth.server";
+import { authenticator, logout } from "~/services/auth.server";
+import { sessionStorage } from "~/utils";
 
 export const meta: MetaFunction = () => {
   return [{ title: "User Logout" }];
@@ -14,16 +15,22 @@ export const loader = () => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  // TODO: Do this after we get the auth working with Password
-  // const cookieSession = await sessionStorage.getSession(
-  // 	request.headers.get('cookie'),
-  // )
-  // return redirect('/', {
-  // 	headers: {
-  // 		'set-cookie': await sessionStorage.destroySession(cookieSession),
-  // 	},
-  // })
+  console.log("logout action.............");
 
+  // return logout({ request, redirectTo: "/" });
+
+  // TODO: The logic below is for logging out with using session cookies
+  // const cookieSession = await sessionStorage.getSession(
+  // request.headers.get("cookie"),
+  // );
+
+  // return redirect("/", {
+  //   headers: {
+  //     "set-cookie": await sessionStorage.destroySession(cookieSession),
+  //   },
+  // });
+
+  // The logic below is for logging out using our SSO authenticator session (ex: Google SSO logout)
   try {
     return authenticator.logout(request, { redirectTo: "/" });
   } catch (error) {

@@ -21,7 +21,7 @@ export type OptionalToast = Omit<Toast, "id" | "type"> & {
 
 export const toastSessionStorage = createCookieSessionStorage({
   cookie: {
-    name: "aiig_toast", // "aiig" stands for "AI Image Generator"
+    name: "pixstudio_toast", // "pixstudio" stands for "Pixels Studio"
     sameSite: "lax",
     path: "/",
     httpOnly: true,

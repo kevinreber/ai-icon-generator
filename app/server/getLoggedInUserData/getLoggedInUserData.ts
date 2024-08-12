@@ -18,7 +18,7 @@ type UserGoogleData = {
   };
 };
 
-export const getLoggedInUserData = async (
+export const getLoggedInUserSSOData = async (
   userGoogleData: UserGoogleData,
   request: Request,
 ) => {
@@ -57,6 +57,8 @@ export const getLoggedInUserData = async (
           },
         },
       },
+      // TODO: setup later during session management
+      // sessions: true,
     },
   });
 
@@ -76,6 +78,49 @@ export const getLoggedInUserData = async (
       },
     });
   }
+
+  return userData;
+};
+
+export const getLoggedInUserData = async (userId: string) => {
+  let userData = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      email: true,
+      image: true,
+      createdAt: true,
+      credits: true,
+      collections: {
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          images: {
+            select: {
+              imageId: true,
+            },
+          },
+        },
+      },
+      roles: {
+        select: {
+          name: true,
+          permissions: {
+            select: {
+              action: true,
+              entity: true,
+              access: true,
+            },
+          },
+        },
+      },
+      // TODO: setup later during session management
+      // sessions: true,
+    },
+  });
 
   return userData;
 };

@@ -6,16 +6,14 @@ import {
   UserOutlined,
   createFromIconfontCN,
 } from "@ant-design/icons";
-import { useRemixFetcher } from "~/hooks";
-import { UserContext } from "~/context";
-import LogOutButton from "../LogOutButton";
+import { useLoggedInUser, useRemixFetcher } from "~/hooks";
 
 const IconFont = createFromIconfontCN({
   scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
 });
 
 const UserAvatar = () => {
-  const userData = React.useContext(UserContext);
+  const userData = useLoggedInUser();
 
   const { fetcher, isLoadingFetcher } = useRemixFetcher({
     // onSuccess: (response) => {
@@ -43,9 +41,9 @@ const UserAvatar = () => {
             <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
             <div style={{ display: "flex", flexDirection: "column" }}>
               {/* <Space direction='vertical' size='small'> */}
-              <span>{userData.name}</span>
-              <Typography.Link strong href={`/profile/${userData.username}`}>
-                {userData.username}
+              <span>{userData?.name}</span>
+              <Typography.Link strong href={`/profile/${userData?.username}`}>
+                {userData?.username}
               </Typography.Link>
             </div>
           </Space>
@@ -55,20 +53,26 @@ const UserAvatar = () => {
             <div style={{ display: "flex", flexDirection: "column" }}>
               <Typography.Text>
                 <DollarOutlined style={{ marginRight: 4 }} />
-                {userData.credits} Credits
+                {userData?.credits} Credits
               </Typography.Text>
               <Button size="small" href="/checkout" type="link">
                 Buy Credits
               </Button>
             </div>
             <Button
-              style={{ width: 130 }}
+              className="full w-32"
               icon={<SettingOutlined />}
               href="/settings"
             >
               Settings
             </Button>
-            <LogOutButton />
+            <Button
+              className="full w-32"
+              disabled={isLoadingFetcher}
+              onClick={handleLogOut}
+            >
+              <IconFont type="icon-tuichu" /> Logout
+            </Button>
           </Space>
         }
         trigger="click"
@@ -76,6 +80,7 @@ const UserAvatar = () => {
         <Avatar
           style={{ cursor: isLoadingFetcher ? "wait" : "pointer" }}
           icon={<UserOutlined />}
+          src={userData?.image}
         />
       </Popover>
     </>

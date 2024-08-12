@@ -186,10 +186,14 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
             <Typography.Text strong style={{ fontSize: 16 }}>
               {imageData.title || "Untitled"}
             </Typography.Text>
-            <Space size="small">
-              <LikeImageButton imageData={imageData} />
-              <AddImageToCollectionButton imageData={imageData} />
-            </Space>
+            {isUserLoggedIn ? (
+              <Space size="small">
+                <LikeImageButton imageData={imageData as ImageType} />
+                <AddImageToCollectionButton
+                  imageData={imageData as ImageType}
+                />
+              </Space>
+            ) : null}
           </Space>
 
           <Tabs
@@ -213,14 +217,14 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
                       height: "100%",
                     }}
                   >
-                    {isUserLoggedIn && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          width: "100%",
-                          bottom: 0,
-                        }}
-                      >
+                    <div
+                      style={{
+                        position: "absolute",
+                        width: "100%",
+                        bottom: 0,
+                      }}
+                    >
+                      {isUserLoggedIn ? (
                         <Form
                           onFinish={handleCommentFormSubmit}
                           initialValues={{ comment: undefined }}
@@ -244,8 +248,12 @@ const ImageModal = ({ imageData }: { imageData: ImageType }) => {
                             </Space.Compact>
                           </Form.Item>
                         </Form>
-                      </div>
-                    )}
+                      ) : (
+                        <Button href="/login" className="w-full">
+                          Login to comment
+                        </Button>
+                      )}
+                    </div>
                     {imageData.comments.length ? (
                       imageData.comments.map((comment: Comment) => (
                         <CommentCard

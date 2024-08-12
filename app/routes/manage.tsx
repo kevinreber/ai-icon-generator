@@ -8,11 +8,11 @@ import {
 import { Alert } from "antd";
 import { ManageImagesPage } from "~/pages";
 import { getUserData } from "~/server";
-import { getSession } from "~/services";
 import { authenticator } from "~/services/auth.server";
 import { loader as UserLoaderData } from "../root";
 import { invariantResponse } from "~/utils/invariantResponse";
 import { GeneralErrorBoundary } from "~/components";
+import { getSessionUserId } from "~/utils";
 
 export const meta: MetaFunction<
   typeof loader,
@@ -36,22 +36,21 @@ export const meta: MetaFunction<
 };
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  const googleSessionData = (await session.get("_session")) || undefined;
-  const currentLoggedInUserData = googleSessionData;
-  const currentLoggedInUserID = currentLoggedInUserData.id || "";
+  const userId = await getSessionUserId(request);
+  console.log(userId);
 
-  invariantResponse(currentLoggedInUserID, "User does not exist");
+  invariantResponse(userId, "User does not exist");
 
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: "/",
-  });
+  // TODO: after we implement other forms of login (Ex: SSO), we can use this to check if user is authenticated
+  // await authenticator.isAuthenticated(request, {
+  //   failureRedirect: "/",
+  // });
 
   const searchParams = new URL(request.url).searchParams;
   const currentPage = Math.max(Number(searchParams.get("page") || 1), 1);
   const pageSize = Number(searchParams.get("page_size")) || 50;
 
-  const data = await getUserData(currentLoggedInUserID, currentPage, pageSize);
+  const data = await getUserData(userId, currentPage, pageSize);
 
   invariantResponse(data.user, "User does not exist");
 
@@ -73,7 +72,7 @@ export const ErrorBoundary = () => {
       unexpectedErrorHandler={(error) => (
         <Alert
           message="Error"
-          description="User Profile is currently unavailable"
+          description="Manage profile is currently unavailable"
           type="error"
           showIcon
         />

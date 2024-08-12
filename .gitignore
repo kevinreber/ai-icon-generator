@@ -1,6 +1,9 @@
 node_modules
+build
 
 /.cache
 /public/build
-/.netlify
 .env
+
+# Sentry Config File
+.sentryclirc

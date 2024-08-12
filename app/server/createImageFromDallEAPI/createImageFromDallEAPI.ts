@@ -1,13 +1,13 @@
-import { Configuration, OpenAIApi } from "openai";
+// import { Configuration, OpenAIApi } from "openai";
 import { setTimeout } from "timers/promises";
 import { addBase64EncodedImageToAWS, addNewImageToDB } from "~/server";
 import { getS3BucketURL, getS3BucketThumbnailURL } from "~/utils";
 import { getMockDataResponse } from "./utils";
+import OpenAI from "openai";
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.DALLE_API_KEY,
 });
-const openai = new OpenAIApi(configuration);
 
 const DEFAULT_NUMBER_OF_IMAGES_CREATED = 1;
 const IMAGE_SIZE = "1024x1024";
@@ -42,16 +42,15 @@ const createDallEImages = async (
   const promptMessage = prompt;
   const numberOfImagesToGenerate = Math.round(numberOfImages);
 
-  const response = await openai.createImage({
+  const response = await openai.images.generate({
+    model: "dall-e-2",
     prompt: promptMessage,
     n: numberOfImagesToGenerate,
     size: IMAGE_SIZE,
     response_format: BASE_64_FORMAT,
   });
 
-  const base64EncodedImages = response.data.data.map(
-    (result) => result.b64_json,
-  );
+  const base64EncodedImages = response.data.map((result) => result.b64_json);
 
   return base64EncodedImages;
 };
