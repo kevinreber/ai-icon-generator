@@ -3,7 +3,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix build",
+    "build": "remix build --sourcemap && sentry-upload-sourcemaps --org kevin-reber --project javascript-remix",
     "dev": "yarn run check-env-file && remix dev --manual",
     "start": "remix-serve ./build/index.js",
     "typecheck": "tsc",
@@ -33,6 +33,7 @@
     "@remix-run/express": "^2.2.0",
     "@remix-run/node": "2.2.0",
     "@remix-run/react": "2.2.0",
+    "@sentry/remix": "^7.93.0",
     "@types/bcryptjs": "^2.4.6",
     "antd": "4.24.10",
     "bcryptjs": "^2.4.3",

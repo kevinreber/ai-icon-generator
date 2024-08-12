@@ -1,10 +1,7 @@
-import {
-  type LoaderFunctionArgs,
-  json,
-  type SerializeFrom,
-  MetaFunction,
-} from "@remix-run/node";
+import { type LoaderFunctionArgs, json, MetaFunction } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
+import { Button, Result } from "antd";
+import { GeneralErrorBoundary } from "~/components";
 import { ExplorePage } from "~/pages";
 import { getImages } from "~/server";
 
@@ -30,5 +27,26 @@ export default function Index() {
       <ExplorePage />
       <Outlet />
     </>
+  );
+}
+
+export function ErrorBoundary() {
+  return (
+    <GeneralErrorBoundary
+      statusHandlers={{
+        404: () => (
+          <Result
+            status="404"
+            title="404"
+            subTitle="Sorry, the page you visited does not exist."
+            extra={
+              <Button type="primary" href="/">
+                Back to Home
+              </Button>
+            }
+          />
+        ),
+      }}
+    />
   );
 }
