@@ -1,5 +1,4 @@
 /** @type {import('@remix-run/dev').AppConfig} */
-import { config } from "@netlify/remix-adapter";
 import { unstable_vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import { installGlobals } from "@remix-run/node";
@@ -11,7 +10,6 @@ export default defineConfig({
   plugins: [
     remix({
       serverModuleFormat: "esm",
-      ...config,
       ignoredRouteFiles: ["**/.*"],
       // serverPlatform: "node",
       // server:
