@@ -7,7 +7,6 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import { Layout } from "antd";
 import {
   type LoaderFunctionArgs,
   json,

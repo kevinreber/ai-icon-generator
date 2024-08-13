@@ -45,12 +45,13 @@ export const meta: MetaFunction<typeof loader> = () => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  // ! TODO: Need to revisit this, session may not be storing userId as expected
   await requireAnonymous(request);
 
   // TODO: after we implement other forms of login (Ex: SSO), we can use this to check if user is authenticated
-  // await authenticator.isAuthenticated(request, {
-  //   successRedirect: "/explore",
-  // });
+  await authenticator.isAuthenticated(request, {
+    successRedirect: "/explore",
+  });
 
   return json({});
 };
