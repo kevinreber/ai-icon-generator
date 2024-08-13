@@ -1,5 +1,5 @@
 import React from "react";
-import { EditOutlined } from "@ant-design/icons";
+import { PencilSquareIcon as EditOutlined } from "@heroicons/react/24/outline";
 import { Button, notification, Modal, Form, Input, Space } from "antd";
 import type { Collection } from "~/types";
 import { useRemixFetcher } from "~/hooks";
@@ -39,7 +39,7 @@ const EditCollectionButton = ({ collection }: { collection: Collection }) => {
     <>
       <Button
         size="small"
-        icon={<EditOutlined />}
+        icon={<EditOutlined className="size-5"/>}
         style={{ border: "none", textAlign: "left" }}
         loading={isLoadingData}
         onClick={toggleEditImageModal}

@@ -1,4 +1,4 @@
-import { DeleteOutlined } from "@ant-design/icons";
+import { TrashIcon as DeleteOutlined } from "@heroicons/react/24/outline";
 import { Button } from "antd";
 import { useRemixFetcher } from "~/hooks";
 
@@ -26,7 +26,7 @@ const DeleteCollectionButton = ({ collectionId }: { collectionId: string }) => {
     <Button
       size="small"
       style={{ border: "none" }}
-      icon={<DeleteOutlined />}
+      icon={<DeleteOutlined className="size-5"/>}
       danger
       loading={isLoadingFetcher}
       onClick={handleDeleteComment}

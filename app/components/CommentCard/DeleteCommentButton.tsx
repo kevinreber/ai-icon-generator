@@ -1,4 +1,4 @@
-import { DeleteOutlined } from "@ant-design/icons";
+import { TrashIcon as DeleteOutlined } from "@heroicons/react/24/outline";
 import { Button } from "antd";
 import type { ImageType, Comment } from "~/types";
 import { useRemixFetcher } from "~/hooks";

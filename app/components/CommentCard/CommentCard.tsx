@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  EditOutlined,
-  HeartOutlined,
-  HeartTwoTone,
-  LikeOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { UserIcon as UserOutlined } from "@heroicons/react/24/outline";
 import { Typography, Card, Space, Button, Modal, Avatar } from "antd";
 import type { ImageType, Comment } from "~/types";
 import { useRemixFetcher } from "~/hooks";

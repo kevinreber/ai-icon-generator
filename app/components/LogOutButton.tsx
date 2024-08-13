@@ -1,12 +1,8 @@
-import { createFromIconfontCN } from "@ant-design/icons";
+import { ArrowLeftIcon as LogoutIcon } from "@heroicons/react/24/outline";
 import { useIsPending } from "~/hooks";
 import { Form } from "@remix-run/react";
 import { AuthenticityTokenInput } from "remix-utils/csrf/react";
 import { Button } from "@/components/ui/button";
-
-const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
-});
 
 const LogOutButton = () => {
   const isPending = useIsPending();
@@ -20,7 +16,7 @@ const LogOutButton = () => {
         variant="outline"
       >
         <AuthenticityTokenInput />
-        <IconFont type="icon-tuichu" /> Logout
+        <LogoutIcon className="size-5" /> Logout
       </Button>
     </Form>
   );

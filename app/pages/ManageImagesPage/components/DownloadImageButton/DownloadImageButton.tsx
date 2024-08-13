@@ -1,4 +1,4 @@
-import { DownloadOutlined } from "@ant-design/icons";
+import { ArrowDownOnSquareIcon as DownloadOutlined } from "@heroicons/react/24/outline";
 import { Button, notification, Tooltip } from "antd";
 import type { ImageType } from "~/types";
 // import { useRemixFetcher } from "~/hooks";
@@ -48,7 +48,7 @@ const DownloadImageButton = ({ image }: { image: ImageType }) => {
       <Tooltip title="Download image">
         <Button
           size="small"
-          icon={<DownloadOutlined />}
+          icon={<DownloadOutlined className="size-5" />}
           style={{ border: "none", textAlign: "left" }}
           onClick={handleDownloadImage}
           loading={isDownloadingImage}

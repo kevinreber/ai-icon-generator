@@ -1,5 +1,6 @@
 import React from "react";
-import { BookOutlined, BookFilled } from "@ant-design/icons";
+import { BookmarkIcon as BookFilled } from "@heroicons/react/24/solid";
+import { BookmarkIcon as BookOutlined } from "@heroicons/react/24/outline";
 import { Button, Checkbox, Space, Tooltip, Typography } from "antd";
 import type { ImageType } from "~/types";
 import { useRemixFetcher } from "~/hooks";

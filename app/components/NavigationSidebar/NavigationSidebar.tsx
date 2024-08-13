@@ -1,12 +1,12 @@
 import { Avatar, Button, Layout, Space, Typography } from "antd";
 import {
-  BellOutlined,
-  BookOutlined,
-  PlusCircleOutlined,
-  SearchOutlined,
-  ToolOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+  BookmarkIcon as BookOutlined,
+  WrenchIcon as ToolOutlined,
+  PlusCircleIcon as PlusCircleOutlined,
+  MagnifyingGlassIcon as SearchOutlined,
+  UserIcon as UserOutlined,
+} from "@heroicons/react/24/outline";
+import { BookmarkIcon as BookFilled } from "@heroicons/react/24/solid";
 import { UserAvatar } from "~/components";
 import { ThemeSwitch } from "../ThemeSwitch";
 import PixelStudioIcon from "../PixelStudioIcon/PixelStudioIcon";

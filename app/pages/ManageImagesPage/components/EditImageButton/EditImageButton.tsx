@@ -1,5 +1,5 @@
 import React from "react";
-import { EditOutlined } from "@ant-design/icons";
+import { PencilSquareIcon as EditOutlined } from "@heroicons/react/24/outline";
 import {
   Typography,
   Button,
@@ -48,7 +48,7 @@ const EditImageButton = ({ image }: { image: ImageType }) => {
     <>
       <Button
         size="small"
-        icon={<EditOutlined />}
+        icon={<EditOutlined className="size-5" />}
         style={{ border: "none", textAlign: "left" }}
         loading={isLoadingData}
         onClick={toggleEditImageModal}
