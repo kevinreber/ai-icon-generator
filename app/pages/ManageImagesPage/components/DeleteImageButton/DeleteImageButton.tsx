@@ -1,5 +1,5 @@
 import React from "react";
-import { TrashIcon as DeleteOutlined} from "@heroicons/react/24/outline";
+import { TrashIcon as DeleteOutlined } from "@heroicons/react/24/outline";
 import { Typography, Button, Popconfirm, notification } from "antd";
 import type { ImageType } from "~/types";
 import { useRemixFetcher } from "~/hooks";
@@ -53,7 +53,7 @@ const DeleteImageButton = ({ image }: { image: ImageType }) => {
       >
         <Button
           size="small"
-          icon={<DeleteOutlined />}
+          icon={<DeleteOutlined className="size-5" />}
           danger
           style={{ border: "none", textAlign: "left" }}
           loading={isLoadingData}

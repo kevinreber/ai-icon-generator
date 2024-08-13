@@ -16,7 +16,7 @@ const LogOutButton = () => {
         variant="outline"
       >
         <AuthenticityTokenInput />
-        <LogoutIcon /> Logout
+        <LogoutIcon className="size-5" /> Logout
       </Button>
     </Form>
   );

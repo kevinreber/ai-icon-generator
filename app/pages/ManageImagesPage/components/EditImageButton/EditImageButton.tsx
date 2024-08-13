@@ -48,7 +48,7 @@ const EditImageButton = ({ image }: { image: ImageType }) => {
     <>
       <Button
         size="small"
-        icon={<EditOutlined />}
+        icon={<EditOutlined className="size-5" />}
         style={{ border: "none", textAlign: "left" }}
         loading={isLoadingData}
         onClick={toggleEditImageModal}

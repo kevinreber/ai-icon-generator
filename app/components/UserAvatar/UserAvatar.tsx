@@ -8,10 +8,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { useLoggedInUser, useRemixFetcher } from "~/hooks";
 
-const IconFont = createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js",
-});
-
 const UserAvatar = () => {
   const userData = useLoggedInUser();
 
@@ -52,7 +48,7 @@ const UserAvatar = () => {
           <Space align="center" direction="vertical" style={{ width: "100%" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <Typography.Text>
-                <DollarOutlined style={{ marginRight: 4 }} />
+                <DollarOutlined className="size-5" style={{ marginRight: 4 }} />
                 {userData?.credits} Credits
               </Typography.Text>
               <Button size="small" href="/checkout" type="link">
@@ -61,7 +57,7 @@ const UserAvatar = () => {
             </div>
             <Button
               className="full w-32"
-              icon={<SettingOutlined />}
+              icon={<SettingOutlined className="size-5" />}
               href="/settings"
             >
               Settings
@@ -71,7 +67,7 @@ const UserAvatar = () => {
               disabled={isLoadingFetcher}
               onClick={handleLogOut}
             >
-              <IconFont type="icon-tuichu" /> Logout
+              <LogoutIcon className="size-5" /> Logout
             </Button>
           </Space>
         }

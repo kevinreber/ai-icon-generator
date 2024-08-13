@@ -1,5 +1,5 @@
 import React from "react";
-import { PlusCircleIcon as PlusCircleOutlined} from "@heroicons/react/24/outline";
+import { PlusCircleIcon as PlusCircleOutlined } from "@heroicons/react/24/outline";
 import {
   Typography,
   Button,
@@ -50,7 +50,8 @@ const CreateCollectionButton = () => {
   return (
     <>
       <Button
-        icon={<PlusCircleOutlined className="size-5"/>}
+        className="size-5"
+        icon={<PlusCircleOutlined className="size-5" />}
         onClick={toggleCreateCollectionModal}
         loading={isLoadingData}
       >
