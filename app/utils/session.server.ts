@@ -11,6 +11,7 @@ export const sessionStorage = createCookieSessionStorage({
   },
 });
 
+// TODO: Need to look into this and confirm if session is being created as expected
 export const getSessionUserId = async (request: Request) => {
   const cookieSession = await sessionStorage.getSession(
     request.headers.get("cookie"),
