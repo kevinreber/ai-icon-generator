@@ -1,4 +1,4 @@
-import { ArrowLeftEndOnRectangleIcon as LogoutIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon as LogoutIcon } from "@heroicons/react/24/outline";
 import { useIsPending } from "~/hooks";
 import { Form } from "@remix-run/react";
 import { AuthenticityTokenInput } from "remix-utils/csrf/react";

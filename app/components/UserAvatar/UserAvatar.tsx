@@ -4,7 +4,7 @@ import {
   CurrencyDollarIcon as DollarOutlined,
   Cog6ToothIcon as SettingOutlined,
   UserIcon as UserOutlined,
-  ArrowLeftEndOnRectangleIcon as LogoutIcon,
+  ArrowLeftIcon as LogoutIcon,
 } from "@heroicons/react/24/outline";
 import { useLoggedInUser, useRemixFetcher } from "~/hooks";
 
