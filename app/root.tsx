@@ -24,6 +24,7 @@ import { Theme } from "@radix-ui/themes";
 import { HoneypotProvider } from "remix-utils/honeypot/react";
 import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
 import { Toaster } from "sonner";
+import { Analytics } from '@vercel/analytics/react';
 import {
   combineHeaders,
   csrf,
@@ -197,6 +198,7 @@ export default function App() {
       </head>
       {/* Adding className="dark" ensures our app will always use dark mode via radix-ui – @reference: https://stackoverflow.com/a/77276471*/}
       <body className="dark h-screen vsc-initialized bg-black flex">
+      <Analytics />
         <Toaster closeButton position="top-center" richColors />
         <AuthenticityTokenProvider token={loaderData.csrfToken}>
           <HoneypotProvider {...loaderData.honeyProps}>
