@@ -23,5 +23,5 @@ export * from "./session.server";
 export * from "./userValidation";
 export * from "./csrf.server";
 export * from "./getSessionExpirationDate";
-export * from "./permissions";
+export * from "./permissions.server";
 export * from "./combineResponseInits";
